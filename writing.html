@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writing — Nico Swenson</title>
+  <meta name="description" content="Reporting and features by Nico Swenson, writing for The Stranger in Seattle." />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%96%BC%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- ========== NAV ========== -->
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="index.html">
+        <span class="star">★</span>
+        <span>Nico Swenson <span class="lo">/ Miss Texas <em>1988</em></span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="drag.html">Drag</a></li>
+        <li><a href="design.html">Design</a></li>
+        <li><a href="writing.html" aria-current="page">Writing</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <header class="writing-hero">
+    <div class="wrap">
+      <div class="byline">By <span class="hl-lemon">Nico Swenson</span> · Seattle, WA</div>
+      <h1>Writing<em>.</em></h1>
+      <p class="lede">
+        I report and write features for <strong>The Stranger</strong> in Seattle —
+        nightlife, queer culture, the arts scene, and whatever else is loud
+        enough to chase. Selected work below.
+      </p>
+    </div>
+  </header>
+
+  <!-- ========== AUTHOR CARD ========== -->
+  <section class="wrap">
+    <div class="author-card">
+      <div>
+        <div style="font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 8px;">
+          Bylines · Live Index
+        </div>
+        <h3>Read all my pieces on The Stranger →</h3>
+        <p style="margin: 0; max-width: 50ch;">
+          My author archive at <em>The Stranger</em> always has the latest. The list
+          below is a curated highlight reel.
+        </p>
+      </div>
+      <a href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">
+        Open author page ↗
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== ARTICLES ========== -->
+  <section class="wrap articles">
+    <div class="section-head">
+      <h2>Selected pieces</h2>
+      <span class="meta">Most recent first · update manually</span>
+    </div>
+
+    <!--
+      ===== HOW TO ADD A NEW ARTICLE =====
+      Copy any <a class="article"> block, paste it at the top of the <ol>,
+      and update href / date / title / pub. The :hover style highlights
+      the row in lemon.
+      =============================
+    -->
+    <ol>
+      <a class="article" href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">
+        <span class="date">Add date</span>
+        <h3>[ First article title goes here ]</h3>
+        <span class="pub">The Stranger</span>
+      </a>
+      <a class="article" href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">
+        <span class="date">Add date</span>
+        <h3>[ Second article title ]</h3>
+        <span class="pub">The Stranger</span>
+      </a>
+      <a class="article" href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">
+        <span class="date">Add date</span>
+        <h3>[ Third article title ]</h3>
+        <span class="pub">The Stranger</span>
+      </a>
+      <a class="article" href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">
+        <span class="date">Add date</span>
+        <h3>[ Fourth article title ]</h3>
+        <span class="pub">The Stranger</span>
+      </a>
+      <a class="article" href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">
+        <span class="date">Add date</span>
+        <h3>[ Fifth article title ]</h3>
+        <span class="pub">The Stranger</span>
+      </a>
+    </ol>
+  </section>
+
+  <!-- ========== MARQUEE ========== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Reporting</span><span class="dot">★</span>
+      <span>Nightlife</span><span class="dot">★</span>
+      <span>Queer Culture</span><span class="dot">★</span>
+      <span>The Arts</span><span class="dot">★</span>
+      <span>Features</span><span class="dot">★</span>
+      <span>Reporting</span><span class="dot">★</span>
+      <span>Nightlife</span><span class="dot">★</span>
+      <span>Queer Culture</span><span class="dot">★</span>
+    </div>
+  </div>
+
+  <!-- ========== CONTACT ========== -->
+  <footer class="foot" id="contact">
+    <div class="wrap">
+      <h2>Pitch me a story.</h2>
+      <div class="links">
+        <a href="mailto:misstexas1988@gmail.com">misstexas1988@gmail.com</a>
+        <a href="https://www.instagram.com/misstexas1988/" target="_blank" rel="noopener">@misstexas1988</a>
+        <a href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">Author Page →</a>
+        <a href="design.html">Design →</a>
+      </div>
+      <small>© <span id="yr"></span> Nico Swenson · Writing as Nico Swenson at <em>The Stranger</em></small>
+    </div>
+  </footer>
+
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
