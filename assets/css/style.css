@@ -164,11 +164,11 @@ button { font: inherit; cursor: pointer; }
   border-radius: 999px;
 }
 .hero h1 {
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: clamp(48px, 9vw, 144px);
-  line-height: .92;
-  letter-spacing: -.03em;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(34px, 5.4vw, 76px);
+  line-height: .98;
+  letter-spacing: -.01em;
   margin: 0;
 }
 .hero h1 .w1 { color: var(--cobalt); }
@@ -377,15 +377,16 @@ button { font: inherit; cursor: pointer; }
   overflow: hidden;
 }
 .drag-hero h1 {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 900;
-  font-size: clamp(60px, 12vw, 200px);
-  line-height: .85;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(44px, 8vw, 110px);
+  line-height: .92;
   margin: 0;
   color: var(--lemon);
-  letter-spacing: -.03em;
+  letter-spacing: -.01em;
 }
+.drag-hero .hero-content { max-width: 65%; }
+@media (max-width: 1100px) { .drag-hero .hero-content { max-width: 100%; } }
 .drag-hero h1 .num { color: var(--pink); font-style: normal; }
 .drag-hero .blurb {
   margin-top: 24px;
@@ -505,12 +506,12 @@ button { font: inherit; cursor: pointer; }
   border-bottom: 2px solid var(--ink);
 }
 .design-hero h1 {
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: clamp(56px, 11vw, 180px);
-  line-height: .85;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(40px, 7vw, 96px);
+  line-height: .94;
   margin: 0;
-  letter-spacing: -.03em;
+  letter-spacing: -.01em;
 }
 .design-hero h1 .a { color: var(--tomato); }
 .design-hero h1 .b { color: var(--cobalt); font-style: italic; }
@@ -611,12 +612,12 @@ button { font: inherit; cursor: pointer; }
   position: relative;
 }
 .writing-hero h1 {
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: clamp(56px, 11vw, 170px);
-  line-height: .85;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(40px, 7vw, 96px);
+  line-height: .94;
   margin: 0;
-  letter-spacing: -.03em;
+  letter-spacing: -.01em;
 }
 .writing-hero h1 em { color: var(--tomato); }
 .writing-hero .lede {
@@ -742,46 +743,37 @@ button { font: inherit; cursor: pointer; }
 .tilt-r { transform: rotate(2deg); }
 
 /* =========================================================
-   FIXED PARALLAX FIGURE (HOMEPAGE + DRAG)
+   FIXED FIGURE — Miss Texas cutout that follows the scroll.
+   Lives on top of all section content (z-index 5) but BELOW
+   the sticky nav. Hidden on narrow screens. Hero/lane content
+   is constrained left so the figure has room on the right.
    ========================================================= */
 .fixed-figure {
   position: fixed;
-  right: -6%;
+  right: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 48vw;
-  max-width: 620px;
-  z-index: 1;
+  width: 30vw;
+  max-width: 380px;
+  z-index: 5;
   pointer-events: none;
-  filter: drop-shadow(0 24px 50px rgba(14,14,16,.45));
-  animation: figure-float 9s ease-in-out infinite;
+  filter: drop-shadow(-8px 14px 28px rgba(14,14,16,.4));
+  animation: figure-bob 8s ease-in-out infinite;
 }
-@keyframes figure-float {
-  0%, 100% { transform: translateY(-50%) rotate(-1deg); }
-  50%      { transform: translateY(-52%) rotate(1deg); }
+@keyframes figure-bob {
+  0%, 100% { transform: translateY(-50%) rotate(-2deg); }
+  50%      { transform: translateY(-52%) rotate(2deg); }
 }
-@media (max-width: 880px) {
+@media (max-width: 1100px) {
   .fixed-figure { display: none; }
 }
 
-/* layer everything else above the figure */
-.nav, .hero, .lanes, .marquee, .ig-section, .foot,
-.drag-hero, .drag-grid, .book-band,
-.design-hero, .projects,
-.writing-hero, .articles, .author-card,
-.scallop {
-  position: relative;
-  z-index: 2;
-}
+/* keep the sticky nav above the figure */
+.nav { z-index: 50; }
 
-/* but allow the hero + lanes section on homepage to LET the figure show
-   through by giving them transparent backgrounds where appropriate */
-.hero { background: transparent; }
-.lanes-wrap { position: relative; z-index: 2; }
-
-/* hero content stays left so figure is visible on right */
-.hero-content { max-width: 62%; }
-@media (max-width: 880px) { .hero-content { max-width: 100%; } }
+/* keep main hero copy on the LEFT so it doesn't fight the figure */
+.hero-content { max-width: 60%; }
+@media (max-width: 1100px) { .hero-content { max-width: 100%; } }
 
 /* =========================================================
    SHOW CREDITS STRIP
