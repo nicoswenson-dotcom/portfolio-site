@@ -144,10 +144,30 @@ All design tokens live at the top of `assets/css/style.css` under `:root`. Tweak
 
 ---
 
+## Fonts
+
+The site uses two free Google Fonts as the closest matches to **Dazzle Unicase** (display) and **Futura** (body):
+
+- **Aboreto** — unicase display serif, the closest free match to Dazzle Unicase
+- **Jost** — designed explicitly as a free Futura alternative
+- **JetBrains Mono** — accent / monospace
+
+If you have proper licenses for Dazzle Unicase and/or Futura, you can drop them into `assets/fonts/` and they'll automatically take priority. Expected filenames:
+
+```
+assets/fonts/dazzle-unicase.woff2
+assets/fonts/futura.woff2
+assets/fonts/futura-italic.woff2   (optional)
+```
+
+Use a tool like [Transfonter](https://transfonter.org) to convert your `.otf`/`.ttf` files to `.woff2`. The `@font-face` rules at the top of `style.css` are already pointing at these paths — once the files exist they take over.
+
+**Adobe Fonts alternative:** if you have Creative Cloud, both Dazzle Unicase and Futura PT are on Adobe Fonts. Add them to a web project, copy the `<link rel="stylesheet" href="https://use.typekit.net/XXXXXXX.css">` Adobe gives you, paste it inside the `<head>` of each HTML file (right under the existing `<link rel="stylesheet" href="assets/css/style.css">` line). The CSS already lists `'Dazzle Unicase'` and `'Futura'` as the first font families, so they'll automatically be used when Adobe Fonts loads them.
+
 ## Built with
 
 - Hand-written HTML + CSS, no framework, no build step
-- Google Fonts (Fraunces, Space Grotesk, JetBrains Mono)
+- Google Fonts (Aboreto, Jost, JetBrains Mono)
 - Pure semantic markup (good for SEO + accessible)
 - Mobile-responsive at every breakpoint
 

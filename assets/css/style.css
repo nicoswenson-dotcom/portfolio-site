@@ -3,7 +3,42 @@
    Bold & maximalist. One stylesheet, three lanes.
    ========================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap');
+/* Closest free matches — both from Google Fonts:
+   - Aboreto  → unicase-style display serif (closest free font to Dazzle Unicase)
+   - Jost     → designed explicitly as a free Futura alternative
+   - JetBrains Mono → for accent / monospace use */
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Jost:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+/* ===========================================================
+   LICENSED FONTS — Dazzle Unicase & Futura
+   Drop your .woff2 (and optional .woff) files into assets/fonts/
+   and the site will pick them up automatically.
+   See README.md for two install paths (self-host vs. Adobe Fonts).
+   =========================================================== */
+@font-face {
+  font-family: 'Dazzle Unicase';
+  src: url('../fonts/dazzle-unicase.woff2') format('woff2'),
+       url('../fonts/dazzle-unicase.woff')  format('woff');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Futura';
+  src: url('../fonts/futura.woff2') format('woff2'),
+       url('../fonts/futura.woff')  format('woff');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Futura';
+  src: url('../fonts/futura-italic.woff2') format('woff2'),
+       url('../fonts/futura-italic.woff')  format('woff');
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
 
 /* ---------- TOKENS ---------- */
 :root {
@@ -23,9 +58,18 @@
   --max-w: 1240px;
   --gutter: clamp(20px, 4vw, 56px);
 
-  --serif: 'Fraunces', 'Times New Roman', serif;
-  --sans:  'Space Grotesk', system-ui, sans-serif;
-  --mono:  'JetBrains Mono', ui-monospace, monospace;
+  /* DISPLAY  → Aboreto (closest free unicase serif to Dazzle Unicase).
+                Real Dazzle Unicase will take priority if added to /assets/fonts/.
+     BODY     → Jost (free, designed as a Futura alternative).
+                Real Futura will take priority if added to /assets/fonts/.
+     MONO     → JetBrains Mono                                                     */
+  --display: 'Dazzle Unicase', 'Aboreto', 'Times New Roman', serif;
+  --body:    'Futura', 'Futura PT', 'Jost', 'Avenir Next', system-ui, sans-serif;
+  --mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* legacy aliases (kept so older selectors still resolve) */
+  --serif: var(--display);
+  --sans:  var(--body);
 }
 
 /* ---------- RESET ---------- */
@@ -696,6 +740,138 @@ button { font: inherit; cursor: pointer; }
 
 .tilt-l { transform: rotate(-2deg); }
 .tilt-r { transform: rotate(2deg); }
+
+/* =========================================================
+   FIXED PARALLAX FIGURE (HOMEPAGE + DRAG)
+   ========================================================= */
+.fixed-figure {
+  position: fixed;
+  right: -6%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48vw;
+  max-width: 620px;
+  z-index: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 24px 50px rgba(14,14,16,.45));
+  animation: figure-float 9s ease-in-out infinite;
+}
+@keyframes figure-float {
+  0%, 100% { transform: translateY(-50%) rotate(-1deg); }
+  50%      { transform: translateY(-52%) rotate(1deg); }
+}
+@media (max-width: 880px) {
+  .fixed-figure { display: none; }
+}
+
+/* layer everything else above the figure */
+.nav, .hero, .lanes, .marquee, .ig-section, .foot,
+.drag-hero, .drag-grid, .book-band,
+.design-hero, .projects,
+.writing-hero, .articles, .author-card,
+.scallop {
+  position: relative;
+  z-index: 2;
+}
+
+/* but allow the hero + lanes section on homepage to LET the figure show
+   through by giving them transparent backgrounds where appropriate */
+.hero { background: transparent; }
+.lanes-wrap { position: relative; z-index: 2; }
+
+/* hero content stays left so figure is visible on right */
+.hero-content { max-width: 62%; }
+@media (max-width: 880px) { .hero-content { max-width: 100%; } }
+
+/* =========================================================
+   SHOW CREDITS STRIP
+   ========================================================= */
+.credits-strip {
+  background: var(--tomato);
+  color: var(--cream);
+  border-block: 2px solid var(--ink);
+  padding-block: 18px;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  z-index: 3;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(20px, 2.6vw, 30px);
+}
+.credits-strip .credits-track {
+  display: inline-block;
+  padding-left: 100%;
+  animation: credits-marquee 35s linear infinite;
+}
+.credits-strip .credits-track span { margin: 0 18px; }
+.credits-strip .credits-track .star { color: var(--lemon); }
+@keyframes credits-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* =========================================================
+   BIO BLOCK
+   ========================================================= */
+.bio-block {
+  padding-block: clamp(50px, 7vw, 90px);
+  position: relative;
+  z-index: 2;
+}
+.bio-block .bio-card {
+  background: var(--bone);
+  border: 2px solid var(--ink);
+  border-radius: 22px;
+  padding: clamp(28px, 4vw, 48px);
+  box-shadow: var(--shadow-hard);
+  max-width: 720px;
+}
+.bio-block.right .bio-card { margin-left: auto; }
+.bio-block .bio-kicker {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  color: var(--cobalt);
+  margin-bottom: 14px;
+}
+.bio-block h2 {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(32px, 4.5vw, 56px);
+  line-height: .95;
+  margin: 0 0 18px;
+  letter-spacing: -.02em;
+}
+.bio-block h2 em { color: var(--tomato); }
+.bio-block p {
+  font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.55;
+  margin: 0 0 14px;
+}
+.bio-block p strong { background: var(--lemon); padding: 0 4px; }
+.bio-block p em { color: var(--cobalt); font-style: italic; font-weight: 700; }
+
+.cred-list {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin: 22px 0 0;
+  padding: 0; list-style: none;
+}
+.cred-list li {
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: 6px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--cream);
+}
+.cred-list li.star { background: var(--lemon); }
+.cred-list li.host { background: var(--pink); }
 
 /* ---------- ACCESSIBILITY ---------- */
 @media (prefers-reduced-motion: reduce) {
