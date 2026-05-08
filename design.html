@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Graphic Design — Nico Swenson</title>
+  <title>Design — Nico Swenson · Vol. 01</title>
   <meta name="description" content="Selected graphic design work by Nico Swenson — magazine, app, rebrand, posters, retouches." />
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="icon" href="assets/images/logo.png" />
 </head>
 <body>
 
-  <!-- ========== NAV ========== -->
-  <nav class="nav">
-    <div class="wrap nav-inner">
+  <!-- ========== MASTHEAD ========== -->
+  <header class="masthead">
+    <div class="wrap masthead-inner">
       <a class="brand" href="index.html">
         <img src="assets/images/logo.png" alt="Miss Texas 1988" />
-        <span class="name">Nico Swenson</span>
+        <span class="brand-name">Nico Swenson</span>
       </a>
+      <div class="vol">Vol. 01 · Spring 2026</div>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="drag.html">Drag</a></li>
@@ -25,27 +26,25 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
-  </nav>
+  </header>
 
-  <!-- ========== HERO ========== -->
-  <header class="hero">
+  <!-- ========== ACT II COVER ========== -->
+  <section class="cover">
     <div class="wrap">
-      <span class="kicker">Portfolio · 2024–2026</span>
-      <h1 style="max-width: 800px;">
-        <span class="a">Graphic</span> <span class="b">design,</span> <span class="c">on purpose.</span>
-      </h1>
-      <p style="max-width: 60ch;">
-        Editorial, identity, app, and print work from Seattle Central Creative
-        Academy and freelance projects. BFA Graphic Design, class of 2026.
+      <div class="cover-issue">Act II · Selected Work · 2024–2026</div>
+      <h1>Graphic <span style="color: var(--cobalt); font-style: italic; font-family: var(--editorial); font-weight: 400;">design,</span><br/>on purpose.</h1>
+      <p class="lede" style="margin-top: 18px;">
+        Editorial, identity, app &amp; print work — graduating from
+        Seattle Central Creative Academy, class of 2026.
       </p>
     </div>
-  </header>
+  </section>
 
   <!-- ========== PROJECTS ========== -->
   <section class="wrap">
     <div class="projects">
       <a class="project feature tint-pink" href="#thot-bubbles">
-        <div class="thumb placeholder"><span>[ Drop hero image:<br/>thot-bubbles-cover.jpg ]</span></div>
+        <div class="thumb placeholder"><span>[ thot-bubbles-cover.jpg ]</span></div>
         <div class="body">
           <div class="label">★ Magazine · Editorial</div>
           <h3>Thot Bubbles</h3>
@@ -58,11 +57,11 @@
         <div class="body">
           <div class="label">▲ Product · UI/UX</div>
           <h3>Freelance App</h3>
-          <p>Mobile product design — flows, components, visual system.</p>
+          <p>Mobile product design — flows, components, complete visual system.</p>
         </div>
       </a>
 
-      <a class="project half tint-tomato" href="#bar">
+      <a class="project half tint-lipstick" href="#bar">
         <div class="thumb placeholder"><span>[ bar-rebrand-cover.jpg ]</span></div>
         <div class="body">
           <div class="label">● Identity · Campaign</div>
@@ -71,7 +70,7 @@
         </div>
       </a>
 
-      <a class="project third tint-lemon" href="#posters">
+      <a class="project third tint-gold" href="#posters">
         <div class="thumb placeholder"><span>[ posters-cover.jpg ]</span></div>
         <div class="body">
           <div class="label">▼ Print</div>
@@ -100,25 +99,12 @@
     </div>
   </section>
 
-  <!-- ========== MARQUEE ========== -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>Editorial</span><span class="dot">✦</span>
-      <span>Identity</span><span class="dot">✦</span>
-      <span>Print</span><span class="dot">✦</span>
-      <span>Type</span><span class="dot">✦</span>
-      <span>UI/UX</span><span class="dot">✦</span>
-      <span>Photography</span><span class="dot">✦</span>
-      <span>Editorial</span><span class="dot">✦</span>
-      <span>Identity</span><span class="dot">✦</span>
-    </div>
-  </div>
-
   <!-- ========== HIRE ========== -->
-  <section class="book" id="contact">
-    <div class="wrap book-grid">
+  <section class="booking" id="contact">
+    <div class="wrap booking-grid">
       <div>
-        <h2>Need a designer?</h2>
+        <div class="kicker">For Hire</div>
+        <h2>Need a <em>designer?</em></h2>
         <p>
           Open to freelance, contract, and full-time roles starting summer 2026.
           Identity, editorial, and product are favorites — but I'm hungry for
@@ -127,7 +113,7 @@
         <a class="btn solid" href="mailto:misstexas1988@gmail.com?subject=Design%20Inquiry">Email me →</a>
       </div>
       <a class="resume-card" href="mailto:misstexas1988@gmail.com?subject=Request%20for%20Design%20Resume">
-        <div style="width:70px;height:92px;background:var(--cobalt);border-radius:4px;display:grid;place-items:center;color:var(--cream);font-family:var(--mono);font-size:10px;border:1px solid var(--ink);">PDF</div>
+        <div style="width:70px;height:92px;background:var(--cobalt);border-radius:3px;display:grid;place-items:center;color:var(--paper);font-family:var(--ui);font-size:10px;border:1.5px solid var(--ink);">PDF</div>
         <div>
           <div class="meta">Design Résumé</div>
           <strong>Available on request</strong>
@@ -136,17 +122,30 @@
     </div>
   </section>
 
-  <!-- ========== FOOTER ========== -->
-  <footer class="foot">
+  <!-- ========== COLOPHON ========== -->
+  <footer class="colophon">
     <div class="wrap">
+      <div class="kicker">Inquiries &amp; Letters</div>
       <h2>Let's <em>collaborate.</em></h2>
-      <div class="foot-links">
-        <a href="mailto:misstexas1988@gmail.com">misstexas1988@gmail.com</a>
-        <a href="https://www.instagram.com/misstexas1988/" target="_blank" rel="noopener">@misstexas1988</a>
-        <a href="drag.html">Drag →</a>
-        <a href="writing.html">Writing →</a>
+      <div class="colophon-grid">
+        <div class="col">
+          <div class="col-label">Email</div>
+          <a href="mailto:misstexas1988@gmail.com">misstexas1988@gmail.com</a>
+        </div>
+        <div class="col">
+          <div class="col-label">Instagram</div>
+          <a href="https://www.instagram.com/misstexas1988/" target="_blank" rel="noopener">@misstexas1988</a>
+        </div>
+        <div class="col">
+          <div class="col-label">Drag</div>
+          <a href="drag.html">Miss Texas 1988 →</a>
+        </div>
+        <div class="col">
+          <div class="col-label">Writing</div>
+          <a href="writing.html">Writing →</a>
+        </div>
       </div>
-      <small>© <span id="yr"></span> Nico Swenson</small>
+      <small>© <span id="yr"></span> Nico Swenson · Seattle, WA</small>
     </div>
   </footer>
 

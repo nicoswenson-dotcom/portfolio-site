@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Writing — Nico Swenson</title>
+  <title>Writing — Nico Swenson · Vol. 01</title>
   <meta name="description" content="Reporting and features by Nico Swenson, writing for The Stranger in Seattle." />
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="icon" href="assets/images/logo.png" />
 </head>
 <body>
 
-  <!-- ========== NAV ========== -->
-  <nav class="nav">
-    <div class="wrap nav-inner">
+  <!-- ========== MASTHEAD ========== -->
+  <header class="masthead">
+    <div class="wrap masthead-inner">
       <a class="brand" href="index.html">
         <img src="assets/images/logo.png" alt="Miss Texas 1988" />
-        <span class="name">Nico Swenson</span>
+        <span class="brand-name">Nico Swenson</span>
       </a>
+      <div class="vol">Vol. 01 · Spring 2026</div>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="drag.html">Drag</a></li>
@@ -25,37 +26,32 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
-  </nav>
+  </header>
 
-  <!-- ========== HERO ========== -->
-  <header class="hero">
+  <!-- ========== ACT III COVER ========== -->
+  <section class="cover">
     <div class="wrap">
-      <span class="kicker">By Nico Swenson · Seattle</span>
-      <h1 style="max-width: 14ch;">
-        <span class="a">Writing</span><span class="b">.</span>
-      </h1>
-      <p style="max-width: 60ch;">
-        I report and write features for <strong>The Stranger</strong> in Seattle —
-        nightlife, queer culture, the arts scene, and whatever else is loud
-        enough to chase.
+      <div class="cover-issue">Act III · Bylines · Seattle</div>
+      <h1>Writing<span style="color: var(--lipstick);">.</span></h1>
+      <p class="lede" style="margin-top: 18px; max-width: 36ch;">
+        I report &amp; write features for <em>The Stranger</em> — nightlife,
+        queer culture, the arts scene, &amp; whatever else is loud enough to chase.
       </p>
     </div>
-  </header>
+  </section>
 
   <!-- ========== AUTHOR CARD ========== -->
   <section class="wrap">
     <div class="author-card">
       <div>
-        <div style="font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 6px;">
-          Bylines · Live Index
-        </div>
-        <h3>Read all my pieces on The Stranger →</h3>
+        <div class="kicker" style="color: var(--paper); margin-bottom: 8px;">Bylines · Live Index</div>
+        <h3>Read all my pieces on The Stranger</h3>
         <p style="margin: 0; max-width: 50ch;">
-          My author archive at <em>The Stranger</em> always has the latest. The list
-          below is a curated highlight reel.
+          My author archive at <em>The Stranger</em> always has the latest. The
+          list below is a curated highlight reel.
         </p>
       </div>
-      <a class="btn solid" href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">
+      <a class="btn" href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">
         Open author page ↗
       </a>
     </div>
@@ -63,17 +59,19 @@
 
   <!-- ========== ARTICLES ========== -->
   <section class="wrap articles">
-    <div class="ig-head" style="background: transparent; padding: 0; color: var(--ink);">
-      <h2 style="font-family: var(--display); font-weight: 400; font-size: clamp(28px, 3.4vw, 42px); margin: 0; color: var(--ink);">Selected pieces</h2>
-      <span class="meta" style="font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--cobalt);">Most recent first</span>
+    <div class="articles-head">
+      <span class="num">§</span>
+      <h2>Selected Pieces</h2>
+      <span class="meta">Newest first — update manually</span>
     </div>
 
     <!--
       ===== HOW TO ADD A NEW ARTICLE =====
-      Copy any <a class="article"> block and paste at the top of the <ol>.
-      Update href / date / title. Newest goes first.
+      Copy any <a class="article"> block, paste it at the top of the <ol>,
+      and update href / date / title. Newest goes first.
+      =====================================
     -->
-    <ol style="margin-top: 18px;">
+    <ol>
       <a class="article" href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">
         <span class="date">Add date</span>
         <h3>[ First article title goes here ]</h3>
@@ -102,31 +100,30 @@
     </ol>
   </section>
 
-  <!-- ========== MARQUEE ========== -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>Reporting</span><span class="dot">✦</span>
-      <span>Nightlife</span><span class="dot">✦</span>
-      <span>Queer Culture</span><span class="dot">✦</span>
-      <span>The Arts</span><span class="dot">✦</span>
-      <span>Features</span><span class="dot">✦</span>
-      <span>Reporting</span><span class="dot">✦</span>
-      <span>Nightlife</span><span class="dot">✦</span>
-      <span>Queer Culture</span><span class="dot">✦</span>
-    </div>
-  </div>
-
-  <!-- ========== FOOTER ========== -->
-  <footer class="foot" id="contact">
+  <!-- ========== COLOPHON ========== -->
+  <footer class="colophon" id="contact">
     <div class="wrap">
-      <h2>Pitch me a story.</h2>
-      <div class="foot-links">
-        <a href="mailto:misstexas1988@gmail.com">misstexas1988@gmail.com</a>
-        <a href="https://www.instagram.com/misstexas1988/" target="_blank" rel="noopener">@misstexas1988</a>
-        <a href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">Author Page →</a>
-        <a href="design.html">Design →</a>
+      <div class="kicker">Inquiries &amp; Letters</div>
+      <h2>Pitch me a <em>story.</em></h2>
+      <div class="colophon-grid">
+        <div class="col">
+          <div class="col-label">Email</div>
+          <a href="mailto:misstexas1988@gmail.com">misstexas1988@gmail.com</a>
+        </div>
+        <div class="col">
+          <div class="col-label">Instagram</div>
+          <a href="https://www.instagram.com/misstexas1988/" target="_blank" rel="noopener">@misstexas1988</a>
+        </div>
+        <div class="col">
+          <div class="col-label">Author Page</div>
+          <a href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">The Stranger ↗</a>
+        </div>
+        <div class="col">
+          <div class="col-label">Design</div>
+          <a href="design.html">Design →</a>
+        </div>
       </div>
-      <small>© <span id="yr"></span> Nico Swenson · Writing as Nico Swenson at <em>The Stranger</em></small>
+      <small>© <span id="yr"></span> Nico Swenson · Writing as Nico Swenson at The Stranger</small>
     </div>
   </footer>
 
