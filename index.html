@@ -10,15 +10,24 @@
 </head>
 <body>
 
-  <!-- ========== FIXED PARALLAX CUTOUT ========== -->
-  <img class="fixed-figure" src="assets/images/cutout-1.png" alt="" aria-hidden="true" />
+  <!-- ========== FIXED FIGURE — photo cutout ==========
+       Save your transparent-bg PNG photo at:
+       assets/images/photo-cutout.png
+       The onerror handler removes the element if the file is missing,
+       so nothing broken ever appears on screen.
+  -->
+  <img class="fixed-figure"
+       src="assets/images/photo-cutout.png"
+       alt=""
+       aria-hidden="true"
+       onerror="this.remove()" />
 
   <!-- ========== NAV ========== -->
   <nav class="nav">
     <div class="wrap nav-inner">
       <a class="brand" href="index.html">
-        <span class="star">★</span>
-        <span>Nico Swenson <span class="lo">/ Miss Texas <em>1988</em></span></span>
+        <img class="brand-logo" src="assets/images/logo.png" alt="Miss Texas 1988" />
+        <span class="lo">Nico Swenson</span>
       </a>
       <ul class="nav-links">
         <li><a href="index.html" aria-current="page">Home</a></li>
@@ -34,6 +43,7 @@
   <header class="hero">
     <div class="wrap">
       <div class="hero-content">
+        <img class="hero-logo" src="assets/images/logo.png" alt="Miss Texas 1988 logo" />
         <span class="kicker">Seattle, WA · Camp Wannakiki S5 Winner</span>
         <h1>
           <span class="w1">drag,</span>

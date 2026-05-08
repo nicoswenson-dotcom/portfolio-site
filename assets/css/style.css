@@ -110,17 +110,16 @@ button { font: inherit; cursor: pointer; }
   padding-block: 14px;
 }
 .brand {
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: clamp(18px, 2.4vw, 22px);
-  letter-spacing: -.01em;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(14px, 1.4vw, 16px);
+  letter-spacing: .02em;
   text-decoration: none;
   display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
 }
-.brand .star { color: var(--tomato); font-style: italic; }
-.brand .lo   { color: var(--cobalt); }
+.brand .lo { color: var(--cobalt); }
 
 .nav-links {
   display: flex;
@@ -743,18 +742,36 @@ button { font: inherit; cursor: pointer; }
 .tilt-r { transform: rotate(2deg); }
 
 /* =========================================================
-   FIXED FIGURE — Miss Texas cutout that follows the scroll.
-   Lives on top of all section content (z-index 5) but BELOW
-   the sticky nav. Hidden on narrow screens. Hero/lane content
-   is constrained left so the figure has room on the right.
+   LOGO — Miss Texas 1988 cartoon brand mark
+   Used at two sizes: small in nav, medium accent in hero.
+   ========================================================= */
+.brand-logo {
+  height: 38px;
+  width: auto;
+  display: inline-block;
+  vertical-align: middle;
+}
+.hero-logo {
+  display: block;
+  width: clamp(220px, 28vw, 340px);
+  height: auto;
+  margin: 0 0 24px;
+  filter: drop-shadow(-4px 6px 0 var(--ink));
+}
+
+/* =========================================================
+   FIXED FIGURE — photo cutout that follows the scroll.
+   Drop a transparent-bg PNG at assets/images/photo-cutout.png
+   and it'll automatically appear. The img has onerror in HTML
+   so if the file is missing, the element vanishes gracefully.
    ========================================================= */
 .fixed-figure {
   position: fixed;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 30vw;
-  max-width: 380px;
+  width: 28vw;
+  max-width: 360px;
   z-index: 5;
   pointer-events: none;
   filter: drop-shadow(-8px 14px 28px rgba(14,14,16,.4));
@@ -772,7 +789,7 @@ button { font: inherit; cursor: pointer; }
 .nav { z-index: 50; }
 
 /* keep main hero copy on the LEFT so it doesn't fight the figure */
-.hero-content { max-width: 60%; }
+.hero-content { max-width: 62%; }
 @media (max-width: 1100px) { .hero-content { max-width: 100%; } }
 
 /* =========================================================
