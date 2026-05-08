@@ -4,30 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nico Swenson — drag, design &amp; reporting</title>
-  <meta name="description" content="Miss Texas 1988 — Seattle drag artist, performer, host, writer. Camp Wannakiki S5 winner. Reporter for The Stranger. Graphic designer." />
+  <meta name="description" content="Miss Texas 1988 — Seattle drag artist, Camp Wannakiki S5 winner, host of High F@ggotry. Reporter for The Stranger. Graphic designer." />
   <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%85%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="assets/images/logo.png" />
 </head>
 <body>
-
-  <!-- ========== FIXED FIGURE — photo cutout ==========
-       Save your transparent-bg PNG photo at:
-       assets/images/photo-cutout.png
-       The onerror handler removes the element if the file is missing,
-       so nothing broken ever appears on screen.
-  -->
-  <img class="fixed-figure"
-       src="assets/images/photo-cutout.png"
-       alt=""
-       aria-hidden="true"
-       onerror="this.remove()" />
 
   <!-- ========== NAV ========== -->
   <nav class="nav">
     <div class="wrap nav-inner">
       <a class="brand" href="index.html">
-        <img class="brand-logo" src="assets/images/logo.png" alt="Miss Texas 1988" />
-        <span class="lo">Nico Swenson</span>
+        <img src="assets/images/logo.png" alt="Miss Texas 1988" />
+        <span class="name">Nico Swenson</span>
       </a>
       <ul class="nav-links">
         <li><a href="index.html" aria-current="page">Home</a></li>
@@ -41,25 +29,29 @@
 
   <!-- ========== HERO ========== -->
   <header class="hero">
-    <div class="wrap">
-      <div class="hero-content">
-        <img class="hero-logo" src="assets/images/logo.png" alt="Miss Texas 1988 logo" />
+    <div class="wrap hero-grid">
+      <div class="hero-text">
         <span class="kicker">Seattle, WA · Camp Wannakiki S5 Winner</span>
         <h1>
-          <span class="w1">drag,</span>
-          <span class="w2">design,</span>
+          <span class="a">drag,</span>
+          <span class="b">design</span>
           <br />
-          <span class="w3">reporting</span>
-          <span class="amp">&amp;</span>
-          <span class="w1">a little</span>
-          <span class="w2">chaos.</span>
+          <span class="c">&amp; reporting.</span>
         </h1>
-        <p class="hero-sub">
+        <p>
           I'm <strong>Nico Swenson</strong> — a graphic designer graduating from
           Seattle Central Creative Academy, a reporter for <em>The Stranger</em>,
           and a working drag entertainer performing as <strong>Miss Texas 1988</strong>.
           Three lanes, one loud personality.
         </p>
+        <div class="hero-actions">
+          <a class="btn solid" href="drag.html">See the drag →</a>
+          <a class="btn lemon" href="design.html">Design work</a>
+          <a class="btn cobalt" href="writing.html">Writing</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="assets/images/photo-cutout.png" alt="Miss Texas 1988 in cobalt blue dress" />
       </div>
     </div>
   </header>
@@ -67,33 +59,33 @@
   <div class="scallop"></div>
 
   <!-- ========== LANES ========== -->
-  <section class="wrap lanes-wrap">
-    <div class="lanes">
-      <a class="lane-card drag" href="drag.html">
-        <span class="tag">★ Drag</span>
-        <h2>Miss Texas 1988</h2>
-        <p>Cast member of Tush, Sunday Sip, Lashes, Glory Hole, Jawbreaker. Host of High F@ggotry.</p>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="lane-card design" href="design.html">
-        <span class="tag">▲ Design</span>
-        <h2>Graphic <em>Design</em></h2>
-        <p>Magazine, app, rebrand, posters, retouches, album covers.</p>
-        <span class="arrow">→</span>
-      </a>
-
-      <a class="lane-card writing" href="writing.html">
-        <span class="tag">▼ Writing</span>
-        <h2>By-line</h2>
-        <p>Reporting &amp; features for <em>The Stranger</em> in Seattle.</p>
-        <span class="arrow">→</span>
-      </a>
+  <section class="lanes">
+    <div class="wrap">
+      <div class="lanes-grid">
+        <a class="lane drag" href="drag.html">
+          <span class="tag">★ Drag</span>
+          <h2>Miss Texas 1988</h2>
+          <p>Cast member of Tush, Sunday Sip, Lashes, Glory Hole, Jawbreaker. Host of High F@ggotry.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a class="lane design" href="design.html">
+          <span class="tag">▲ Design</span>
+          <h2>Graphic Design</h2>
+          <p>Magazine, app, rebrand, posters, retouches, album covers.</p>
+          <span class="arrow">→</span>
+        </a>
+        <a class="lane writing" href="writing.html">
+          <span class="tag">▼ Writing</span>
+          <h2>By-line</h2>
+          <p>Reporting &amp; features for <em>The Stranger</em> in Seattle.</p>
+          <span class="arrow">→</span>
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- ========== BIO BLOCK ========== -->
-  <section class="bio-block">
+  <!-- ========== BIO ========== -->
+  <section class="bio">
     <div class="wrap">
       <div class="bio-card">
         <div class="bio-kicker">★ The long version</div>
@@ -106,12 +98,12 @@
         </p>
         <p>
           Catch her as a cast member of <em>Tush, The Sunday Sip, Lashes, Glory Hole, Jawbreaker</em>,
-          and as the host of <em>High F@ggotry</em>. You can also find her rampaging
+          and as host of <em>High F@ggotry</em>. You can also find her rampaging
           around as a reporter for <em>The Stranger</em>, and on OUTtv as the
           <strong>winner of Camp Wannakiki Season 5</strong>.
         </p>
-        <ul class="cred-list">
-          <li class="star">★ Camp Wannakiki S5 Winner</li>
+        <ul class="creds">
+          <li class="win">★ Camp Wannakiki S5 Winner</li>
           <li class="host">Host · High F@ggotry</li>
           <li>Tush</li>
           <li>The Sunday Sip</li>
@@ -124,47 +116,36 @@
     </div>
   </section>
 
-  <!-- ========== CREDITS STRIP ========== -->
-  <div class="credits-strip" aria-hidden="true">
-    <div class="credits-track">
-      <span>★ Camp Wannakiki S5 Winner</span><span class="star">✦</span>
-      <span>Tush</span><span class="star">✦</span>
-      <span>The Sunday Sip</span><span class="star">✦</span>
-      <span>Lashes</span><span class="star">✦</span>
-      <span>Glory Hole</span><span class="star">✦</span>
-      <span>Jawbreaker</span><span class="star">✦</span>
-      <span>Host of High F@ggotry</span><span class="star">✦</span>
-      <span>Reporter · The Stranger</span><span class="star">✦</span>
-      <span>★ Camp Wannakiki S5 Winner</span><span class="star">✦</span>
-      <span>Tush</span><span class="star">✦</span>
-      <span>The Sunday Sip</span><span class="star">✦</span>
-      <span>Lashes</span><span class="star">✦</span>
+  <!-- ========== CREDITS MARQUEE ========== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>★ Camp Wannakiki S5 Winner</span><span class="dot">✦</span>
+      <span>Tush</span><span class="dot">✦</span>
+      <span>The Sunday Sip</span><span class="dot">✦</span>
+      <span>Lashes</span><span class="dot">✦</span>
+      <span>Glory Hole</span><span class="dot">✦</span>
+      <span>Jawbreaker</span><span class="dot">✦</span>
+      <span>Host of High F@ggotry</span><span class="dot">✦</span>
+      <span>Reporter · The Stranger</span><span class="dot">✦</span>
+      <span>★ Camp Wannakiki S5 Winner</span><span class="dot">✦</span>
+      <span>Tush</span><span class="dot">✦</span>
     </div>
   </div>
 
   <!-- ========== INSTAGRAM ========== -->
-  <section class="ig-section" id="instagram">
+  <section class="ig" id="instagram">
     <div class="wrap">
-      <div class="section-head">
+      <div class="ig-head">
         <h2>From the &lsquo;gram</h2>
         <span class="meta">@misstexas1988 · live feed</span>
       </div>
-
-      <!--
-        ===== INSTAGRAM EMBED =====
-        Paste your Elfsight (or SnapWidget) embed code BETWEEN the comment
-        markers below. Sign up at https://elfsight.com/instagram-feed-instagram-widget/
-        Free tier shows up to 6 photos. After you copy your widget script,
-        DELETE the .placeholder div and paste the script in its place.
-        =============================
-      -->
       <div class="ig-slot">
         <div class="placeholder">
           <strong>Instagram feed lives here.</strong><br />
-          Open <code>index.html</code>, find the <code>===== INSTAGRAM EMBED =====</code>
-          comment, and paste your Elfsight/SnapWidget code in this block.
-          The same slot appears on the Drag page.
+          Sign up at <code>elfsight.com</code>, copy your widget code, and paste it into this slot
+          (look for <code>===== INSTAGRAM EMBED =====</code> in <code>index.html</code> &amp; <code>drag.html</code>).
         </div>
+        <!-- ===== INSTAGRAM EMBED ===== -->
         <!-- PASTE WIDGET SCRIPT BELOW THIS LINE -->
 
         <!-- PASTE WIDGET SCRIPT ABOVE THIS LINE -->
@@ -172,22 +153,20 @@
     </div>
   </section>
 
-  <!-- ========== FOOTER / CONTACT ========== -->
+  <!-- ========== FOOTER ========== -->
   <footer class="foot" id="contact">
     <div class="wrap">
       <h2>Let's <em>collaborate.</em></h2>
-      <div class="links">
+      <div class="foot-links">
         <a href="mailto:misstexas1988@gmail.com">misstexas1988@gmail.com</a>
         <a href="https://www.instagram.com/misstexas1988/" target="_blank" rel="noopener">@misstexas1988</a>
         <a href="https://www.thestranger.com/authors/nico-swenson" target="_blank" rel="noopener">The Stranger →</a>
         <a href="assets/docs/miss-texas-1988-drag-resume.pdf" target="_blank">Drag Résumé (PDF)</a>
       </div>
-      <small>© <span id="yr"></span> Nico Swenson · Miss Texas 1988 · Built with way too much style.</small>
+      <small>© <span id="yr"></span> Nico Swenson · Miss Texas 1988</small>
     </div>
   </footer>
 
-  <script>
-    document.getElementById('yr').textContent = new Date().getFullYear();
-  </script>
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </body>
 </html>

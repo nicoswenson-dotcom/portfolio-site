@@ -6,23 +6,16 @@
   <title>Miss Texas 1988 — Drag · Nico Swenson</title>
   <meta name="description" content="Miss Texas 1988 — Seattle drag artist, Camp Wannakiki S5 winner, host of High F@ggotry, cast of Tush, Sunday Sip, Lashes, Glory Hole, Jawbreaker." />
   <link rel="stylesheet" href="assets/css/style.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%85%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="assets/images/logo.png" />
 </head>
 <body>
-
-  <!-- ========== FIXED FIGURE — photo cutout ========== -->
-  <img class="fixed-figure"
-       src="assets/images/photo-cutout.png"
-       alt=""
-       aria-hidden="true"
-       onerror="this.remove()" />
 
   <!-- ========== NAV ========== -->
   <nav class="nav">
     <div class="wrap nav-inner">
       <a class="brand" href="index.html">
-        <img class="brand-logo" src="assets/images/logo.png" alt="Miss Texas 1988" />
-        <span class="lo">Nico Swenson</span>
+        <img src="assets/images/logo.png" alt="Miss Texas 1988" />
+        <span class="name">Nico Swenson</span>
       </a>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
@@ -35,24 +28,29 @@
   </nav>
 
   <!-- ========== HERO ========== -->
-  <header class="drag-hero">
-    <div class="wrap">
-      <div class="hero-content">
-        <span class="pill">★ Camp Wannakiki S5 Winner · Now Booking</span>
-        <h1>Miss Texas <span class="num">1988</span></h1>
-        <p class="blurb">
+  <header class="hero" style="background: var(--cobalt); color: var(--cream);">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <span class="kicker" style="background: var(--lemon); color: var(--ink);">★ Camp Wannakiki S5 Winner · Now Booking</span>
+        <h1 style="color: var(--lemon);">Miss Texas <em style="color: var(--pink); font-style: normal;">1988</em></h1>
+        <p style="color: var(--cream);">
           Seattle drag artist, performer, host, writer — all-around creative
           oddball. Curiously crafted costumes &amp; climactic characters from
           the silly to the sublime.
         </p>
+        <div class="hero-actions">
+          <a class="btn lemon" href="#book">Book me →</a>
+          <a class="btn tomato" href="assets/docs/miss-texas-1988-drag-resume.pdf" target="_blank">Drag Résumé (PDF)</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="assets/images/photo-cutout.png" alt="Miss Texas 1988 in cobalt blue dress" />
       </div>
     </div>
   </header>
 
-  <div class="scallop lemon flip"></div>
-
   <!-- ========== BIO ========== -->
-  <section class="bio-block">
+  <section class="bio">
     <div class="wrap">
       <div class="bio-card">
         <div class="bio-kicker">★ The full résumé</div>
@@ -63,14 +61,12 @@
           from the silly to the sublime.
         </p>
         <p>
-          Catch her as a cast member of <em>Tush, The Sunday Sip, Lashes,
-          Glory Hole,</em> and <em>Jawbreaker</em>, and as the host of
-          <em>High F@ggotry</em>. You can also find her rampaging around as a
-          reporter for <em>The Stranger</em>, and on OUTtv as the
-          <strong>winner of Camp Wannakiki Season 5</strong>.
+          Cast member of <em>Tush, The Sunday Sip, Lashes, Glory Hole, Jawbreaker</em>,
+          host of <em>High F@ggotry</em>, reporter for <em>The Stranger</em>,
+          and on OUTtv as the <strong>winner of Camp Wannakiki Season 5</strong>.
         </p>
-        <ul class="cred-list">
-          <li class="star">★ Camp Wannakiki S5 Winner</li>
+        <ul class="creds">
+          <li class="win">★ Camp Wannakiki S5 Winner</li>
           <li class="host">Host · High F@ggotry</li>
           <li>Tush</li>
           <li>The Sunday Sip</li>
@@ -84,98 +80,87 @@
     </div>
   </section>
 
-  <!-- ========== CREDITS STRIP ========== -->
-  <div class="credits-strip" aria-hidden="true">
-    <div class="credits-track">
-      <span>★ Camp Wannakiki S5 Winner</span><span class="star">✦</span>
-      <span>Tush</span><span class="star">✦</span>
-      <span>The Sunday Sip</span><span class="star">✦</span>
-      <span>Lashes</span><span class="star">✦</span>
-      <span>Glory Hole</span><span class="star">✦</span>
-      <span>Jawbreaker</span><span class="star">✦</span>
-      <span>Host of High F@ggotry</span><span class="star">✦</span>
-      <span>Reporter · The Stranger</span><span class="star">✦</span>
-      <span>★ Camp Wannakiki S5 Winner</span><span class="star">✦</span>
-      <span>Tush</span><span class="star">✦</span>
+  <!-- ========== MARQUEE ========== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>★ Camp Wannakiki S5 Winner</span><span class="dot">✦</span>
+      <span>Tush</span><span class="dot">✦</span>
+      <span>The Sunday Sip</span><span class="dot">✦</span>
+      <span>Lashes</span><span class="dot">✦</span>
+      <span>Glory Hole</span><span class="dot">✦</span>
+      <span>Jawbreaker</span><span class="dot">✦</span>
+      <span>Host of High F@ggotry</span><span class="dot">✦</span>
+      <span>Reporter · The Stranger</span><span class="dot">✦</span>
+      <span>★ Camp Wannakiki S5 Winner</span><span class="dot">✦</span>
+      <span>Tush</span><span class="dot">✦</span>
     </div>
   </div>
 
   <!-- ========== GALLERY ========== -->
   <section class="wrap">
-    <div class="drag-grid">
-      <figure class="span-7 tall">
-        <img src="assets/images/miss-texas-1.jpg" alt="Miss Texas 1988 in a cobalt blue dress, lying on the floor with red heels and pearls" />
+    <div class="gallery">
+      <figure class="span-3">
+        <img src="assets/images/miss-texas-1.jpg" alt="Miss Texas 1988 in cobalt blue dress" />
         <figcaption>Cobalt — 2025</figcaption>
       </figure>
-      <figure class="span-5 tall">
+      <figure class="span-3">
         <img src="assets/images/miss-texas-2.jpg" alt="Miss Texas 1988 portrait with crown and pearls" />
         <figcaption>The Crown</figcaption>
       </figure>
-      <figure class="span-4">
-        <img src="assets/images/miss-texas-3.jpg" alt="Miss Texas 1988 reclining with red heel kicked up" />
+      <figure class="span-2">
+        <img src="assets/images/miss-texas-3.jpg" alt="Miss Texas 1988 reclining" />
         <figcaption>Reclining</figcaption>
       </figure>
-      <figure class="span-4">
-        <img src="assets/images/miss-texas-blue.jpg" alt="Miss Texas 1988 in blue dress, alternate angle" />
+      <figure class="span-2">
+        <img src="assets/images/miss-texas-blue.jpg" alt="Miss Texas 1988, blue dress alternate" />
         <figcaption>Blue Dress III</figcaption>
       </figure>
-      <figure class="span-4">
+      <figure class="span-2">
         <img src="assets/images/eric-magnussen-1.jpg" alt="Editorial portrait by Eric Magnussen" />
-        <figcaption>Photo · Eric Magnussen</figcaption>
+        <figcaption>Eric Magnussen</figcaption>
       </figure>
-      <figure class="span-12">
+      <figure class="span-6">
         <img src="assets/images/eric-magnussen-2.jpg" alt="Editorial portrait by Eric Magnussen — wide" />
-        <figcaption>Photo · Eric Magnussen</figcaption>
+        <figcaption>Eric Magnussen</figcaption>
       </figure>
     </div>
   </section>
 
   <!-- ========== INSTAGRAM ========== -->
-  <section class="ig-section" id="instagram">
+  <section class="ig" id="instagram">
     <div class="wrap">
-      <div class="section-head">
+      <div class="ig-head">
         <h2>Upcoming &amp; recent</h2>
-        <span class="meta">@misstexas1988 · live from instagram</span>
+        <span class="meta">@misstexas1988</span>
       </div>
-
-      <!--
-        ===== INSTAGRAM EMBED =====
-        Same widget code as the homepage. Paste your Elfsight/SnapWidget
-        script between the markers below.
-        =============================
-      -->
       <div class="ig-slot">
         <div class="placeholder">
           <strong>Live event feed.</strong><br />
-          This is the same slot as on the homepage — paste your Instagram
-          widget code here so events &amp; new posts show up automatically.
+          Same Elfsight slot as the homepage — paste your widget code in either file.
         </div>
-        <!-- PASTE WIDGET SCRIPT BELOW THIS LINE -->
-
-        <!-- PASTE WIDGET SCRIPT ABOVE THIS LINE -->
+        <!-- ===== INSTAGRAM EMBED ===== -->
       </div>
     </div>
   </section>
 
-  <!-- ========== BOOKING BAND ========== -->
-  <section class="book-band" id="book">
-    <div class="wrap row">
+  <!-- ========== BOOKING ========== -->
+  <section class="book" id="book">
+    <div class="wrap book-grid">
       <div>
-        <h2>Want to book? Let's <em>talk.</em></h2>
-        <p style="max-width: 540px; margin: 18px 0 22px; font-size: 17px;">
-          Email me directly or DM on Instagram. Drag résumé available below
-          with credits, hosting experience, and references.
+        <h2>Want to book? Let's talk.</h2>
+        <p>
+          Email me directly or DM on Instagram. The drag résumé below has
+          credits, hosting experience, and references.
         </p>
-        <a class="cta" href="mailto:misstexas1988@gmail.com?subject=Booking%20Inquiry%20—%20Miss%20Texas%201988">
+        <a class="btn solid" href="mailto:misstexas1988@gmail.com?subject=Booking%20Inquiry%20—%20Miss%20Texas%201988">
           Email Booking →
         </a>
       </div>
       <a class="resume-card" href="assets/docs/miss-texas-1988-drag-resume.pdf" target="_blank" rel="noopener">
-        <img src="assets/images/drag-resume-preview.png" alt="Preview of Miss Texas 1988 drag résumé" />
+        <img src="assets/images/drag-resume-preview.png" alt="Drag résumé preview" />
         <div>
-          <div class="meta-line">PDF · 2 pages</div>
-          <strong>Miss Texas 1988<br />Drag Résumé</strong><br />
-          <small style="font-family: var(--mono); font-size: 11px;">Click to open ↗</small>
+          <div class="meta">PDF · 2 pages</div>
+          <strong>Miss Texas 1988<br />Drag Résumé</strong>
         </div>
       </a>
     </div>
@@ -185,10 +170,10 @@
   <footer class="foot">
     <div class="wrap">
       <h2>Let's <em>collaborate.</em></h2>
-      <div class="links">
+      <div class="foot-links">
         <a href="mailto:misstexas1988@gmail.com">misstexas1988@gmail.com</a>
         <a href="https://www.instagram.com/misstexas1988/" target="_blank" rel="noopener">@misstexas1988</a>
-        <a href="design.html">Design Work →</a>
+        <a href="design.html">Design →</a>
         <a href="writing.html">Writing →</a>
       </div>
       <small>© <span id="yr"></span> Nico Swenson · Miss Texas 1988</small>
