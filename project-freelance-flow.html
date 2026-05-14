@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Freelance Flow — Nico Swenson / Miss Texas 1988</title>
+  <meta name="description" content="A mobile-first PWA for solo freelancers — tracking income, tips, expenses, projects, and schedule in one place. Case study by Nico Swenson." />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon-192.png" />
+  <link rel="shortcut icon" href="assets/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Caveat+Brush&family=Fraunces:ital,wght@0,400;0,600;0,800;1,400;1,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav-brand" href="index.html">Miss Texas 1988</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">≡</button>
+      <ul class="nav-links" id="primary-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="drag.html">Drag</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="design.html">Design</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="wrap case-hero">
+      <div class="reveal">
+        <p class="eyebrow" style="background: var(--yellow-butter);">
+          <a href="design.html" style="text-decoration: none; color: inherit;">← All projects</a>
+          &nbsp;·&nbsp; Project 03
+        </p>
+        <h1 class="hero__title headline-rainbow" style="font-size: clamp(2.6rem, 7vw, 5.5rem);">
+          <span class="word">Freelance</span>
+          <span class="word word--rotate">Flow.</span>
+        </h1>
+        <p class="hero__lead" style="max-width: 56ch;">
+          A mobile-first PWA for solo freelancers who need to track income, tips, expenses,
+          projects, and schedule in one place — without the overhead of small-business accounting
+          software.
+        </p>
+      </div>
+
+      <div class="case-meta reveal">
+        <div class="case-meta__item"><span class="case-meta__label">Category</span><span class="case-meta__value">UX / UI · Product · Branding · Web</span></div>
+        <div class="case-meta__item"><span class="case-meta__label">Timeframe</span><span class="case-meta__value">10 weeks<br/><small>Spring 2026</small></span></div>
+        <div class="case-meta__item"><span class="case-meta__label">Roles</span><span class="case-meta__value">UX Research · UX/UI · Product · Visual Designer · Front-end Prototyper</span></div>
+        <div class="case-meta__item"><span class="case-meta__label">Tools</span><span class="case-meta__value">Figma · Vite + React 18 · Tailwind · shadcn/ui · Framer Motion · TanStack Query · React Router · Recharts · Base44</span></div>
+      </div>
+
+      <div class="case-img reveal">
+        <img src="assets/images/projects/freelance-flow.jpg" alt="Freelance Flow — PWA app installed on mobile, showing dashboard with totals and add-to-home-screen menu" />
+      </div>
+    </section>
+
+    <div class="scallop scallop--yellow" aria-hidden="true"></div>
+
+    <section class="case-section wrap" style="background: var(--pink-soft);">
+      <div class="reveal" style="max-width: 720px;">
+        <span class="tag tag--red">Problem</span>
+        <h2 class="mt-2">Bookkeeping friction eats freelancer money.</h2>
+        <p>
+          Solo freelancers lose money to bookkeeping friction — tips logged in one app, expenses
+          screenshotted in another, projects tracked in a notes app. Existing tools are built for
+          small businesses, not for one person trying to log a tip between gigs.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-section wrap">
+      <div class="reveal" style="max-width: 760px;">
+        <span class="eyebrow">Overview</span>
+        <h2>One mobile-first home for the money math.</h2>
+        <p>
+          Freelance Flow is a mobile-first progressive web app for solo freelancers who need to
+          track income, tips, expenses, projects, and schedule in one place — without the overhead
+          of small-business accounting software.
+        </p>
+        <p>
+          The app combines a tappable Dashboard (financial snapshot), one-tap entry logging with
+          smart receipt capture, project-level time and budget tracking, and a Reports page that
+          aggregates net profit, with the critical rule that
+          <strong>total income always equals amount + tips</strong>.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-section wrap" style="background: var(--yellow-soft);">
+      <div class="reveal" style="max-width: 760px;">
+        <span class="eyebrow">Research &amp; demographic</span>
+        <h2>Who it's for.</h2>
+        <ul>
+          <li>Solo freelancers — drag performers, designers, photographers, stylists, gig workers — who get paid in mixed channels (Venmo, cash, app payouts) and currently track income across notes apps, screenshots, and memory.</li>
+          <li>Users who want their finances private, fast to log, and visible at a glance, not buried inside a desktop accounting tool.</li>
+          <li>Mobile-primary users who expect bottom-sheet modals, pull-to-refresh, and safe-area-inset padding on notched phones.</li>
+        </ul>
+
+        <h3 class="mt-6">Insight</h3>
+        <p>
+          Through interviews with freelancing friends, the consistent pain point wasn't math —
+          it was friction. People stop logging income when it takes more than two taps. So I
+          designed every primary action to live one tap away from the Dashboard, with a floating
+          Add Entry button between Projects and Calendar in the bottom nav.
+        </p>
+        <p class="aha">
+          the income-plus-tips rule. Freelancers think of tips as separate, but for taxes and
+          reporting they have to be combined. Making
+          <code>total income = amount + tips</code> a global calculation rule (used identically in
+          every aggregation) eliminated an entire category of bookkeeping errors before they could
+          start.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-section wrap">
+      <div class="reveal">
+        <span class="eyebrow">Process</span>
+        <h2>System map &amp; system thinking.</h2>
+      </div>
+
+      <div class="process-grid reveal">
+        <figure>
+          <img src="assets/images/projects/freelance-flow-flow.jpg" alt="Hand-drawn system map for Freelance Flow" />
+          <figcaption>Hand-drawn system map: Login → Dashboard → Add Entry / Calendar / Projects / Reports — with if-then branches showing how data cascades between pages.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/projects/freelance-flow-base.jpg" alt="Freelance Flow — Base44 implementation and feature breakdown" />
+          <figcaption>Feature breakdown and live dashboard preview — total income $255.00, tips $105.00, expenses $19.51, net profit $235.49.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="mt-6 reveal">Color palette</h3>
+      <div class="palette reveal">
+        <div class="swatch"><div class="swatch__color" style="background:#FAFAF9; border-bottom: 2px solid var(--ink);"></div><div class="swatch__label">Background<small>#FAFAF9</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#FFFFFF; border-bottom: 2px solid var(--ink);"></div><div class="swatch__label">Surface<small>#FFFFFF</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#4F46E5"></div><div class="swatch__label">Indigo 600<small>#4F46E5</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#059669"></div><div class="swatch__label">Emerald 600<small>#059669</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#475569"></div><div class="swatch__label">Slate 600<small>#475569</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#E11D48"></div><div class="swatch__label">Rose 600<small>#E11D48</small></div></div>
+      </div>
+      <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink-soft); max-width: 60ch;">
+        Indigo = primary. Emerald = income / positive. Slate = expense / neutral. Rose = danger.
+        Tokens from the live <code>index.css</code> design system.
+      </p>
+
+      <h3 class="mt-6 reveal">Typography &amp; components</h3>
+      <p style="max-width: 60ch;">
+        Font: system sans-serif. Page titles <code>text-2xl md:text-3xl</code> bold slate-900;
+        sections <code>text-lg</code> semibold; body <code>text-slate-600</code>.
+        Cards: <code>bg-white</code>, <code>rounded-2xl</code>, slate-100 border, <code>shadow-sm</code>.
+        Buttons: <code>rounded-xl</code> indigo primary, slate outline secondary. Inputs
+        <code>h-12 rounded-xl</code>. Modals: bottom sheet on mobile
+        (<code>rounded-t-3xl</code>), centered card on desktop. Animations via Framer Motion
+        fade + rise.
+      </p>
+
+      <h3 class="mt-6 reveal">Outcomes</h3>
+      <ul style="font-family: var(--font-serif); font-size: 1.1rem; max-width: 65ch;">
+        <li><strong>Income + tips global rule</strong> eliminated split-tracking errors before they could start.</li>
+        <li><strong>ID-based modal selection</strong> (not object-in-state) means every modal shows live, post-edit data.</li>
+        <li><strong>Pull-to-refresh</strong> on Dashboard and Reports — pages stay in sync via a single <code>['transactions']</code> query cache key.</li>
+      </ul>
+    </section>
+
+    <section class="case-section wrap" style="background: var(--blue-electric); color: var(--cream);">
+      <div class="reveal" style="max-width: 760px;">
+        <span class="tag tag--yellow">Solution</span>
+        <h2 style="color: var(--cream);">Remove the friction between earning and tracking.</h2>
+        <p>
+          A six-destination bottom nav (Dashboard · Projects · Add Entry · Calendar · Reports ·
+          Settings) with a consistent query cache, ID-based selection so modals always show
+          post-edit data, and a design system tuned for solo operators — warm off-white
+          background, indigo primary, emerald for income, slate for expense, rose for danger.
+        </p>
+        <p>
+          The result is a tool a freelancer can open between gigs, log income or a receipt in
+          under five seconds, and trust to surface accurate weekly totals on the Dashboard and
+          Reports pages.
+        </p>
+        <a class="btn" href="assets/files/projects/freelance-flow.pdf" target="_blank" rel="noopener">View full presentation (PDF) ↗</a>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="case-nav">
+        <a href="project-glenn-burke.html">
+          <small>← Previous</small>
+          <strong>After Effects ft. Glenn Burke</strong>
+        </a>
+        <a href="project-unicorn.html">
+          <small>Next →</small>
+          <strong>Unicorn Brand Enhancement</strong>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <img class="footer-logo" src="assets/images/mt-logo-dark.png" alt="Miss Texas 1988 logo" />
+        <h4>Miss Texas 1988</h4>
+        <p>Seattle-based drag artist, writer, and designer.<br/>For booking, press, or pixels — get in touch.</p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="drag.html">Drag</a></li>
+          <li><a href="writing.html">Writing</a></li>
+          <li><a href="design.html">Design</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Find me</h4>
+        <ul>
+          <li><a href="https://instagram.com/misstexas1988" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="mailto:misstexas1988@gmail.com">Email</a></li>
+          <li><a href="assets/files/Miss-Texas-1988-Drag-Resume.pdf" target="_blank" rel="noopener">Press kit (PDF)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-fineprint">
+      <span>© <span id="year"></span> Miss Texas 1988.</span>
+      <span>Site stitched together with love + halftone dots.</span>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/main.js"></script>
+</body>
+</html>
