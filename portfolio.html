@@ -7,8 +7,7 @@
   <link rel="icon" href="assets/images/favicon.ico" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; }
-    body { background: #1a1718; display: flex; flex-direction: column; }
+    body { background: #1a1718; display: flex; flex-direction: column; min-height: 100vh; }
 
     .topbar {
       background: #111;
@@ -17,7 +16,9 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 2px solid #ffd400;
-      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
     .topbar a {
       font-family: Georgia, serif;
@@ -31,10 +32,16 @@
     .topbar a:hover { color: #ffd400; }
     .topbar img { height: 32px; width: auto; }
 
-    iframe {
+    .content {
       flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+    .content img {
       width: 100%;
-      border: none;
+      max-width: 900px;
+      height: auto;
       display: block;
     }
   </style>
@@ -45,6 +52,8 @@
     <img src="assets/images/logo.png" alt="Nico — Miss Texas 1988" />
     <a href="portfolio.pdf" download>Download PDF</a>
   </div>
-  <iframe src="portfolio.pdf" title="Nico Swenson Portfolio"></iframe>
+  <div class="content">
+    <img src="assets/images/portfolio-pages/page-1.jpg" alt="Nico Swenson Portfolio" />
+  </div>
 </body>
 </html>
