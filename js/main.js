@@ -14,13 +14,37 @@
     });
   }
 
-  // Mark current page in nav
+  // Mark current page in nav (handles both file paths and #anchor links)
   const path = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach((a) => {
     const href = a.getAttribute('href');
     if (href === path) a.classList.add('is-active');
     if (path === '' && href === 'index.html') a.classList.add('is-active');
   });
+
+  // Scrollspy — highlight nav section while scrolling on the one-pager
+  const navAnchors = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+  if (navAnchors.length) {
+    const sectionMap = new Map();
+    navAnchors.forEach((a) => {
+      const id = a.getAttribute('href').slice(1);
+      const sec = id && document.getElementById(id);
+      if (sec) sectionMap.set(sec, a);
+    });
+    if (sectionMap.size) {
+      const spyObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const link = sectionMap.get(entry.target);
+          if (!link) return;
+          if (entry.isIntersecting) {
+            navAnchors.forEach((a) => a.classList.remove('is-active'));
+            link.classList.add('is-active');
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+      sectionMap.forEach((_, sec) => spyObserver.observe(sec));
+    }
+  }
 
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
@@ -45,21 +69,101 @@
     el.addEventListener('mouseleave', () => { el.style.transform = ''; });
   });
 
-  // Design page filter
-  const filterBar = document.querySelector('.filterbar');
-  if (filterBar) {
-    const works = document.querySelectorAll('.work-grid .work');
-    filterBar.addEventListener('click', (e) => {
-      const btn = e.target.closest('.filter-btn');
+  // Design grid filter — works with .design-filters .chip and .project-card[data-cat]
+  document.querySelectorAll('.design-filters, .filterbar').forEach((bar) => {
+    const cards = bar.parentElement.querySelectorAll('[data-cat]');
+    bar.addEventListener('click', (e) => {
+      const btn = e.target.closest('.chip, .filter-btn');
       if (!btn) return;
       const cat = btn.dataset.filter;
-      filterBar.querySelectorAll('.filter-btn').forEach((b) => b.classList.toggle('is-active', b === btn));
-      works.forEach((w) => {
-        const matches = cat === 'all' || w.dataset.cat === cat;
-        w.style.display = matches ? '' : 'none';
+      bar.querySelectorAll('.chip, .filter-btn').forEach((b) => b.classList.toggle('is-active', b === btn));
+      cards.forEach((card) => {
+        const matches = cat === 'all' || card.dataset.cat === cat;
+        card.style.display = matches ? '' : 'none';
       });
     });
+  });
+
+  // ---------- Split-flap flipboard ----------
+  // Each board reads `data-flipboard` (JSON array of phrases) and animates
+  // each character cell independently, cascading left-to-right.
+  const FLIP_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789·×#&$/!?';
+  function initFlipboard(root) {
+    let messages;
+    try {
+      messages = JSON.parse(root.dataset.flipboard || '[]');
+    } catch (e) { return; }
+    if (!messages.length) return;
+    const stage = root.querySelector('[data-flipboard-chars]');
+    if (!stage) return;
+
+    // Pad to widest phrase
+    const upper = messages.map((m) => String(m).toUpperCase());
+    const width = Math.max(...upper.map((m) => m.length));
+
+    // Build cells
+    const cells = [];
+    for (let i = 0; i < width; i++) {
+      const cell = document.createElement('span');
+      cell.className = 'flipboard__char';
+      const inner = document.createElement('span');
+      inner.className = 'flipboard__char-inner';
+      inner.textContent = ' ';
+      cell.appendChild(inner);
+      stage.appendChild(cell);
+      cells.push({ cell, inner });
+    }
+
+    function flipOnce(cellObj, char) {
+      return new Promise((resolve) => {
+        cellObj.cell.classList.add('is-flipping');
+        setTimeout(() => {
+          cellObj.inner.textContent = char === ' ' ? ' ' : char;
+        }, 60);
+        setTimeout(() => {
+          cellObj.cell.classList.remove('is-flipping');
+          resolve();
+        }, 130);
+      });
+    }
+
+    async function spinCellTo(cellObj, target) {
+      // 2–4 random letters, then the target — gives that mechanical cycle feel
+      const spins = 2 + Math.floor(Math.random() * 3);
+      for (let i = 0; i < spins; i++) {
+        const c = FLIP_CHARS[Math.floor(Math.random() * FLIP_CHARS.length)];
+        await flipOnce(cellObj, c);
+      }
+      await flipOnce(cellObj, target);
+    }
+
+    async function setMessage(text) {
+      const upper = text.toUpperCase();
+      const totalPad = Math.max(0, width - upper.length);
+      const leftPad = Math.floor(totalPad / 2);
+      const rightPad = totalPad - leftPad;
+      const padded = ' '.repeat(leftPad) + upper + ' '.repeat(rightPad);
+      const promises = [];
+      for (let i = 0; i < width; i++) {
+        const target = padded[i];
+        const current = cells[i].inner.textContent;
+        // skip if already correct (and not whitespace placeholder)
+        if (current === target || (target === ' ' && current === ' ')) continue;
+        // stagger each cell ~35ms apart, so the flips cascade
+        await new Promise((r) => setTimeout(r, 35));
+        promises.push(spinCellTo(cells[i], target));
+      }
+      await Promise.all(promises);
+    }
+
+    let idx = 0;
+    setMessage(messages[0]);
+    setInterval(() => {
+      idx = (idx + 1) % messages.length;
+      setMessage(messages[idx]);
+    }, 4200);
   }
+  document.querySelectorAll('[data-flipboard]').forEach(initFlipboard);
 
   // Contact form: handle preview state if Formspree URL not set
   const form = document.querySelector('.form[data-form="contact"]');

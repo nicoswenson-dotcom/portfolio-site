@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unicorn Brand Enhancement &amp; Pride Promo — Nico Swenson / Miss Texas 1988</title>
+  <meta name="description" content="A moodier, queer-forward brand system for Unicorn — Capitol Hill's beloved nightlife institution — extended into a full Pride Block Party campaign. With Emma Pontrello." />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon-192.png" />
+  <link rel="shortcut icon" href="assets/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="nav-brand" href="index.html">Miss Texas 1988</a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">≡</button>
+      <ul class="nav-links" id="primary-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="drag.html">Drag</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="design.html">Design</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="wrap case-hero">
+      <div class="reveal">
+        <p class="eyebrow" style="background: var(--yellow-butter);">
+          <a href="design.html" style="text-decoration: none; color: inherit;">← All projects</a>
+          &nbsp;·&nbsp; Project 04
+        </p>
+        <h1 class="hero__title headline-rainbow" style="font-size: clamp(2.6rem, 7vw, 5.5rem);">
+          <span class="word">Unicorn</span>
+          <span class="word word--rotate">Brand.</span>
+        </h1>
+        <p class="hero__lead" style="max-width: 56ch;">
+          "Enter the Jeweled Carnival." A moodier, queer-forward brand system for one of Capitol
+          Hill's beloved nightlife institutions — extended into a full Pride Block Party campaign.
+        </p>
+      </div>
+
+      <div class="case-meta reveal">
+        <div class="case-meta__item"><span class="case-meta__label">Category</span><span class="case-meta__value">Branding · Visual ID · Advertising · Environmental · Social</span></div>
+        <div class="case-meta__item"><span class="case-meta__label">Timeframe</span><span class="case-meta__value">6 months<br/><small>Dec 2025 – May 2026</small></span></div>
+        <div class="case-meta__item"><span class="case-meta__label">Roles</span><span class="case-meta__value">Visual Designer · Brand Designer · Web Designer · Creative Director · Campaign Designer</span></div>
+        <div class="case-meta__item"><span class="case-meta__label">Tools</span><span class="case-meta__value">Figma · InDesign · Photoshop · Illustrator · Canva</span></div>
+      </div>
+
+      <div class="case-img reveal">
+        <img src="assets/images/projects/unicorn-cover.jpg" alt="Enter the Jeweled Carnival — Ornate, Daring, and Divine — Unicorn brand cover" />
+      </div>
+
+      <div class="case-meta reveal" style="margin-top: 1.5rem;">
+        <div class="case-meta__item" style="grid-column: span 4;">
+          <span class="case-meta__label">Collaborators</span>
+          <span class="case-meta__value" style="font-size: 0.85rem; font-family: var(--font-body); font-weight: 500; line-height: 1.4;">
+            <strong>Emma Pontrello</strong> (design partner).
+            Client: Unicorn / Narwhal — founders <strong>Adam Heimstadt</strong> &amp; <strong>Kaileigh Wilson</strong>.
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <div class="scallop scallop--pink" aria-hidden="true"></div>
+
+    <section class="case-section wrap" style="background: var(--pink-soft);">
+      <div class="reveal" style="max-width: 720px;">
+        <span class="tag tag--red">Problem</span>
+        <h2 class="mt-2">The pastel didn't match the room.</h2>
+        <p>
+          Unicorn's existing visual brand — bright, pastel, carnival-light — no longer matches the
+          moodier, queer-forward, late-night experience the venue actually delivers, and it
+          doesn't stretch far enough to support its growing slate of large events (including
+          Pride).
+        </p>
+      </div>
+    </section>
+
+    <section class="case-section wrap">
+      <div class="reveal" style="max-width: 760px;">
+        <span class="eyebrow">Overview</span>
+        <h2>Seattle's Jeweled Carnival.</h2>
+        <p>
+          Unicorn is a beloved Capitol Hill bar and venue — a French-circus, carnival-themed
+          nightlife institution founded by Adam Heimstadt and Kaileigh Wilson — that has recently
+          grown its patronage through stronger partnerships with the queer community.
+        </p>
+        <p>
+          The project elevates Unicorn's existing assets — ornate architecture, daring arts
+          programming, divine culture of self-expression, and signature food service — into a
+          visual system that can represent the venue as "Seattle's Jeweled Carnival" and stretch
+          to support new event needs, including the Pride Block Party promotional campaign.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-section wrap" style="background: var(--yellow-soft);">
+      <div class="reveal" style="max-width: 760px;">
+        <span class="eyebrow">Research &amp; demographic</span>
+        <h2>Who it's for.</h2>
+        <ul>
+          <li>People 21–35 who like going out on the town, novelty aesthetics, comedy, cabaret, and experimental or alternative performances.</li>
+          <li>Young adults who are legally able to drink (21+).</li>
+          <li>People who enjoy bars, social drinking, and late-night entertainment in Seattle.</li>
+          <li>Queer community, 30–50-year-old event attendees who treat Unicorn as a home venue.</li>
+          <li>People looking for entertainment, events, and community — locals and visitors curious about Capitol Hill's nightlife.</li>
+        </ul>
+
+        <h3 class="mt-6">Insight</h3>
+        <p>
+          Finding the moody tones of ombre and overlapping texture was the key to brand
+          consistency. The intersection of ornate, daring, and divine couldn't simply be visually
+          paired — those traits needed to be <em>interacting</em> to accurately represent the
+          dynamic, layered nature of the bar.
+        </p>
+        <p class="aha">
+          spending time inside the space, I saw that the existing visual brand leaned bright and
+          pastel, but the felt experience of Unicorn at night is saturated, mysterious, and
+          theatrical. Pulling the brand toward that nighttime reality — without losing the
+          carnival joy — became the project's organizing principle.
+        </p>
+      </div>
+    </section>
+
+    <section class="case-section wrap">
+      <div class="reveal">
+        <span class="eyebrow">Process</span>
+        <h2>Three trait pillars.</h2>
+        <p style="max-width: 60ch;">
+          <strong>Ornate, Daring, Divine.</strong> Every visual application had to hit at least
+          two — and great applications hit all three at once.
+        </p>
+      </div>
+
+      <div class="process-grid reveal">
+        <figure>
+          <img src="assets/images/projects/unicorn-traits.jpg" alt="Unicorn brand traits — Ornate, Daring, Divine" />
+          <figcaption>Three trait pillars: Ornate · Daring · Divine.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/projects/unicorn-ornate.jpg" alt="Ornate / Indulgent / Audacious tonal territories" />
+          <figcaption>Tonal territories — Ornate (classic, timeless, vintage), Indulgent (dramatic, iconic, theatrical), Audacious (expressive, quirky, bold).</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/projects/unicorn-students.jpg" alt="AND NOW reveal page with Emma" />
+          <figcaption>Brand reveal — AND NOW! with Em — refreshed logo system.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/images/projects/unicorn-brand-book.jpg" alt="Selected pages from the brand book" />
+          <figcaption>Brand book pages — type, photography direction, pattern applications.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="mt-6 reveal">Color palette — moody ombré</h3>
+      <div class="palette reveal">
+        <div class="swatch"><div class="swatch__color" style="background:#B5276B"></div><div class="swatch__label">Magenta<small>#B5276B</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#2A2768"></div><div class="swatch__label">Indigo<small>#2A2768</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#5C1A2B"></div><div class="swatch__label">Oxblood<small>#5C1A2B</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#C9A24A"></div><div class="swatch__label" style="color:var(--ink)">Gold Leaf<small>#C9A24A</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#C2362E"></div><div class="swatch__label">Carnival Red<small>#C2362E</small></div></div>
+        <div class="swatch"><div class="swatch__color" style="background:#0E0B1A"></div><div class="swatch__label">Ink<small>#0E0B1A</small></div></div>
+      </div>
+      <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--ink-soft); max-width: 60ch;">
+        Deep, layered, theatrical — sampled from final brand applications. <strong>Ah ha:</strong>
+        consistency is the ombré.
+      </p>
+    </section>
+
+    <section class="case-section wrap" style="background: var(--ink); color: var(--cream);">
+      <div class="reveal">
+        <span class="eyebrow" style="background: var(--pink-hot); border-color: var(--pink-hot); color: var(--cream);">Pride Promo</span>
+        <h2 style="color: var(--cream);">Unicorn Pride Block Party 2026.</h2>
+        <p>
+          The brand system extended into a 17-frame Instagram Story campaign and main top circle
+          artwork — arched circus-style wordmark, ombre color treatments, event signage, and
+          social templates.
+        </p>
+      </div>
+
+      <div class="process-grid reveal" style="margin-top: 2rem;">
+        <figure style="background: var(--cream);"><img src="assets/images/projects/unicorn-stories/1.jpg" alt="Pride circle 1" /></figure>
+        <figure style="background: var(--cream);"><img src="assets/images/projects/unicorn-stories/2.jpg" alt="Pride circle 2" /></figure>
+        <figure style="background: var(--cream);"><img src="assets/images/projects/unicorn-stories/3.jpg" alt="Pride circle 3" /></figure>
+        <figure style="background: var(--cream);"><img src="assets/images/projects/unicorn-stories/4.jpg" alt="Pride circle 4" /></figure>
+        <figure style="background: var(--cream);"><img src="assets/images/projects/unicorn-stories/5.jpg" alt="Pride circle 5" /></figure>
+        <figure style="background: var(--cream);"><img src="assets/images/projects/unicorn-stories/6.jpg" alt="Pride circle 6" /></figure>
+      </div>
+    </section>
+
+    <section class="case-section wrap" style="background: var(--blue-electric); color: var(--cream);">
+      <div class="reveal" style="max-width: 760px;">
+        <span class="tag tag--yellow">Solution</span>
+        <h2 style="color: var(--cream);">Refocus on the art at the heart of Unicorn.</h2>
+        <p>
+          Build a dynamic brand system that refocuses attention on the art at the heart of
+          Unicorn while embedding it in deeper, more expressive moods that match its entertainment
+          and nightlife mission.
+        </p>
+        <p>
+          Working with Emma Pontrello, we excavated the intricate, mysterious, and bold art that
+          lives at the true center of Unicorn's brand. I integrated those elements into an
+          explosion of moody carnival aesthetics — applied across logo, color, photography
+          direction, and a brand book — and then extended the system into the Unicorn Pride Block
+          Party promotional campaign: arched circus-style wordmark, ombre color treatments,
+          Instagram Story templates, and event signage.
+        </p>
+        <p>
+          The result is a brand that still feels unmistakably like Unicorn but can now carry
+          larger, queer-forward events without losing visual coherence.
+        </p>
+        <a class="btn" href="assets/files/projects/unicorn-brand-book.pdf" target="_blank" rel="noopener">View full brand presentation (PDF, 43 MB) ↗</a>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="case-nav">
+        <a href="project-freelance-flow.html">
+          <small>← Previous</small>
+          <strong>Freelance Flow</strong>
+        </a>
+        <a href="design.html">
+          <small>Back to →</small>
+          <strong>All projects</strong>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <img class="footer-logo" src="assets/images/mt-logo-dark.png" alt="Miss Texas 1988 logo" />
+        <h4>Miss Texas 1988</h4>
+        <p>Seattle-based drag artist, writer, and designer.<br/>For booking, press, or pixels — get in touch.</p>
+      </div>
+      <div>
+        <h4>Site</h4>
+        <ul>
+          <li><a href="drag.html">Drag</a></li>
+          <li><a href="writing.html">Writing</a></li>
+          <li><a href="design.html">Design</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Find me</h4>
+        <ul>
+          <li><a href="https://instagram.com/misstexas1988" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="mailto:misstexas1988@gmail.com">Email</a></li>
+          <li><a href="assets/files/Miss-Texas-1988-Drag-Resume.pdf" target="_blank" rel="noopener">Press kit (PDF)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-fineprint">
+      <span>© <span id="year"></span> Miss Texas 1988.</span>
+      <span>Site stitched together with love + halftone dots.</span>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script src="js/main.js"></script>
+</body>
+</html>

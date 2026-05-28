@@ -1,190 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Miss Texas 1988 — Drag Artist, Writer, Designer</title>
-  <meta name="description" content="Miss Texas 1988 is a Seattle drag artist, performer, host, writer, and graphic designer. Camp Wannakiki Season 5 winner. Reporter for The Stranger." />
-  <meta property="og:title" content="Miss Texas 1988" />
-  <meta property="og:description" content="Drag artist, performer, writer for The Stranger, and graphic designer based in Seattle." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/images/blue-dress-1.jpg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon-192.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon-192.png" />
-  <link rel="shortcut icon" href="assets/images/favicon.ico" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Caveat+Brush&family=Fraunces:ital,wght@0,400;0,600;0,800;1,400;1,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nico Swenson — Miss Texas 1988</title>
+  <link rel="icon" href="assets/images/favicon.ico" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+    }
+    body {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      text-decoration: none;
+      color: #111;
+    }
+    img {
+      width: min(320px, 80vw);
+      display: block;
+    }
+    span {
+      font-family: Georgia, serif;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #888;
+      transition: color 0.2s;
+    }
+    a:hover span {
+      color: #e4028c;
+    }
+  </style>
 </head>
 <body>
-
-  <header class="site-header">
-    <nav class="nav" aria-label="Primary">
-      <a class="nav-brand" href="index.html">Miss Texas 1988</a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">≡</button>
-      <ul class="nav-links" id="primary-nav">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="drag.html">Drag</a></li>
-        <li><a href="writing.html">Writing</a></li>
-        <li><a href="design.html">Design</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero wrap">
-      <div class="hero__inner">
-        <div>
-          <span class="eyebrow">Seattle · drag · words · pixels</span>
-          <h1 class="hero__title headline-rainbow">
-            <span class="word">Miss</span>
-            <span class="word">Texas</span>
-            <span class="word word--rotate">1988!</span>
-          </h1>
-          <p class="hero__lead">
-            Drag artist, performer, host, writer, and all-around creative oddball.
-            Dabbling in everything from the silly to the sublime — with curiously crafted costumes
-            and climactic characters.
-          </p>
-          <div class="hero__cta">
-            <a class="btn btn--pink" href="drag.html">See the drag →</a>
-            <a class="btn btn--ghost" href="contact.html">Book me</a>
-          </div>
-        </div>
-        <div class="hero__photo halftone">
-          <img src="assets/images/blue-dress-1.jpg" alt="Miss Texas 1988 in a torn blue dress, blonde wig, jeweled half-mask, posed dramatically on the floor" />
-        </div>
-      </div>
-    </section>
-
-    <div class="scallop scallop--pink" aria-hidden="true"></div>
-    <div class="marquee marquee--blue" aria-hidden="true">
-      <div class="marquee__track">
-        <span>Camp Wannakiki S5 Winner</span><span>The Stranger</span><span>Tush</span>
-        <span>The Sunday Sip</span><span>Lashes</span><span>Glory Hole</span>
-        <span>Jawbreaker</span><span>High F@ggotry</span>
-        <span>Camp Wannakiki S5 Winner</span><span>The Stranger</span><span>Tush</span>
-        <span>The Sunday Sip</span><span>Lashes</span><span>Glory Hole</span>
-        <span>Jawbreaker</span><span>High F@ggotry</span>
-      </div>
-    </div>
-
-    <section class="section wrap">
-      <div class="reveal">
-        <span class="eyebrow">Three sides, one oddball</span>
-        <h2 class="lift">A multi-hyphenate <br/>operation.</h2>
-      </div>
-
-      <div class="three-up mt-4">
-        <a class="facet facet--drag reveal" href="drag.html" data-tilt>
-          <span class="facet__num">01</span>
-          <h3 class="facet__title">Drag</h3>
-          <p class="facet__desc">Costumes, characters, comedy, lip-sync, hosting. Across Seattle's stages and on OUTtv as the winner of Camp Wannakiki S5.</p>
-          <span class="facet__arrow">→</span>
-        </a>
-        <a class="facet facet--writing reveal" href="writing.html" data-tilt>
-          <span class="facet__num">02</span>
-          <h3 class="facet__title">Writing</h3>
-          <p class="facet__desc">Reporting, criticism, and queer cultural coverage for The Stranger — Seattle's alt-weekly of record.</p>
-          <span class="facet__arrow">→</span>
-        </a>
-        <a class="facet facet--design reveal" href="design.html" data-tilt>
-          <span class="facet__num">03</span>
-          <h3 class="facet__title">Design</h3>
-          <p class="facet__desc">Motion graphics, magazine layouts, and UI/UX work. Build-it-and-tear-it-apart visual play.</p>
-          <span class="facet__arrow">→</span>
-        </a>
-      </div>
-    </section>
-
-    <div class="marquee marquee--yellow" aria-hidden="true">
-      <div class="marquee__track">
-        <span>Now booking 2026</span><span>Hosting · DJing · Performing</span>
-        <span>Editorial illustration</span><span>Brand ID</span>
-        <span>Now booking 2026</span><span>Hosting · DJing · Performing</span>
-        <span>Editorial illustration</span><span>Brand ID</span>
-      </div>
-    </div>
-
-    <section class="section wrap">
-      <div class="bigstat reveal">
-        <div class="bigstat__number">S5<br/><span style="font-size: 2.5rem; color: var(--pink-hot);">winner</span></div>
-        <div>
-          <span class="tag tag--pink">OUTtv</span>
-          <h3 class="mt-2">Camp Wannakiki Season 5</h3>
-          <p>The campiest, sweatiest, most unhinged drag competition on the air — and Miss Texas 1988 took home the crown.</p>
-          <a class="btn" href="drag.html">More on the win →</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section wrap">
-      <div class="reveal center">
-        <span class="eyebrow">A taste</span>
-        <h2 class="lift">Dripping in a torn blue dress.</h2>
-      </div>
-      <div class="gallery mt-4">
-        <a class="thumb reveal" href="drag.html">
-          <img src="assets/images/blue-dress-2.jpg" alt="Miss Texas 1988 in a torn blue dress on the floor" />
-          <span class="thumb__label">Editorial</span>
-          <span class="thumb__caption">Photo: shot for press</span>
-        </a>
-        <a class="thumb reveal" href="drag.html">
-          <img src="assets/images/blue-dress-3.jpg" alt="Miss Texas 1988 lying with hands outstretched" />
-          <span class="thumb__label">Editorial</span>
-          <span class="thumb__caption">Glamour, but make it ruined</span>
-        </a>
-        <a class="thumb reveal" href="drag.html">
-          <img src="assets/images/blue-dress-4.jpg" alt="Miss Texas 1988 portrait" />
-          <span class="thumb__label">Editorial</span>
-          <span class="thumb__caption">Camp on a clean white floor</span>
-        </a>
-      </div>
-    </section>
-
-    <div class="logo-band">
-      <div class="logo-band__inner reveal">
-        <img class="logo-band__img" src="assets/images/mt-logo-dark.png" alt="Miss Texas 1988 logo" />
-        <p class="logo-band__tagline">contemporary faggotry — making love to queer history</p>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div>
-        <img class="footer-logo" src="assets/images/mt-logo-dark.png" alt="Miss Texas 1988 logo" />
-        <h4>Miss Texas 1988</h4>
-        <p>Seattle-based drag artist, writer, and designer.<br/>For booking, press, or pixels — get in touch.</p>
-      </div>
-      <div>
-        <h4>Site</h4>
-        <ul>
-          <li><a href="drag.html">Drag</a></li>
-          <li><a href="writing.html">Writing</a></li>
-          <li><a href="design.html">Design</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Find me</h4>
-        <ul>
-          <li><a href="https://instagram.com/misstexas1988" target="_blank" rel="noopener">Instagram</a></li>
-          <li><a href="mailto:misstexas1988@gmail.com">Email</a></li>
-          <li><a href="assets/files/Miss-Texas-1988-Drag-Resume.pdf" target="_blank" rel="noopener">Press kit (PDF)</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-fineprint">
-      <span>© <span id="year"></span> Miss Texas 1988.</span>
-      <span>Site stitched together with love + halftone dots.</span>
-    </div>
-  </footer>
-
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-  <script src="js/main.js"></script>
+  <a href="portfolio.pdf" target="_blank">
+    <img src="assets/images/logo.png" alt="Nico — Miss Texas 1988" />
+    <span>Click Here</span>
+  </a>
 </body>
 </html>

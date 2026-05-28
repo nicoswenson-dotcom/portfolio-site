@@ -11,7 +11,7 @@
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Caveat+Brush&family=Fraunces:ital,wght@0,400;0,600;0,800;1,400;1,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -21,33 +21,31 @@
       <a class="nav-brand" href="index.html">Miss Texas 1988</a>
       <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">≡</button>
       <ul class="nav-links" id="primary-nav">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="drag.html">Drag</a></li>
-        <li><a href="writing.html">Writing</a></li>
-        <li><a href="design.html">Design</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="index.html#drag">Drag</a></li>
+        <li><a href="index.html#writing">Writing</a></li>
+        <li><a href="index.html#design">Design</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <section class="wrap case-hero">
-      <div class="reveal">
-        <p class="eyebrow" style="background: var(--yellow-butter);">
-          <a href="design.html" style="text-decoration: none; color: inherit;">← All projects</a>
-          &nbsp;·&nbsp; Project 02
-        </p>
-        <h1 class="hero__title headline-rainbow" style="font-size: clamp(2.6rem, 7vw, 5.5rem);">
-          <span class="word">After</span>
-          <span class="word">Effects</span>
-          <span class="word word--rotate">Final</span>
-        </h1>
-        <p class="hero__lead" style="max-width: 56ch;">
-          ft. Glenn Burke — the first openly gay MLB player and credited co-inventor of the high
-          five. An animated short that uses Photoshop collage and disciplined AE animation to give
-          a quiet historical figure a louder presence.
-        </p>
-      </div>
+
+    <!-- ═══ PROJECT HEADER ═══ -->
+    <section class="wrap case-hero reveal">
+      <p class="eyebrow" style="background: var(--yellow);">
+        <a href="index.html#design" style="text-decoration: none; color: inherit;">← All projects</a>
+        &nbsp;·&nbsp; Motion · 02
+      </p>
+      <h1 class="hero__title headline-rainbow" style="font-size: clamp(2.6rem, 7vw, 5.5rem);">
+        <span class="word">After</span>
+        <span class="word">Effects</span>
+        <span class="word word--rotate">Final</span>
+      </h1>
+      <p class="hero__lead" style="max-width: 56ch;">
+        ft. Glenn Burke — the first openly gay MLB player and credited co-inventor of the high
+        five. An animated short that uses Photoshop collage and disciplined AE animation to give
+        a quiet historical figure a louder presence.
+      </p>
 
       <div class="case-meta reveal">
         <div class="case-meta__item"><span class="case-meta__label">Category</span><span class="case-meta__value">Motion Graphics · Animation · Editorial</span></div>
@@ -63,116 +61,139 @@
 
     <div class="scallop scallop--blue" aria-hidden="true"></div>
 
-    <section class="case-section wrap" style="background: var(--pink-soft);">
-      <div class="reveal" style="max-width: 720px;">
-        <span class="tag tag--red">Problem</span>
-        <h2 class="mt-2">History flattens its queer protagonists.</h2>
-        <p>
-          Queer figures who shaped mainstream culture — like Glenn Burke, co-inventor of the high
-          five — are routinely flattened out of the history that records their contributions.
-          Motion can re-introduce them with the energy their stories deserve.
-        </p>
-      </div>
-    </section>
+    <!-- ═══ PROCESS TIMELINE ═══ -->
+    <section class="wrap" style="padding-bottom: clamp(4rem, 8vw, 7rem);">
 
-    <section class="case-section wrap">
-      <div class="reveal" style="max-width: 760px;">
-        <span class="eyebrow">Overview</span>
-        <h2>Archival photography meets disciplined AE animation.</h2>
-        <p>
-          An animated short that uses After Effects and Photoshop collage to retell a slice of
-          queer sports history — the story of Glenn Burke, the first openly gay MLB player and
-          credited co-inventor of the high five.
-        </p>
-        <p>
-          The piece moves from archival photographs to motion typography, using collage, masking,
-          and animated principles to honor a story that mainstream sports history has largely
-          ignored.
-        </p>
-      </div>
-    </section>
+      <div class="timeline">
 
-    <section class="case-section wrap" style="background: var(--yellow-soft);">
-      <div class="reveal" style="max-width: 760px;">
-        <span class="eyebrow">Research &amp; demographic</span>
-        <h2>Who it's for.</h2>
-        <ul>
-          <li>Design and motion students learning narrative animation pacing.</li>
-          <li>Queer audiences interested in history that is rarely told in athletic or institutional contexts.</li>
-          <li>Sports fans encountering the origin of the high five as a queer story.</li>
-        </ul>
+        <!-- STEP 1: BRIEF -->
+        <div class="timeline-step reveal">
+          <div class="timeline-step__marker">01</div>
+          <span class="timeline-step__phase">Brief</span>
+          <h2 class="timeline-step__title">History flattens its queer protagonists.</h2>
+          <div class="timeline-step__body">
+            <p>
+              Queer figures who shaped mainstream culture — like Glenn Burke, co-inventor of the high
+              five — are routinely flattened out of the history that records their contributions.
+              Motion can re-introduce them with the energy their stories deserve.
+            </p>
+          </div>
+        </div>
 
-        <h3 class="mt-6">Insight</h3>
-        <p>
-          I started with two ideas: an interactive drag-themed motion piece and a queer-history
-          short. Drafting both quickly showed me the Glenn Burke concept served the class
-          structure better — there was a clear protagonist, a clear arc, and existing archival
-          imagery that could carry the story.
-        </p>
-        <p class="aha">
-          animation principles (squash/stretch, anticipation, ease, secondary motion) read clearest
-          when the underlying imagery is still. Early drafts had floating shapes and glitchy
-          keyframes; cleaning those out let the photographs and typography do the emotional work.
-        </p>
-      </div>
-    </section>
+        <!-- STEP 2: OVERVIEW -->
+        <div class="timeline-step reveal">
+          <div class="timeline-step__marker">02</div>
+          <span class="timeline-step__phase">Overview</span>
+          <h2 class="timeline-step__title">Archival photography meets disciplined AE animation.</h2>
+          <div class="timeline-step__body">
+            <p>
+              An animated short that uses After Effects and Photoshop collage to retell a slice of
+              queer sports history — the story of Glenn Burke, the first openly gay MLB player and
+              credited co-inventor of the high five.
+            </p>
+            <p>
+              The piece moves from archival photographs to motion typography, using collage, masking,
+              and animated principles to honor a story that mainstream sports history has largely
+              ignored.
+            </p>
+          </div>
+        </div>
 
-    <section class="case-section wrap">
-      <div class="reveal">
-        <span class="eyebrow">Process</span>
-        <h2>From two ideas to one story.</h2>
-      </div>
+        <!-- STEP 3: RESEARCH -->
+        <div class="timeline-step reveal">
+          <div class="timeline-step__marker" style="background: var(--magenta); color: var(--white);">03</div>
+          <span class="timeline-step__phase">Research &amp; Demographic</span>
+          <h2 class="timeline-step__title">Who it's for.</h2>
+          <div class="timeline-step__content timeline-step__content--yellow">
+            <div class="timeline-step__body">
+              <ul>
+                <li>Design and motion students learning narrative animation pacing.</li>
+                <li>Queer audiences interested in history that is rarely told in athletic or institutional contexts.</li>
+                <li>Sports fans encountering the origin of the high five as a queer story.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="timeline-step__body" style="margin-top: 1.5rem;">
+            <p class="aha">
+              animation principles (squash/stretch, anticipation, ease, secondary motion) read clearest
+              when the underlying imagery is still. Early drafts had floating shapes and glitchy
+              keyframes; cleaning those out let the photographs and typography do the emotional work.
+            </p>
+          </div>
+        </div>
 
-      <div class="process-grid reveal">
-        <figure>
-          <img src="assets/images/projects/motion-ideation.jpg" alt="Ideation: Idea A interactive drag video vs Idea B queer history short" />
-          <figcaption>Ideation: Idea A (interactive drag video) vs. Idea B (queer history short). Idea B served the class structure better.</figcaption>
-        </figure>
-        <figure>
-          <img src="assets/images/projects/motion-storyboard.jpg" alt="Frame-by-frame storyboard for the Glenn Burke piece" />
-          <figcaption>Frame-by-frame storyboard.</figcaption>
-        </figure>
-        <figure>
-          <img src="assets/images/projects/motion-process.jpg" alt="1977 — Glenn Burke title moment" />
-          <figcaption>1977 — title beat. Pink + purple torn-paper collage establishes the era.</figcaption>
-        </figure>
-        <figure>
-          <img src="assets/images/projects/motion-assets.jpg" alt="Project assets — historic photos, Dodgers merch, Photoshop collage" />
-          <figcaption>Asset library: historic photos, general photos, logos, Dodgers/A's-era ephemera, Photoshop collage.</figcaption>
-        </figure>
-      </div>
-    </section>
+        <!-- STEP 4: PROCESS -->
+        <div class="timeline-step reveal">
+          <div class="timeline-step__marker">04</div>
+          <span class="timeline-step__phase">Process</span>
+          <h2 class="timeline-step__title">From two ideas to one story.</h2>
+          <div class="timeline-step__body">
+            <p>
+              I started with two ideas: an interactive drag-themed motion piece and a queer-history
+              short. Drafting both quickly showed me the Glenn Burke concept served the class
+              structure better — there was a clear protagonist, a clear arc, and existing archival
+              imagery that could carry the story.
+            </p>
+          </div>
+          <div class="timeline-images">
+            <figure class="timeline-img">
+              <img src="assets/images/projects/motion-ideation.jpg" alt="Ideation: Idea A interactive drag video vs Idea B queer history short" />
+              <figcaption>Ideation: Idea A (interactive drag video) vs. Idea B (queer history short). Idea B served the class structure better.</figcaption>
+            </figure>
+            <figure class="timeline-img">
+              <img src="assets/images/projects/motion-storyboard.jpg" alt="Frame-by-frame storyboard for the Glenn Burke piece" />
+              <figcaption>Frame-by-frame storyboard.</figcaption>
+            </figure>
+            <figure class="timeline-img">
+              <img src="assets/images/projects/motion-process.jpg" alt="1977 — Glenn Burke title moment" />
+              <figcaption>1977 — title beat. Pink + purple torn-paper collage establishes the era.</figcaption>
+            </figure>
+            <figure class="timeline-img">
+              <img src="assets/images/projects/motion-assets.jpg" alt="Project assets — historic photos, Dodgers merch, Photoshop collage" />
+              <figcaption>Asset library: historic photos, general photos, logos, Dodgers/A's-era ephemera, Photoshop collage.</figcaption>
+            </figure>
+          </div>
+        </div>
 
-    <section class="case-section wrap" style="background: var(--blue-electric); color: var(--cream);">
-      <div class="reveal" style="max-width: 760px;">
-        <span class="tag tag--yellow">Solution</span>
-        <h2 style="color: var(--cream);">Use motion to give a quiet historical figure a louder presence.</h2>
-        <p>
-          The final piece pairs archival photography, Dodgers/A's-era ephemera, and Photoshop
-          collage assets with disciplined After Effects animation — entrances, transitions, and a
-          closing "high five" beat that ties Burke's invention back to his identity.
-        </p>
-        <p>
-          The reflection from this project — "strokes are going to give me a stroke," "too many
-          keyframes," "just a touch more" — became the basis of my personal motion style:
-          fewer moves, better timing, more story.
-        </p>
-        <a class="btn" href="assets/files/projects/glenn-burke-motion.pdf" target="_blank" rel="noopener">View full presentation (PDF) ↗</a>
-      </div>
-    </section>
+        <!-- STEP 5: SOLUTION -->
+        <div class="timeline-step reveal">
+          <div class="timeline-step__marker" style="background: var(--ink); color: var(--yellow);">05</div>
+          <span class="timeline-step__phase">Solution</span>
+          <h2 class="timeline-step__title">Use motion to give a quiet historical figure a louder presence.</h2>
+          <div class="timeline-step__content timeline-step__content--ink">
+            <div class="timeline-step__body">
+              <p>
+                The final piece pairs archival photography, Dodgers/A's-era ephemera, and Photoshop
+                collage assets with disciplined After Effects animation — entrances, transitions, and a
+                closing "high five" beat that ties Burke's invention back to his identity.
+              </p>
+              <p>
+                The reflection from this project — "strokes are going to give me a stroke," "too many
+                keyframes," "just a touch more" — became the basis of my personal motion style:
+                fewer moves, better timing, more story.
+              </p>
+            </div>
+            <div style="margin-top: 1.5rem;">
+              <a class="btn" href="assets/files/projects/glenn-burke-motion.pdf" target="_blank" rel="noopener">View full presentation (PDF) ↗</a>
+            </div>
+          </div>
+        </div>
 
-    <section class="wrap">
-      <div class="case-nav">
+      </div><!-- /timeline -->
+
+      <!-- NAV -->
+      <div class="case-nav" style="margin-top: clamp(3rem, 6vw, 5rem);">
         <a href="project-thot-bubbles.html">
           <small>← Previous</small>
           <strong>Thot Bubbles</strong>
         </a>
-        <a href="project-freelance-flow.html">
+        <a href="project-unicorn.html">
           <small>Next →</small>
-          <strong>Freelance Flow</strong>
+          <strong>Unicorn Brand</strong>
         </a>
       </div>
     </section>
+
   </main>
 
   <footer class="site-footer">
@@ -185,10 +206,9 @@
       <div>
         <h4>Site</h4>
         <ul>
-          <li><a href="drag.html">Drag</a></li>
-          <li><a href="writing.html">Writing</a></li>
-          <li><a href="design.html">Design</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="index.html#drag">Drag</a></li>
+          <li><a href="index.html#writing">Writing</a></li>
+          <li><a href="index.html#design">Design</a></li>
         </ul>
       </div>
       <div>
