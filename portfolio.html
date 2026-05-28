@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nico Swenson — Portfolio</title>
+  <link rel="icon" href="assets/images/favicon.ico" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body { background: #1a1718; display: flex; flex-direction: column; }
+
+    .topbar {
+      background: #111;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #ffd400;
+      flex-shrink: 0;
+    }
+    .topbar a {
+      font-family: Georgia, serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .topbar a:hover { color: #ffd400; }
+    .topbar img { height: 32px; width: auto; }
+
+    iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="index.html">← Back</a>
+    <img src="assets/images/logo.png" alt="Nico — Miss Texas 1988" />
+    <a href="portfolio.pdf" download>Download PDF</a>
+  </div>
+  <iframe src="portfolio.pdf" title="Nico Swenson Portfolio"></iframe>
+</body>
+</html>
