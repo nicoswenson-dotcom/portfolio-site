@@ -15,82 +15,109 @@
       display: flex;
       flex-direction: column;
       font-family: 'Jost', sans-serif;
+      color: #fff;
     }
 
     /* ── Top bar ── */
     .topbar {
       background: #111;
       border-bottom: 3px solid #ffd400;
-      padding: 8px 20px;
+      padding: 8px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       flex-shrink: 0;
       z-index: 10;
     }
-    .topbar__logo { height: 34px; width: auto; }
+    .topbar__logo { height: 32px; width: auto; }
     .topbar__title {
       font-family: 'Oswald', sans-serif;
       font-weight: 700;
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       letter-spacing: 0.28em;
       text-transform: uppercase;
       color: #ffd400;
     }
     .topbar__counter {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.14em;
-      color: #888;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: #666;
+      white-space: nowrap;
     }
 
-    /* ── Flipbook viewport ── */
-    .flipbook-wrap {
+    /* ── Viewer ── */
+    .viewer {
       flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       position: relative;
       overflow: hidden;
+      padding: 12px 56px;
+    }
+
+    /* ── Spread ── */
+    .spread {
       display: flex;
-      align-items: center;
+      align-items: stretch;
       justify-content: center;
-    }
-
-    .pages {
-      display: flex;
       height: 100%;
-      width: 100%;
-      transition: transform 0.42s cubic-bezier(.6,0,.2,1);
-    }
-
-    .page {
-      flex-shrink: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #1a1718;
-      padding: 12px 60px;
-    }
-
-    .page img {
-      max-width: 100%;
       max-height: 100%;
+      gap: 0;
+    }
+
+    .spread-page {
+      display: none;
+      height: 100%;
+      position: relative;
+    }
+    .spread-page.visible {
+      display: flex;
+      align-items: center;
+    }
+    .spread-page img {
+      max-height: 100%;
+      max-width: 100%;
       object-fit: contain;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
       display: block;
     }
+    /* book seam shadow */
+    .spread-page:first-child img {
+      box-shadow: -4px 0 12px rgba(0,0,0,0.5), 0 6px 32px rgba(0,0,0,0.6);
+    }
+    .spread-page:last-child img {
+      box-shadow: 4px 0 12px rgba(0,0,0,0.5), 0 6px 32px rgba(0,0,0,0.6);
+    }
+    /* single page (odd last or mobile) */
+    .spread-page.solo img {
+      box-shadow: 0 6px 40px rgba(0,0,0,0.7);
+    }
 
-    /* ── Arrows ── */
+    /* ── Page turn transition overlay ── */
+    .viewer {
+      --turn: 0.38s;
+    }
+    .spread {
+      transition: opacity 0.18s ease;
+    }
+    .spread.turning {
+      opacity: 0;
+    }
+
+    /* ── Nav arrows ── */
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       z-index: 30;
-      background: #ffd400;
+      background: rgba(255,212,0,0.92);
       color: #111;
       border: none;
-      width: 40px; height: 68px;
-      font-size: 1.2rem;
+      width: 42px;
+      height: 70px;
+      font-size: 1.3rem;
       font-weight: 900;
       cursor: pointer;
       border-radius: 6px;
@@ -101,12 +128,12 @@
       transition: background 0.15s, transform 0.15s;
     }
     .arrow:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
-    .arrow:disabled { opacity: 0.15; cursor: default; pointer-events: none; }
-    .arrow--prev { left: 8px; }
-    .arrow--next { right: 8px; }
+    .arrow:disabled { opacity: 0.12; cursor: default; pointer-events: none; }
+    .arrow--prev { left: 7px; }
+    .arrow--next { right: 7px; }
 
-    /* ── Bottom nav tabs ── */
-    .bottom-nav {
+    /* ── Section nav ── */
+    .section-nav {
       background: #111;
       border-top: 3px solid #ffd400;
       display: flex;
@@ -114,71 +141,75 @@
       overflow-x: auto;
       scrollbar-width: none;
     }
-    .bottom-nav::-webkit-scrollbar { display: none; }
-    .nav-tab {
+    .section-nav::-webkit-scrollbar { display: none; }
+    .sec-btn {
       flex: 1;
-      min-width: 60px;
-      padding: 10px 6px;
+      min-width: 70px;
+      padding: 11px 8px;
       background: none;
       border: none;
-      border-right: 1px solid #2e2c2d;
+      border-right: 1px solid #2a2828;
       font-family: 'Oswald', sans-serif;
       font-weight: 600;
-      font-size: 0.55rem;
+      font-size: 0.58rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: #555;
       cursor: pointer;
       transition: color 0.15s, background 0.15s;
+      line-height: 1.3;
     }
-    .nav-tab:last-child { border-right: none; }
-    .nav-tab:hover { color: #ffd400; background: #222; }
-    .nav-tab.active { color: #ffd400; background: #1e1c1d; border-bottom: 3px solid #ffd400; }
+    .sec-btn:last-child { border-right: none; }
+    .sec-btn:hover { color: #ffd400; background: #1e1c1d; }
+    .sec-btn.active {
+      color: #ffd400;
+      background: #1a1818;
+      border-bottom: 3px solid #ffd400;
+    }
 
     /* ── Thumbnail strip ── */
     .strip-wrap {
-      background: #0d0d0d;
-      border-top: 1px solid #333;
-      padding: 6px 12px;
+      background: #0c0c0c;
+      border-top: 1px solid #2a2828;
+      padding: 5px 10px;
       flex-shrink: 0;
-      overflow: hidden;
     }
     .strip {
       display: flex;
-      gap: 5px;
+      gap: 4px;
       overflow-x: auto;
-      scroll-behavior: smooth;
-      padding-bottom: 3px;
+      padding-bottom: 2px;
       scrollbar-width: thin;
       scrollbar-color: #ffd400 #222;
     }
     .strip::-webkit-scrollbar { height: 3px; }
     .strip::-webkit-scrollbar-thumb { background: #ffd400; border-radius: 2px; }
-    .strip__thumb {
+    .thumb {
       flex-shrink: 0;
-      width: 40px;
-      height: 54px;
+      width: 36px;
+      height: 50px;
       cursor: pointer;
       border: 2px solid transparent;
       border-radius: 3px;
       overflow: hidden;
-      opacity: 0.45;
+      opacity: 0.4;
       transition: opacity 0.15s, border-color 0.15s;
     }
-    .strip__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .strip__thumb:hover { opacity: 0.8; }
-    .strip__thumb.active { border-color: #ffd400; opacity: 1; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .thumb:hover { opacity: 0.75; }
+    .thumb.active { border-color: #ffd400; opacity: 1; }
 
-    @media (max-width: 600px) {
-      .page { padding: 8px 44px; }
-      .arrow { width: 32px; height: 52px; font-size: 1rem; }
+    /* ── Mobile ── */
+    @media (max-width: 620px) {
+      .viewer { padding: 8px 44px; }
+      .arrow { width: 34px; height: 54px; font-size: 1rem; }
       .arrow--prev { left: 4px; }
       .arrow--next { right: 4px; }
       .strip-wrap { display: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .pages { transition: none; }
+      .spread { transition: none; }
     }
   </style>
 </head>
@@ -187,50 +218,31 @@
   <header class="topbar">
     <img class="topbar__logo" src="assets/images/logo.png" alt="Nico Swenson" />
     <span class="topbar__title">Portfolio Flipbook</span>
-    <span class="topbar__counter" id="counter">1 / 16</span>
+    <span class="topbar__counter" id="counter"></span>
   </header>
 
-  <div class="flipbook-wrap">
+  <div class="viewer">
     <button class="arrow arrow--prev" id="prev">&#8592;</button>
-    <button class="arrow arrow--next" id="next">&#8594;</button>
 
-    <div class="pages" id="pages">
-      <div class="page"><img src="assets/images/flipbook-pages/page-01.jpg" alt="Page 1" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-02.jpg" alt="Page 2" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-03.jpg" alt="Page 3" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-04.jpg" alt="Page 4" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-05.jpg" alt="Page 5" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-06.jpg" alt="Page 6" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-07.jpg" alt="Page 7" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-08.jpg" alt="Page 8" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-09.jpg" alt="Page 9" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-10.jpg" alt="Page 10" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-11.jpg" alt="Page 11" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-12.jpg" alt="Page 12" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-13.jpg" alt="Page 13" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-14.jpg" alt="Page 14" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-15.jpg" alt="Page 15" /></div>
-      <div class="page"><img src="assets/images/flipbook-pages/page-16.jpg" alt="Page 16" /></div>
+    <div class="spread" id="spread">
+      <div class="spread-page" id="pageL">
+        <img id="imgL" src="" alt="" />
+      </div>
+      <div class="spread-page" id="pageR">
+        <img id="imgR" src="" alt="" />
+      </div>
     </div>
+
+    <button class="arrow arrow--next" id="next">&#8594;</button>
   </div>
 
-  <nav class="bottom-nav" id="bottomNav">
-    <button class="nav-tab active" data-page="0">Cover</button>
-    <button class="nav-tab" data-page="1">2</button>
-    <button class="nav-tab" data-page="2">3</button>
-    <button class="nav-tab" data-page="3">4</button>
-    <button class="nav-tab" data-page="4">5</button>
-    <button class="nav-tab" data-page="5">6</button>
-    <button class="nav-tab" data-page="6">7</button>
-    <button class="nav-tab" data-page="7">8</button>
-    <button class="nav-tab" data-page="8">9</button>
-    <button class="nav-tab" data-page="9">10</button>
-    <button class="nav-tab" data-page="10">11</button>
-    <button class="nav-tab" data-page="11">12</button>
-    <button class="nav-tab" data-page="12">13</button>
-    <button class="nav-tab" data-page="13">14</button>
-    <button class="nav-tab" data-page="14">15</button>
-    <button class="nav-tab" data-page="15">16</button>
+  <nav class="section-nav" id="sectionNav">
+    <button class="sec-btn" data-spread="0">Contents</button>
+    <button class="sec-btn" data-spread="1">About Me</button>
+    <button class="sec-btn" data-spread="2">Drag</button>
+    <button class="sec-btn" data-spread="3">Writing</button>
+    <button class="sec-btn" data-spread="4">Design</button>
+    <button class="sec-btn" data-spread="5">Thot<br/>Bubbles</button>
   </nav>
 
   <div class="strip-wrap">
@@ -238,42 +250,128 @@
   </div>
 
   <script>
-    const pagesEl = document.getElementById('pages');
-    const prevBtn = document.getElementById('prev');
-    const nextBtn = document.getElementById('next');
-    const counter = document.getElementById('counter');
-    const tabs    = document.querySelectorAll('.nav-tab');
-    const strip   = document.getElementById('strip');
-    const total   = 16;
-    let cur = 0;
+    // All 16 pages, 1-indexed filenames
+    const pages = Array.from({length: 16}, (_, i) => {
+      const n = String(i + 1).padStart(2, '0');
+      return `assets/images/flipbook-pages/page-${n}.jpg`;
+    });
 
-    // Build thumbnail strip
-    for (let i = 1; i <= total; i++) {
-      const n = String(i).padStart(2, '0');
-      const thumb = document.createElement('div');
-      thumb.className = 'strip__thumb' + (i === 1 ? ' active' : '');
-      thumb.innerHTML = `<img src="assets/images/flipbook-pages/page-${n}.jpg" alt="Page ${i}" loading="lazy" />`;
-      thumb.addEventListener('click', () => goTo(i - 1));
-      strip.appendChild(thumb);
+    // Spreads: each entry is [leftPageIdx, rightPageIdx] (0-based), null = no page
+    // Pages pair up naturally: 0+1, 2+3, 4+5, 6+7, 8+9, 10+11, 12+13, 14+15
+    const spreads = [
+      [0, 1],   // TOC title + TOC list
+      [2, 3],   // About Me text + About Me photo
+      [4, 5],   // Drag text + Drag photo
+      [6, 7],   // Writing text + Writing collage
+      [8, 9],   // Design intro + Design sub-TOC
+      [10, 11], // Thot Bubbles title + TB cover
+      [12, 13], // TB text cont. + TB text cont.
+      [14, 15], // TB last text + TB photo
+    ];
+
+    // Section buttons jump to specific spread index
+    // Contents=0, About=1, Drag=2, Writing=3, Design=4, Thot Bubbles=5
+    // (Thot Bubbles section starts at spread 5)
+
+    const total = spreads.length;
+    let cur = 0;
+    let twoUp = window.innerWidth > 620;
+
+    const spreadEl = document.getElementById('spread');
+    const pageL    = document.getElementById('pageL');
+    const pageR    = document.getElementById('pageR');
+    const imgL     = document.getElementById('imgL');
+    const imgR     = document.getElementById('imgR');
+    const prevBtn  = document.getElementById('prev');
+    const nextBtn  = document.getElementById('next');
+    const counter  = document.getElementById('counter');
+    const strip    = document.getElementById('strip');
+    const secBtns  = document.querySelectorAll('.sec-btn');
+
+    // Build thumbnail strip (individual pages)
+    pages.forEach((src, i) => {
+      const t = document.createElement('div');
+      t.className = 'thumb';
+      t.innerHTML = `<img src="${src}" alt="p${i+1}" loading="lazy"/>`;
+      t.addEventListener('click', () => {
+        // Find which spread contains this page
+        const si = spreads.findIndex(s => s[0] === i || s[1] === i);
+        if (si >= 0) goTo(si);
+      });
+      strip.appendChild(t);
+    });
+
+    function goTo(idx, animate = true) {
+      if (idx < 0 || idx >= total) return;
+
+      if (animate) {
+        spreadEl.classList.add('turning');
+        setTimeout(() => {
+          cur = idx;
+          render();
+          spreadEl.classList.remove('turning');
+        }, 180);
+      } else {
+        cur = idx;
+        render();
+      }
     }
 
-    function goTo(idx) {
-      if (idx < 0 || idx >= total) return;
-      cur = idx;
-      pagesEl.style.transform = `translateX(-${cur * 100}%)`;
-      counter.textContent = `${cur + 1} / ${total}`;
+    function render() {
+      twoUp = window.innerWidth > 620;
+
+      const [l, r] = spreads[cur];
+
+      // Left page always shown
+      imgL.src = pages[l];
+      imgL.alt = `Page ${l + 1}`;
+      pageL.classList.add('visible');
+
+      // Right page: show only in two-up and if it exists
+      if (twoUp && r !== null && r < pages.length) {
+        imgR.src = pages[r];
+        imgR.alt = `Page ${r + 1}`;
+        pageR.classList.add('visible');
+        pageL.classList.remove('solo');
+        pageR.classList.remove('solo');
+      } else {
+        pageR.classList.remove('visible');
+        pageL.classList.add('solo');
+      }
+
+      // Counter
+      if (twoUp && r !== null) {
+        counter.textContent = `${l+1}–${r+1} / ${pages.length}`;
+      } else {
+        counter.textContent = `${l+1} / ${pages.length}`;
+      }
+
+      // Arrow state
       prevBtn.disabled = cur === 0;
       nextBtn.disabled = cur === total - 1;
-      tabs.forEach((t, i) => t.classList.toggle('active', i === cur));
-      tabs[cur]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      const thumbs = strip.querySelectorAll('.strip__thumb');
-      thumbs.forEach((t, i) => t.classList.toggle('active', i === cur));
-      thumbs[cur]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+      // Section nav highlight
+      // Map spread index to section
+      // 0=Contents, 1=About Me, 2=Drag, 3=Writing, 4=Design, 5-7=Thot Bubbles
+      const sectionMap = [0, 1, 2, 3, 4, 5, 5, 5];
+      const activeSec = sectionMap[cur];
+      secBtns.forEach((b, i) => b.classList.toggle('active', i === activeSec));
+
+      // Thumbnail strip — highlight both pages in spread
+      const thumbs = strip.querySelectorAll('.thumb');
+      thumbs.forEach((t, i) => {
+        const active = i === l || (twoUp && i === r);
+        t.classList.toggle('active', active);
+      });
+      if (thumbs[l]) thumbs[l].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
 
     prevBtn.addEventListener('click', () => goTo(cur - 1));
     nextBtn.addEventListener('click', () => goTo(cur + 1));
-    tabs.forEach(t => t.addEventListener('click', () => goTo(+t.dataset.page)));
+
+    secBtns.forEach(b => {
+      b.addEventListener('click', () => goTo(+b.dataset.spread));
+    });
 
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft')  goTo(cur - 1);
@@ -281,15 +379,17 @@
     });
 
     let tx = null;
-    pagesEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
-    pagesEl.addEventListener('touchend', e => {
+    spreadEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    spreadEl.addEventListener('touchend', e => {
       if (tx === null) return;
       const dx = e.changedTouches[0].clientX - tx;
-      if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
+      if (Math.abs(dx) > 45) goTo(cur + (dx < 0 ? 1 : -1));
       tx = null;
     }, { passive: true });
 
-    goTo(0);
+    window.addEventListener('resize', () => { twoUp = window.innerWidth > 620; render(); });
+
+    goTo(0, false);
   </script>
 
 </body>
