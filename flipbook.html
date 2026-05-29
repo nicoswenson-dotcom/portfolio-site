@@ -132,6 +132,34 @@
     .sec-btn:hover { color: #111; }
     .sec-btn.active { color: #111; font-weight: 700; }
 
+    /* Writing text zoom popup */
+    #zoomWriting {
+      position: fixed;
+      top: 50%; left: 25%; /* centered over the left (writing) page */
+      transform: translate(-50%, -50%);
+      width: min(400px, 44vw);
+      height: min(320px, 55vh);
+      background-image: url('assets/images/flipbook-pages/page-07.jpg');
+      background-color: #fff;
+      background-size: 230%;
+      background-position: 79% 50%;
+      background-repeat: no-repeat;
+      box-shadow: 0 12px 50px rgba(0,0,0,0.55);
+      border: 3px solid #1a1718;
+      z-index: 300;
+      pointer-events: none;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+    @media (max-width: 700px) {
+      #zoomWriting {
+        left: 50%;
+        width: min(88vw, 380px);
+        height: min(52vh, 300px);
+      }
+    }
+
     /* TOC clickable overlays (shown only on spread 0) */
     .toc-overlay {
       position: fixed;
@@ -185,6 +213,9 @@
   <!-- Side arrows -->
   <button class="arrow arrow--prev" id="prev">&#8592;</button>
   <button class="arrow arrow--next" id="next">&#8594;</button>
+
+  <!-- Writing text zoom popup -->
+  <div id="zoomWriting"></div>
 
   <!-- TOC clickable overlays — positioned over the 4 section names on page 2 -->
   <!-- top/height are % of viewport height, tuned to match the image layout -->
@@ -458,6 +489,19 @@
     nextBtn.addEventListener('click', goNext);
     secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
     tocOverlays.forEach(o => o.addEventListener('click', () => goToSection(+o.dataset.sec)));
+
+    // Writing text zoom — show on hover when on the writing spread (spread 3)
+    const zoomEl = document.getElementById('zoomWriting');
+    const slotLEl = document.getElementById('slotL');
+    slotLEl.addEventListener('mouseenter', () => {
+      if (curSpread !== 3) return;
+      zoomEl.style.display = 'block';
+      requestAnimationFrame(() => { zoomEl.style.opacity = '1'; });
+    });
+    slotLEl.addEventListener('mouseleave', () => {
+      zoomEl.style.opacity = '0';
+      setTimeout(() => { if (zoomEl.style.opacity === '0') zoomEl.style.display = 'none'; }, 180);
+    });
 
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft')  goPrev();
