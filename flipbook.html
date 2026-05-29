@@ -8,162 +8,147 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; }
+    html, body { height: 100%; overflow: hidden; background: #111; }
 
-    body {
-      background: #1a1718;
+    /* ══════════════════════════════════════
+       FULL-SCREEN SPREAD
+    ══════════════════════════════════════ */
+    .spread {
+      position: fixed;
+      inset: 0;
       display: flex;
-      flex-direction: column;
-      font-family: 'Jost', sans-serif;
-    }
-
-    /* ── Top bar ── */
-    .topbar {
-      background: #111;
-      border-bottom: 3px solid #ffd400;
-      padding: 8px 16px;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-shrink: 0; z-index: 10;
-    }
-    .topbar__logo { height: 32px; }
-    .topbar__title {
-      font-family: 'Oswald', sans-serif; font-weight: 700;
-      font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase;
-      color: #ffd400;
-    }
-    .topbar__counter {
-      font-family: 'Oswald', sans-serif; font-size: 0.65rem;
-      letter-spacing: 0.12em; color: #666;
-    }
-
-    /* ── Viewer ── */
-    .viewer {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      padding: 12px 58px;
-    }
-
-    /* ── Spread outer (sized by JS, sets perspective) ── */
-    .spread-outer {
-      position: relative;
-      flex-shrink: 0;
-      box-shadow: 0 20px 70px rgba(0,0,0,0.85);
-    }
-
-    /* ── Spread inner (two page slots) ── */
-    .spread-inner {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      position: relative;
+      perspective: 4000px;
+      perspective-origin: center center;
     }
 
     .page-slot {
-      width: 50%;
+      flex: 1;
       height: 100%;
       overflow: hidden;
       background: #fff;
       position: relative;
-      flex-shrink: 0;
     }
     .page-slot img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       display: block;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
-    /* Spine shadow */
+    /* Book spine */
     .spine {
       position: absolute;
       top: 0; bottom: 0;
       left: calc(50% - 3px);
       width: 6px;
       background: linear-gradient(to right,
-        rgba(0,0,0,0.28) 0%,
-        rgba(0,0,0,0.06) 50%,
-        rgba(0,0,0,0.28) 100%);
-      z-index: 10;
+        rgba(0,0,0,0.35) 0%,
+        rgba(0,0,0,0.08) 50%,
+        rgba(0,0,0,0.35) 100%);
+      z-index: 5;
       pointer-events: none;
     }
 
-    /* ── Arrows ── */
-    .arrow {
-      position: absolute;
-      top: 50%; transform: translateY(-50%);
-      z-index: 30;
-      background: rgba(255,212,0,0.92);
-      color: #111; border: none;
-      width: 42px; height: 68px;
-      font-size: 1.25rem; font-weight: 900;
-      cursor: pointer; border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 3px 3px 0 rgba(0,0,0,0.35);
-      transition: background 0.15s, transform 0.15s;
+    /* ══════════════════════════════════════
+       OVERLAID NAVIGATION
+    ══════════════════════════════════════ */
+
+    /* Top bar */
+    .nav-top {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      background: linear-gradient(to bottom, rgba(17,17,17,0.88) 0%, transparent 100%);
+      pointer-events: none;
     }
-    .arrow:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
-    .arrow:disabled { opacity: 0.12; cursor: default; pointer-events: none; }
+    .nav-top > * { pointer-events: auto; }
+    .nav-top__logo { height: 30px; opacity: 0.92; }
+    .nav-top__counter {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      color: rgba(255,255,255,0.55);
+    }
+    .nav-top__back {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-top__back:hover { color: #ffd400; }
+
+    /* Side arrows */
+    .arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      background: rgba(255, 212, 0, 0.85);
+      color: #111;
+      border: none;
+      width: 40px; height: 64px;
+      font-size: 1.2rem; font-weight: 900;
+      cursor: pointer;
+      border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 2px 2px 12px rgba(0,0,0,0.5);
+      transition: background 0.15s, transform 0.15s, opacity 0.2s;
+    }
+    .arrow:hover { background: #fff; transform: translateY(-50%) scale(1.07); }
+    .arrow:disabled { opacity: 0; pointer-events: none; }
     .arrow--prev { left: 8px; }
     .arrow--next { right: 8px; }
 
-    /* ── Section nav ── */
-    .section-nav {
-      background: #111;
-      border-top: 3px solid #ffd400;
-      display: flex; flex-shrink: 0;
-      overflow-x: auto; scrollbar-width: none;
+    /* Bottom section nav */
+    .nav-bottom {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 200;
+      display: flex;
+      background: rgba(17,17,17,0.92);
+      border-top: 2px solid #ffd400;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
     }
-    .section-nav::-webkit-scrollbar { display: none; }
     .sec-btn {
-      flex: 1; min-width: 68px;
-      padding: 11px 8px;
-      background: none; border: none;
-      border-right: 1px solid #2a2828;
+      flex: 1;
+      padding: 11px 4px;
+      background: none;
+      border: none;
+      border-right: 1px solid rgba(255,255,255,0.06);
       font-family: 'Oswald', sans-serif;
-      font-weight: 600; font-size: 0.58rem;
-      letter-spacing: 0.16em; text-transform: uppercase;
-      color: #555; cursor: pointer; line-height: 1.35;
+      font-weight: 600;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      cursor: pointer;
+      line-height: 1.35;
       transition: color 0.15s, background 0.15s;
     }
     .sec-btn:last-child { border-right: none; }
-    .sec-btn:hover { color: #ffd400; background: #1e1c1d; }
-    .sec-btn.active { color: #ffd400; background: #1a1818; border-bottom: 3px solid #ffd400; }
+    .sec-btn:hover { color: #ffd400; background: rgba(255,212,0,0.07); }
+    .sec-btn.active { color: #ffd400; border-bottom: 2px solid #ffd400; }
 
-    /* ── Thumbnail strip ── */
-    .strip-wrap {
-      background: #0c0c0c;
-      border-top: 1px solid #272727;
-      padding: 5px 10px; flex-shrink: 0;
-    }
-    .strip {
-      display: flex; gap: 4px;
-      overflow-x: auto; padding-bottom: 2px;
-      scrollbar-width: thin; scrollbar-color: #ffd400 #222;
-    }
-    .strip::-webkit-scrollbar { height: 3px; }
-    .strip::-webkit-scrollbar-thumb { background: #ffd400; border-radius: 2px; }
-    .thumb {
-      flex-shrink: 0; width: 36px; height: 50px;
-      cursor: pointer; border: 2px solid transparent;
-      border-radius: 3px; overflow: hidden; opacity: 0.4;
-      transition: opacity 0.15s, border-color 0.15s;
-    }
-    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .thumb:hover { opacity: 0.75; }
-    .thumb.active { border-color: #ffd400; opacity: 1; }
-
-    /* ── Mobile ── */
-    @media (max-width: 620px) {
-      .viewer { padding: 8px 46px; }
+    /* ══════════════════════════════════════
+       MOBILE: single page fills screen
+    ══════════════════════════════════════ */
+    @media (max-width: 700px) {
+      .page-slot:last-child { display: none; }
+      .spine { display: none; }
       .arrow { width: 34px; height: 54px; font-size: 1rem; }
       .arrow--prev { left: 4px; }
       .arrow--next { right: 4px; }
-      .strip-wrap { display: none; }
-      .page-slot:last-child { display: none; }
-      .spine { display: none; }
+      .sec-btn { font-size: 0.5rem; padding: 10px 2px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -173,201 +158,226 @@
 </head>
 <body>
 
-  <header class="topbar">
-    <img class="topbar__logo" src="assets/images/logo.png" alt="Nico Swenson" />
-    <span class="topbar__title">Portfolio Flipbook</span>
-    <span class="topbar__counter" id="counter"></span>
-  </header>
-
-  <div class="viewer" id="viewer">
-    <button class="arrow arrow--prev" id="prev">&#8592;</button>
-
-    <div class="spread-outer" id="spreadOuter">
-      <div class="spread-inner" id="spreadInner">
-        <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
-        <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
-      </div>
-      <div class="spine"></div>
-    </div>
-
-    <button class="arrow arrow--next" id="next">&#8594;</button>
+  <!-- Full-screen spread -->
+  <div class="spread" id="spread">
+    <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
+    <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
+    <div class="spine"></div>
   </div>
 
-  <nav class="section-nav">
-    <button class="sec-btn" data-spread="0">Contents</button>
-    <button class="sec-btn" data-spread="1">About Me</button>
-    <button class="sec-btn" data-spread="2">Drag</button>
-    <button class="sec-btn" data-spread="3">Writing</button>
-    <button class="sec-btn" data-spread="4">Design</button>
-    <button class="sec-btn" data-spread="5">Thot<br/>Bubbles</button>
+  <!-- Top overlay -->
+  <div class="nav-top">
+    <a class="nav-top__back" href="index.html">← Back</a>
+    <img class="nav-top__logo" src="assets/images/logo.png" alt="Nico Swenson" />
+    <span class="nav-top__counter" id="counter"></span>
+  </div>
+
+  <!-- Side arrows -->
+  <button class="arrow arrow--prev" id="prev">&#8592;</button>
+  <button class="arrow arrow--next" id="next">&#8594;</button>
+
+  <!-- Bottom section nav -->
+  <nav class="nav-bottom">
+    <button class="sec-btn" data-sec="0">Contents</button>
+    <button class="sec-btn" data-sec="1">About Me</button>
+    <button class="sec-btn" data-sec="2">Drag</button>
+    <button class="sec-btn" data-sec="3">Writing</button>
+    <button class="sec-btn" data-sec="4">Design</button>
+    <button class="sec-btn" data-sec="5">Thot<br/>Bubbles</button>
   </nav>
-
-  <div class="strip-wrap">
-    <div class="strip" id="strip"></div>
-  </div>
 
   <script>
     // ── Data ─────────────────────────────────────────────
     const PAGES = Array.from({length: 16}, (_, i) =>
       `assets/images/flipbook-pages/page-${String(i+1).padStart(2,'0')}.jpg`
     );
-    // Each spread is [leftPageIndex, rightPageIndex] (0-based)
+
+    // Desktop: 8 spreads of 2 pages each
     const SPREADS = [
-      [0,1], [2,3], [4,5], [6,7],
-      [8,9], [10,11], [12,13], [14,15]
+      [0,1],[2,3],[4,5],[6,7],[8,9],[10,11],[12,13],[14,15]
     ];
-    // Which section button is active for each spread index
-    const SECTION_MAP = [0, 1, 2, 3, 4, 5, 5, 5];
-    const TURN_MS = 700; // animation duration
-    const PAGE_RATIO = 1275 / 1650; // portrait letter-ish aspect ratio
+
+    // Spread → section index
+    const SPREAD_SECTION = [0, 1, 2, 3, 4, 5, 5, 5];
+
+    // Section → first spread (desktop) and first page (mobile)
+    const SECTION_SPREAD = [0, 1, 2, 3, 4, 5];
+    const SECTION_PAGE   = [0, 2, 4, 6, 8, 10];
+
+    // Page → section (for mobile active state)
+    const PAGE_SECTION = [0,0, 1,1, 2,2, 3,3, 4,4, 5,5,5,5,5,5];
+
+    const TURN_MS = 680;
 
     // ── State ─────────────────────────────────────────────
-    let cur = 0;
-    let turning = false;
+    let curSpread = 0;   // desktop
+    let curPage   = 0;   // mobile
+    let turning   = false;
 
     // ── DOM refs ──────────────────────────────────────────
-    const viewerEl    = document.getElementById('viewer');
-    const spreadOuter = document.getElementById('spreadOuter');
-    const spreadInner = document.getElementById('spreadInner');
-    const imgL        = document.getElementById('imgL');
-    const imgR        = document.getElementById('imgR');
-    const prevBtn     = document.getElementById('prev');
-    const nextBtn     = document.getElementById('next');
-    const counter     = document.getElementById('counter');
-    const strip       = document.getElementById('strip');
-    const secBtns     = document.querySelectorAll('.sec-btn');
+    const spreadEl = document.getElementById('spread');
+    const imgL     = document.getElementById('imgL');
+    const imgR     = document.getElementById('imgR');
+    const prevBtn  = document.getElementById('prev');
+    const nextBtn  = document.getElementById('next');
+    const counter  = document.getElementById('counter');
+    const secBtns  = document.querySelectorAll('.sec-btn');
 
-    // ── Build thumbnail strip ─────────────────────────────
-    PAGES.forEach((src, i) => {
-      const t = document.createElement('div');
-      t.className = 'thumb';
-      t.innerHTML = `<img src="${src}" loading="lazy" alt="p${i+1}"/>`;
-      t.addEventListener('click', () => {
-        const si = SPREADS.findIndex(s => s[0] === i || s[1] === i);
-        if (si >= 0) goTo(si);
-      });
-      strip.appendChild(t);
-    });
+    function isMobile() { return window.innerWidth <= 700; }
 
-    // ── Sizing ────────────────────────────────────────────
-    function resize() {
-      const isMobile = window.innerWidth <= 620;
-      const vw = viewerEl.clientWidth - 120;
-      const vh = viewerEl.clientHeight - 24;
-      const ratio = isMobile ? PAGE_RATIO : PAGE_RATIO * 2;
-
-      let w, h;
-      if (vw / vh > ratio) { h = vh; w = h * ratio; }
-      else                  { w = vw; h = w / ratio; }
-
-      spreadOuter.style.width  = Math.round(w) + 'px';
-      spreadOuter.style.height = Math.round(h) + 'px';
-      // Perspective on spreadInner so leaf 3D renders correctly
-      spreadInner.style.perspective = Math.round(w * 2.2) + 'px';
-      spreadInner.style.perspectiveOrigin = 'center center';
-    }
-
-    // ── Preload adjacent spreads ──────────────────────────
+    // ── Preload ───────────────────────────────────────────
     function preload(idx) {
-      if (idx < 0 || idx >= SPREADS.length) return;
-      SPREADS[idx].forEach(pi => {
-        const img = new Image();
-        img.src = PAGES[pi];
-      });
+      if (isMobile()) {
+        [idx - 1, idx + 1].forEach(i => {
+          if (i >= 0 && i < PAGES.length) { new Image().src = PAGES[i]; }
+        });
+      } else {
+        [idx - 1, idx + 1].forEach(si => {
+          if (si >= 0 && si < SPREADS.length) {
+            SPREADS[si].forEach(pi => { new Image().src = PAGES[pi]; });
+          }
+        });
+      }
     }
 
-    // ── Render static (no animation) ─────────────────────
+    // ── Render & UI ───────────────────────────────────────
     function renderStatic() {
-      const [l, r] = SPREADS[cur];
-      imgL.src = PAGES[l];
-      imgR.src = PAGES[r];
+      if (isMobile()) {
+        imgL.src = PAGES[curPage];
+        imgR.src = '';
+      } else {
+        const [l, r] = SPREADS[curSpread];
+        imgL.src = PAGES[l];
+        imgR.src = PAGES[r];
+      }
       updateUI();
-      preload(cur - 1);
-      preload(cur + 1);
+      preload(isMobile() ? curPage : curSpread);
     }
 
     function updateUI() {
-      const [l, r] = SPREADS[cur];
-      const isMobile = window.innerWidth <= 620;
-      counter.textContent = isMobile
-        ? `${l+1} / ${PAGES.length}`
-        : `${l+1}–${r+1} / ${PAGES.length}`;
-
-      prevBtn.disabled = cur === 0 || turning;
-      nextBtn.disabled = cur === SPREADS.length - 1 || turning;
-
-      secBtns.forEach((b, i) => b.classList.toggle('active', i === SECTION_MAP[cur]));
-
-      const thumbs = strip.querySelectorAll('.thumb');
-      thumbs.forEach((t, i) => {
-        const on = i === l || (!isMobile && i === r);
-        t.classList.toggle('active', on);
-      });
-      if (thumbs[l]) thumbs[l].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+      if (isMobile()) {
+        counter.textContent = `${curPage + 1} / ${PAGES.length}`;
+        prevBtn.disabled = curPage === 0 || turning;
+        nextBtn.disabled = curPage === PAGES.length - 1 || turning;
+        secBtns.forEach((b, i) => b.classList.toggle('active', i === PAGE_SECTION[curPage]));
+      } else {
+        const [l, r] = SPREADS[curSpread];
+        counter.textContent = `${l+1}–${r+1} / ${PAGES.length}`;
+        prevBtn.disabled = curSpread === 0 || turning;
+        nextBtn.disabled = curSpread === SPREADS.length - 1 || turning;
+        secBtns.forEach((b, i) => b.classList.toggle('active', i === SPREAD_SECTION[curSpread]));
+      }
     }
 
-    // ── Page turn: forward ────────────────────────────────
-    // Physics: the right page (front=curR) rotates -180° around the spine
-    // (its left edge), carrying away curR and revealing nxtL on its back.
-    // Meanwhile slotR is pre-set to nxtR (the new right page, visible once
-    // the leaf sweeps past). After the turn, slotL is updated to nxtL.
-    function turnForward(nextIdx) {
-      const [curL, curR] = SPREADS[cur];
+    // ── Navigation ────────────────────────────────────────
+    function goNext() {
+      if (turning) return;
+      if (isMobile()) {
+        if (curPage >= PAGES.length - 1) return;
+        mobileFade(curPage + 1);
+      } else {
+        if (curSpread >= SPREADS.length - 1) return;
+        turning = true;
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        doTurnForward(curSpread + 1);
+      }
+    }
+
+    function goPrev() {
+      if (turning) return;
+      if (isMobile()) {
+        if (curPage <= 0) return;
+        mobileFade(curPage - 1);
+      } else {
+        if (curSpread <= 0) return;
+        turning = true;
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        doTurnBackward(curSpread - 1);
+      }
+    }
+
+    function goToSection(secIdx) {
+      if (turning) return;
+      if (isMobile()) {
+        mobileFade(SECTION_PAGE[secIdx]);
+      } else {
+        const target = SECTION_SPREAD[secIdx];
+        if (target === curSpread) return;
+        curSpread = target;
+        renderStatic();
+      }
+    }
+
+    // ── Mobile: simple fade ───────────────────────────────
+    function mobileFade(targetPage) {
+      turning = true;
+      imgL.style.transition = 'opacity 0.2s';
+      imgL.style.opacity = '0';
+      setTimeout(() => {
+        curPage = targetPage;
+        renderStatic();
+        imgL.style.opacity = '1';
+        setTimeout(() => {
+          imgL.style.transition = '';
+          turning = false;
+        }, 200);
+      }, 200);
+    }
+
+    // ── Desktop: 3D page turn ─────────────────────────────
+    // FORWARD: right page (curR) lifts and rotates -180° around the spine.
+    // slotR is pre-loaded with nxtR. After turn, slotL updated to nxtL.
+    function doTurnForward(nextIdx) {
+      const [curL, curR] = SPREADS[curSpread];
       const [nxtL, nxtR] = SPREADS[nextIdx];
 
-      // Destination right page sits behind the leaf from the start
-      imgR.src = PAGES[nxtR];
+      imgR.src = PAGES[nxtR]; // pre-load destination right page under leaf
 
       const leaf = makeLeaf(PAGES[curR], PAGES[nxtL], true);
-      spreadInner.appendChild(leaf);
+      spreadEl.appendChild(leaf);
 
-      // Double rAF to ensure CSS transition picks up the starting state
       requestAnimationFrame(() => requestAnimationFrame(() => {
         leaf.style.transform = 'rotateY(-180deg)';
       }));
 
       leaf.addEventListener('transitionend', () => {
+        spreadEl.removeChild(leaf);
         imgL.src = PAGES[nxtL];
-        spreadInner.removeChild(leaf);
-        cur = nextIdx;
+        curSpread = nextIdx;
         turning = false;
         updateUI();
-        preload(cur + 1);
+        preload(curSpread + 1);
       }, { once: true });
     }
 
-    // ── Page turn: backward ───────────────────────────────
-    // The left page (front=curL) rotates +180° around its right edge
-    // (the spine), revealing prvR on its back.
-    // slotL is pre-set to prvL (hidden under leaf). After turn, slotR=prvR.
-    function turnBackward(prevIdx) {
-      const [curL, curR] = SPREADS[cur];
+    // BACKWARD: left page (curL) lifts and rotates +180° around the spine.
+    // slotL is pre-loaded with prvL. After turn, slotR updated to prvR.
+    function doTurnBackward(prevIdx) {
+      const [curL, curR] = SPREADS[curSpread];
       const [prvL, prvR] = SPREADS[prevIdx];
 
-      // Destination left page sits behind the leaf from the start
-      imgL.src = PAGES[prvL];
+      imgL.src = PAGES[prvL]; // pre-load destination left page under leaf
 
       const leaf = makeLeaf(PAGES[curL], PAGES[prvR], false);
-      spreadInner.appendChild(leaf);
+      spreadEl.appendChild(leaf);
 
       requestAnimationFrame(() => requestAnimationFrame(() => {
         leaf.style.transform = 'rotateY(180deg)';
       }));
 
       leaf.addEventListener('transitionend', () => {
+        spreadEl.removeChild(leaf);
         imgR.src = PAGES[prvR];
-        spreadInner.removeChild(leaf);
-        cur = prevIdx;
+        curSpread = prevIdx;
         turning = false;
         updateUI();
-        preload(cur - 1);
+        preload(curSpread - 1);
       }, { once: true });
     }
 
-    // ── Build a turning leaf ──────────────────────────────
-    // The leaf is a div with front and back faces (preserve-3d).
-    // isForward=true → covers right half, origin left; rotates -180°
-    // isForward=false → covers left half, origin right; rotates +180°
+    // ── Build the turning leaf ────────────────────────────
     function makeLeaf(frontSrc, backSrc, isForward) {
       const leaf = document.createElement('div');
       leaf.style.cssText = `
@@ -380,112 +390,76 @@
         transform-origin: ${isForward ? 'left' : 'right'} center;
         transform: rotateY(0deg);
         transition: transform ${TURN_MS}ms cubic-bezier(0.645,0.045,0.355,1.000);
-        z-index: 20;
+        z-index: 50;
         pointer-events: none;
       `;
-      leaf.appendChild(makeLeafFace(frontSrc, false, isForward));
-      leaf.appendChild(makeLeafFace(backSrc,  true,  isForward));
+      leaf.appendChild(makeFace(frontSrc, false, isForward));
+      leaf.appendChild(makeFace(backSrc,  true,  isForward));
       return leaf;
     }
 
-    function makeLeafFace(src, isBack, isForward) {
+    function makeFace(src, isBack, isForward) {
       const face = document.createElement('div');
       face.style.cssText = `
         position: absolute; inset: 0;
-        overflow: hidden;
         background: #fff;
+        overflow: hidden;
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         ${isBack ? 'transform: rotateY(180deg);' : ''}
       `;
-
       const img = document.createElement('img');
       img.src = src;
-      img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
-      img.draggable = false;
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;user-select:none;';
       face.appendChild(img);
 
-      // Fold shadow — simulates paper bending at the spine
+      // Fold-crease shadow
       const shadow = document.createElement('div');
-      let gradient;
+      let g;
       if (!isBack) {
-        // Front: shadow deepens toward the fold edge (the edge that lifts first)
-        gradient = isForward
-          ? 'linear-gradient(to left, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.04) 45%, transparent 60%)'
-          : 'linear-gradient(to right, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.04) 45%, transparent 60%)';
+        g = isForward
+          ? 'linear-gradient(to left,  rgba(0,0,0,0.20) 0%, transparent 40%)'
+          : 'linear-gradient(to right, rgba(0,0,0,0.20) 0%, transparent 40%)';
       } else {
-        // Back: shadow at the spine edge (the crease)
-        gradient = isForward
-          ? 'linear-gradient(to right, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.06) 40%, transparent 60%)'
-          : 'linear-gradient(to left, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.06) 40%, transparent 60%)';
+        g = isForward
+          ? 'linear-gradient(to right, rgba(0,0,0,0.28) 0%, transparent 40%)'
+          : 'linear-gradient(to left,  rgba(0,0,0,0.28) 0%, transparent 40%)';
       }
-      shadow.style.cssText = `
-        position: absolute; inset: 0;
-        background: ${gradient};
-        pointer-events: none;
-      `;
+      shadow.style.cssText = `position:absolute;inset:0;background:${g};pointer-events:none;`;
       face.appendChild(shadow);
-
       return face;
     }
 
-    // ── Main navigation ───────────────────────────────────
-    function goTo(idx) {
-      if (turning || idx < 0 || idx >= SPREADS.length || idx === cur) return;
-
-      const isMobile = window.innerWidth <= 620;
-      const steps = Math.abs(idx - cur);
-
-      // Multi-step jump or mobile: instant swap
-      if (steps > 1 || isMobile) {
-        const prev = cur;
-        cur = idx;
-        if (isMobile && steps === 1) {
-          // Subtle fade on mobile
-          spreadOuter.style.transition = 'opacity 0.22s';
-          spreadOuter.style.opacity = '0';
-          setTimeout(() => {
-            renderStatic();
-            spreadOuter.style.opacity = '1';
-          }, 220);
-        } else {
-          renderStatic();
-        }
-        return;
-      }
-
-      // Single-step on desktop: 3D page turn
-      turning = true;
-      prevBtn.disabled = true;
-      nextBtn.disabled = true;
-
-      if (idx > cur) turnForward(idx);
-      else           turnBackward(idx);
-    }
-
-    // ── Event listeners ───────────────────────────────────
-    prevBtn.addEventListener('click', () => goTo(cur - 1));
-    nextBtn.addEventListener('click', () => goTo(cur + 1));
-    secBtns.forEach(b => b.addEventListener('click', () => goTo(+b.dataset.spread)));
+    // ── Events ────────────────────────────────────────────
+    prevBtn.addEventListener('click', goPrev);
+    nextBtn.addEventListener('click', goNext);
+    secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
 
     document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft')  goTo(cur - 1);
-      if (e.key === 'ArrowRight') goTo(cur + 1);
+      if (e.key === 'ArrowLeft')  goPrev();
+      if (e.key === 'ArrowRight') goNext();
+    });
+
+    // Click left/right halves of spread to navigate (desktop)
+    spreadEl.addEventListener('click', e => {
+      if (isMobile()) return;
+      const half = e.clientX / window.innerWidth;
+      if (half < 0.15) goPrev();
+      else if (half > 0.85) goNext();
     });
 
     let tx = null;
-    spreadOuter.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
-    spreadOuter.addEventListener('touchend', e => {
+    spreadEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+    spreadEl.addEventListener('touchend', e => {
       if (tx === null) return;
       const dx = e.changedTouches[0].clientX - tx;
-      if (Math.abs(dx) > 45) goTo(cur + (dx < 0 ? 1 : -1));
+      if (Math.abs(dx) > 45) dx < 0 ? goNext() : goPrev();
       tx = null;
     }, {passive:true});
 
-    window.addEventListener('resize', () => { resize(); updateUI(); });
+    window.addEventListener('resize', () => { renderStatic(); });
 
     // ── Init ──────────────────────────────────────────────
-    resize();
     renderStatic();
   </script>
 
