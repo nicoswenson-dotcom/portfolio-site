@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Flipbook — Nico Swenson</title>
+  <link rel="icon" href="assets/images/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    img { display: block; max-width: 100%; }
+
+    :root {
+      --ink:     #1a1718;
+      --paper:   #fdf8f0;
+      --yellow:  #ffd400;
+      --magenta: #e4028c;
+      --rule:    2px solid #1a1718;
+      --display: 'Oswald', 'Arial Black', sans-serif;
+      --body:    'Jost', Georgia, sans-serif;
+    }
+
+    body {
+      background: #2a2628;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--body);
+      color: var(--ink);
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--ink);
+      border-bottom: 3px solid var(--yellow);
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .topbar__logo { height: 36px; width: auto; }
+    .topbar__title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--yellow);
+    }
+    .topbar__counter {
+      font-family: var(--display);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      color: #888;
+    }
+
+    /* ── Flipbook viewport ── */
+    .flipbook-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pages {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.42s cubic-bezier(.6,0,.2,1);
+    }
+
+    .page {
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--paper);
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .page::before, .page::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 16px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .page::before { left:0; background: linear-gradient(to right,rgba(0,0,0,0.10),transparent); }
+    .page::after  { right:0; background: linear-gradient(to left,rgba(0,0,0,0.10),transparent); }
+
+    /* ── Arrows ── */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 30;
+      background: var(--yellow);
+      color: var(--ink);
+      border: none;
+      width: 40px; height: 68px;
+      font-size: 1.2rem;
+      font-weight: 900;
+      cursor: pointer;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+      transition: background 0.15s, transform 0.15s;
+    }
+    .arrow:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
+    .arrow:disabled { opacity: 0.15; cursor: default; pointer-events: none; }
+    .arrow--prev { left: 6px; }
+    .arrow--next { right: 6px; }
+
+    /* ── Bottom nav ── */
+    .bottom-nav {
+      background: var(--ink);
+      border-top: 3px solid var(--yellow);
+      display: flex;
+      flex-shrink: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .bottom-nav::-webkit-scrollbar { display: none; }
+    .nav-tab {
+      flex: 1;
+      min-width: 72px;
+      padding: 11px 6px;
+      background: none;
+      border: none;
+      border-right: 1px solid #2e2c2d;
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #555;
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-tab:last-child { border-right: none; }
+    .nav-tab:hover { color: var(--yellow); background: #222; }
+    .nav-tab.active { color: var(--yellow); background: #1e1c1d; border-bottom: 3px solid var(--yellow); }
+
+    /* ════════════ PAGE STYLES ════════════ */
+
+    .pg { padding: clamp(24px,5vw,52px) clamp(20px,5vw,64px); }
+
+    /* COVER */
+    .cover {
+      background: var(--ink);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      text-align: center;
+      padding: 40px 32px;
+    }
+    .cover__logo { width: min(280px,72vw); }
+    .cover__rule { width: 56px; height: 3px; background: var(--yellow); }
+    .cover__title {
+      font-family: var(--display);
+      font-weight: 300;
+      font-size: clamp(0.78rem,2vw,0.95rem);
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+    .cover__hint {
+      font-family: var(--display);
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      opacity: 0.7;
+      animation: blink 2.2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    /* TOC */
+    .toc-header {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(2rem,6vw,4rem);
+      text-transform: uppercase;
+      line-height: 0.9;
+      border-bottom: var(--rule);
+      padding-bottom: 14px;
+      margin-bottom: 24px;
+    }
+    .toc-list { list-style: none; }
+    .toc-list li { border-bottom: 1px solid #ddd; }
+    .toc-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      padding: 15px 4px;
+      text-align: left;
+      transition: background 0.15s, padding-left 0.15s;
+      border-radius: 3px;
+    }
+    .toc-btn:hover { background: var(--yellow); padding-left: 14px; }
+    .toc-num {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(1.6rem,5vw,2.6rem);
+      color: #ddd;
+      line-height: 1;
+      min-width: 2ch;
+    }
+    .toc-label {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: clamp(1.1rem,3vw,1.8rem);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .toc-sub {
+      font-family: var(--body);
+      font-size: 0.78rem;
+      color: #999;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 28px;
+      align-items: start;
+    }
+    .about-photo { border: var(--rule); box-shadow: 6px 6px 0 var(--ink); overflow: hidden; }
+    .about-photo img { width: 100%; display: block; }
+    .section-heading {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(1.8rem,4.5vw,3.2rem);
+      text-transform: uppercase;
+      line-height: 0.92;
+      border-bottom: var(--rule);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+    }
+    .body-p {
+      font-size: clamp(0.87rem,1.3vw,1rem);
+      line-height: 1.75;
+      color: #333;
+      margin-bottom: 1em;
+    }
+
+    /* DRAG */
+    .split {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      height: 100%;
+    }
+    .split__text { padding: clamp(24px,5vw,52px) clamp(18px,4vw,48px); border-right: var(--rule); overflow-y: auto; }
+    .split__media { overflow: hidden; }
+    .split__media img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .split__media.pale { background: #f2ece0; }
+
+    .show-list { list-style: none; border-top: 1px solid #ccc; margin: 12px 0; }
+    .show-list li {
+      font-family: var(--display);
+      font-size: clamp(0.68rem,1.1vw,0.82rem);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 7px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .show-list .venue { font-weight: 300; color: #999; text-transform: none; letter-spacing: 0; }
+
+    /* WRITING */
+    .split--flip { grid-template-columns: 0.95fr 1.05fr; }
+    .split--flip .split__media { border-right: var(--rule); }
+    .split--flip .split__text { border-right: none; }
+
+    .pull-quote {
+      background: var(--yellow);
+      border-left: 5px solid var(--ink);
+      padding: 12px 14px;
+      margin: 18px 0;
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: clamp(0.82rem,1.4vw,0.98rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    /* DESIGN */
+    .design-intro { max-width: 62ch; margin-bottom: 24px; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+      gap: 14px;
+    }
+    .card {
+      border: var(--rule);
+      background: #fff;
+      box-shadow: 4px 4px 0 var(--ink);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translate(-3px,-3px); box-shadow: 7px 7px 0 var(--ink); }
+    .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-bottom: 2px solid var(--ink); }
+    .card__label {
+      padding: 9px 12px;
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    /* THOT BUBBLES */
+    .tb-page { background: var(--yellow); }
+    .tb-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100%;
+    }
+    .tb-text { padding: clamp(24px,5vw,52px) clamp(18px,4vw,48px); border-right: var(--rule); overflow-y: auto; }
+    .tb-media { background: var(--yellow); display: flex; align-items: center; justify-content: center; padding: 28px 20px; }
+    .tb-media img { width: 100%; max-width: 380px; height: auto; }
+    .tb-sub {
+      font-family: var(--display);
+      font-weight: 300;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 620px) {
+      .about-grid,
+      .split,
+      .split--flip,
+      .tb-split { grid-template-columns: 1fr; }
+      .split__text,
+      .split--flip .split__media,
+      .tb-text { border-right: none; border-bottom: var(--rule); }
+      .split__media, .split--flip .split__media { min-height: 220px; max-height: 260px; }
+      .tb-media { padding: 16px; }
+      .arrow { width: 32px; height: 52px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pages { transition: none; }
+      .cover__hint { animation: none; opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <img class="topbar__logo" src="assets/images/logo.png" alt="Nico Swenson" />
+    <span class="topbar__title">Portfolio Flipbook</span>
+    <span class="topbar__counter" id="counter">1 / 7</span>
+  </header>
+
+  <div class="flipbook-wrap">
+    <button class="arrow arrow--prev" id="prev">&#8592;</button>
+    <button class="arrow arrow--next" id="next">&#8594;</button>
+
+    <div class="pages" id="pages">
+
+      <!-- 1: COVER -->
+      <div class="page">
+        <div class="cover">
+          <img class="cover__logo" src="assets/images/logo.png" alt="Nico Swenson — Miss Texas 1988" />
+          <div class="cover__rule"></div>
+          <p class="cover__title">Portfolio Flipbook</p>
+          <p class="cover__hint">Flip to begin &rarr;</p>
+        </div>
+      </div>
+
+      <!-- 2: TABLE OF CONTENTS -->
+      <div class="page">
+        <div class="pg">
+          <h2 class="toc-header">Table of<br/>Contents</h2>
+          <ul class="toc-list">
+            <li><button class="toc-btn" onclick="goTo(2)">
+              <span class="toc-num">01</span>
+              <span class="toc-label">About Me</span>
+              <span class="toc-sub">Who I am</span>
+            </button></li>
+            <li><button class="toc-btn" onclick="goTo(3)">
+              <span class="toc-num">02</span>
+              <span class="toc-label">The Drag Side</span>
+              <span class="toc-sub">Performer · Host · Producer</span>
+            </button></li>
+            <li><button class="toc-btn" onclick="goTo(4)">
+              <span class="toc-num">03</span>
+              <span class="toc-label">Writing</span>
+              <span class="toc-sub">The Stranger</span>
+            </button></li>
+            <li><button class="toc-btn" onclick="goTo(5)">
+              <span class="toc-num">04</span>
+              <span class="toc-label">Design</span>
+              <span class="toc-sub">Thot Bubbles · Unicorn · More</span>
+            </button></li>
+            <li><button class="toc-btn" onclick="goTo(6)">
+              <span class="toc-num">05</span>
+              <span class="toc-label">Thot Bubbles</span>
+              <span class="toc-sub">Ma(gay)zine</span>
+            </button></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3: ABOUT -->
+      <div class="page">
+        <div class="pg">
+          <div class="about-grid">
+            <div class="about-photo">
+              <img src="assets/images/subject-1.png" alt="Nico Swenson as Miss Texas 1988" />
+            </div>
+            <div>
+              <h2 class="section-heading">About<br/>Me</h2>
+              <p class="body-p">Hi, my name is Nico Swenson, a local drag artist, writer, and designer. Most people know me by my alter ego Miss Texas 1988. As Texas you can find me performing, hosting, and producing events around the city.</p>
+              <p class="body-p">In or out of drag I am a political advocate and community builder. As a writer I cover local arts and culture. As a designer, I strive to use my art to help other people's visions be realized, especially in ways that help promote a creative, funcional society for all.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4: DRAG -->
+      <div class="page">
+        <div class="split">
+          <div class="split__text">
+            <h2 class="section-heading">The<br/>Drag<br/>Side</h2>
+            <p class="body-p">Currently you can find me rampaging around town in my Queen form Miss Texas 1988 or my King side JohnJacobJingleHeimerSH!T as a cast member of:</p>
+            <ul class="show-list">
+              <li>TUSH <span class="venue">Clock-out Lounge</span></li>
+              <li>The Sunday Sip <span class="venue">Red Star — Tacoma</span></li>
+              <li>Jawbreaker <span class="venue">Unicorn</span></li>
+              <li>Lashes <span class="venue">Unicorn</span></li>
+              <li>High F@ggotry <span class="venue">Host/Producer — Unicorn</span></li>
+              <li>Glory Hole <span class="venue">Roaming Collective</span></li>
+            </ul>
+            <p class="body-p">When not at those locations, I've been spotted performing at Lumen Field, The Space Needle, Showbox Downtown and SODO, The Seattle Art Museum, and even as a painting at SeaTac Airport.</p>
+            <p class="body-p">Oh! I also won a tv show... Check out Camp Wannakiki Season 5 on OutTV!</p>
+          </div>
+          <div class="split__media pale">
+            <img src="assets/images/texas-collage.png" alt="Miss Texas 1988 and cast" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 5: WRITING -->
+      <div class="page">
+        <div class="split split--flip">
+          <div class="split__media">
+            <img src="assets/images/writing-collage.png" alt="Writing collage" />
+          </div>
+          <div class="split__text">
+            <h2 class="section-heading">Writing</h2>
+            <p class="body-p">While Texas bops around in front of the camera as a reporter for The Stranger's social media, Nico covers local art as a regular columnist.</p>
+            <div class="pull-quote">"getting to do this interview rocked"</div>
+            <p class="body-p">I've had the honor of interviewing local celebs like Dina Martina, covering the successes of our home town champions like Jane Don't, and highlight the city's extreme talent from dance, to puppetry.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6: DESIGN -->
+      <div class="page">
+        <div class="pg" style="overflow-y:auto;height:100%;">
+          <div class="design-intro">
+            <h2 class="section-heading">Design!</h2>
+            <p class="body-p">My most recent adventure has been tackling a degree in graphic design through Seattle Central Creative Academy. Through the program I have gained new skills and interests in print, branding, systems thinking, motion graphics, and really waky photoshopping.</p>
+          </div>
+          <div class="cards">
+            <div class="card">
+              <img src="assets/images/projects/thot-bubbles-mag.jpg" alt="Thot Bubbles" />
+              <div class="card__label">Print &amp; Editorial</div>
+            </div>
+            <div class="card">
+              <img src="assets/images/projects/unicorn-cover.jpg" alt="Unicorn Bar" />
+              <div class="card__label">Brand Design</div>
+            </div>
+            <div class="card">
+              <img src="assets/images/projects/freelance-flow.jpg" alt="Freelance Flow" />
+              <div class="card__label">UX / App Design</div>
+            </div>
+            <div class="card">
+              <img src="assets/images/projects/motion-glenn.jpg" alt="Motion Graphics" />
+              <div class="card__label">Motion Graphics</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7: THOT BUBBLES -->
+      <div class="page tb-page">
+        <div class="tb-split">
+          <div class="tb-text">
+            <h2 class="section-heading">Thot<br/>Bubbles</h2>
+            <span class="tb-sub">Ma(gay)zine</span>
+            <p class="body-p">One of my proudest achievements in design was creating and producing a 60 page magazine to highlight PNW queer culture past and present. With co-editor D. Smith, <em>Thot Bubbles</em> combines poetry, painting, interviews with Seattle icons, essays on queer landscapes, and interactive twists to put your own self into the pages.</p>
+            <p class="body-p">Over the course of 9 months, my role was to cultivate detailed moodboards, style guides, and well researched content to build an expressive yet cohesive product. With careful precision, many rounds of edits, and funding from Seattle Office of Arts and Culture, <em>Thot Bubbles</em> coalesced into printed form.</p>
+            <p class="body-p">Ultimately, a launch party took place that tangibly manifested the ma(gay)zine's goal: To unite contemporary faggotry with the queer history that originated it.</p>
+          </div>
+          <div class="tb-media">
+            <img src="assets/images/tb-image.png" alt="Thot Bubbles magazine and display" />
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /pages -->
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav">
+    <button class="nav-tab active" data-page="0">Cover</button>
+    <button class="nav-tab" data-page="1">Contents</button>
+    <button class="nav-tab" data-page="2">About</button>
+    <button class="nav-tab" data-page="3">Drag</button>
+    <button class="nav-tab" data-page="4">Writing</button>
+    <button class="nav-tab" data-page="5">Design</button>
+    <button class="nav-tab" data-page="6">Thot Bubbles</button>
+  </nav>
+
+  <script>
+    const pagesEl = document.getElementById('pages');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const counter = document.getElementById('counter');
+    const tabs    = document.querySelectorAll('.nav-tab');
+    const total   = document.querySelectorAll('.page').length;
+    let cur = 0;
+
+    function goTo(idx) {
+      if (idx < 0 || idx >= total) return;
+      cur = idx;
+      pagesEl.style.transform = `translateX(-${cur * 100}%)`;
+      counter.textContent = `${cur + 1} / ${total}`;
+      prevBtn.disabled = cur === 0;
+      nextBtn.disabled = cur === total - 1;
+      tabs.forEach((t, i) => t.classList.toggle('active', i === cur));
+      tabs[cur]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    prevBtn.addEventListener('click', () => goTo(cur - 1));
+    nextBtn.addEventListener('click', () => goTo(cur + 1));
+    tabs.forEach(t => t.addEventListener('click', () => goTo(+t.dataset.page)));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft')  goTo(cur - 1);
+      if (e.key === 'ArrowRight') goTo(cur + 1);
+    });
+
+    let tx = null;
+    pagesEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    pagesEl.addEventListener('touchend',   e => {
+      if (tx === null) return;
+      const dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 40) goTo(cur + (dx < 0 ? 1 : -1));
+      tx = null;
+    }, { passive: true });
+
+    goTo(0);
+  </script>
+
+</body>
+</html>
