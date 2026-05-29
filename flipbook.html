@@ -37,19 +37,6 @@
       -webkit-user-drag: none;
     }
 
-    /* Book spine */
-    .spine {
-      position: absolute;
-      top: 0; bottom: 0;
-      left: calc(50% - 3px);
-      width: 6px;
-      background: linear-gradient(to right,
-        rgba(0,0,0,0.35) 0%,
-        rgba(0,0,0,0.08) 50%,
-        rgba(0,0,0,0.35) 100%);
-      z-index: 5;
-      pointer-events: none;
-    }
 
     /* ══════════════════════════════════════
        OVERLAID NAVIGATION
@@ -108,47 +95,53 @@
     .arrow--prev { left: 8px; }
     .arrow--next { right: 8px; }
 
-    /* Bottom section nav */
-    .nav-bottom {
+    /* Page-number-style section nav — sits on the white page */
+    .page-nav {
       position: fixed;
-      bottom: 0; left: 0; right: 0;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 200;
       display: flex;
-      background: rgba(17,17,17,0.92);
-      border-top: 2px solid #ffd400;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
+      align-items: baseline;
+      gap: 0;
+      white-space: nowrap;
     }
     .sec-btn {
-      flex: 1;
-      padding: 11px 4px;
       background: none;
       border: none;
-      border-right: 1px solid rgba(255,255,255,0.06);
       font-family: 'Oswald', sans-serif;
       font-weight: 600;
-      font-size: 0.56rem;
-      letter-spacing: 0.16em;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
+      color: #bbb;
       cursor: pointer;
-      line-height: 1.35;
-      transition: color 0.15s, background 0.15s;
+      padding: 4px 10px;
+      line-height: 1;
+      transition: color 0.15s;
+      position: relative;
     }
-    .sec-btn:last-child { border-right: none; }
-    .sec-btn:hover { color: #ffd400; background: rgba(255,212,0,0.07); }
-    .sec-btn.active { color: #ffd400; border-bottom: 2px solid #ffd400; }
+    .sec-btn + .sec-btn::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: #ccc;
+      font-size: 0.7rem;
+    }
+    .sec-btn:hover { color: #111; }
+    .sec-btn.active { color: #111; font-weight: 700; }
 
     /* ══════════════════════════════════════
        MOBILE: single page fills screen
     ══════════════════════════════════════ */
     @media (max-width: 700px) {
       .page-slot:last-child { display: none; }
-      .spine { display: none; }
       .arrow { width: 34px; height: 54px; font-size: 1rem; }
       .arrow--prev { left: 4px; }
       .arrow--next { right: 4px; }
-      .sec-btn { font-size: 0.5rem; padding: 10px 2px; }
+      .page-nav { bottom: 12px; }
+      .sec-btn { font-size: 0.5rem; padding: 4px 6px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -162,7 +155,6 @@
   <div class="spread" id="spread">
     <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
     <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
-    <div class="spine"></div>
   </div>
 
   <!-- Top overlay -->
@@ -176,14 +168,14 @@
   <button class="arrow arrow--prev" id="prev">&#8592;</button>
   <button class="arrow arrow--next" id="next">&#8594;</button>
 
-  <!-- Bottom section nav -->
-  <nav class="nav-bottom">
+  <!-- Page-number-style section nav -->
+  <nav class="page-nav">
     <button class="sec-btn" data-sec="0">Contents</button>
     <button class="sec-btn" data-sec="1">About Me</button>
     <button class="sec-btn" data-sec="2">Drag</button>
     <button class="sec-btn" data-sec="3">Writing</button>
     <button class="sec-btn" data-sec="4">Design</button>
-    <button class="sec-btn" data-sec="5">Thot<br/>Bubbles</button>
+    <button class="sec-btn" data-sec="5">Thot Bubbles</button>
   </nav>
 
   <script>
