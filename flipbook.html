@@ -132,51 +132,49 @@
     .sec-btn:hover { color: #111; }
     .sec-btn.active { color: #111; font-weight: 700; }
 
-    /* Writing text zoom popup */
+    /* Writing text hover card */
     #zoomWriting {
       position: fixed;
-      top: 50%; left: 25%; /* centered over the left (writing) page */
+      top: 50%;
+      left: 25%;
       transform: translate(-50%, -50%);
-      width: min(400px, 44vw);
-      height: min(320px, 55vh);
-      background-image: url('assets/images/flipbook-pages/page-07.jpg');
-      background-color: #fff;
-      background-size: 230%;
-      background-position: 79% 50%;
-      background-repeat: no-repeat;
-      box-shadow: 0 12px 50px rgba(0,0,0,0.55);
+      width: min(380px, 42vw);
+      background: #fff;
+      box-shadow: 0 12px 50px rgba(0,0,0,0.45);
       border: 3px solid #1a1718;
       z-index: 300;
       pointer-events: none;
       display: none;
       opacity: 0;
       transition: opacity 0.18s;
+      padding: 28px 30px;
     }
+    #zoomWriting p {
+      font-family: Georgia, serif;
+      font-size: clamp(0.88rem, 1.1vw, 1rem);
+      line-height: 1.75;
+      color: #1a1718;
+      margin-bottom: 1.1em;
+    }
+    #zoomWriting p:last-child { margin-bottom: 0; }
+    #zoomWriting em { font-style: italic; }
     @media (max-width: 700px) {
       #zoomWriting {
         left: 50%;
-        width: min(88vw, 380px);
-        height: min(52vh, 300px);
+        width: min(88vw, 360px);
       }
     }
 
-    /* TOC clickable overlays (shown only on spread 0) */
+    /* TOC clickable overlays — positioned entirely by JS */
     .toc-overlay {
       position: fixed;
-      /* covers the right half (TOC page) */
-      left: 50%; width: 50%;
       z-index: 150;
       cursor: pointer;
       background: transparent;
       border: none;
-      display: none; /* shown via JS */
+      display: none;
     }
-    .toc-overlay:hover { background: rgba(228,2,140,0.06); }
-
-    /* On mobile the TOC is the left slot — shift to full width */
-    @media (max-width: 700px) {
-      .toc-overlay { left: 0; width: 100%; }
-    }
+    .toc-overlay:hover { background: rgba(228,2,140,0.07); }
 
     /* ══════════════════════════════════════
        MOBILE: single page fills screen
@@ -214,15 +212,17 @@
   <button class="arrow arrow--prev" id="prev">&#8592;</button>
   <button class="arrow arrow--next" id="next">&#8594;</button>
 
-  <!-- Writing text zoom popup -->
-  <div id="zoomWriting"></div>
+  <!-- Writing text hover card -->
+  <div id="zoomWriting">
+    <p>While Texas Bops around in front of the camera as a reporter for The Stranger's social media, Nico covers local art as a regular columnist.</p>
+    <p>Through my recurring column "Spotlit In Seattle" I've had the honor of interviewing local celebs like Dina Martina and covering the successes of our home town champions like <em>RuPaul's Drag Race</em> star Jane Don't. I've highlight the city's extreme talent from dance, to puppetry, visual art, music and more.</p>
+  </div>
 
-  <!-- TOC clickable overlays — positioned over the 4 section names on page 2 -->
-  <!-- top/height are % of viewport height, tuned to match the image layout -->
-  <button class="toc-overlay" data-sec="1" style="top:38%; height:12%;" title="About Me"></button>
-  <button class="toc-overlay" data-sec="2" style="top:51%; height:11%;" title="Drag"></button>
-  <button class="toc-overlay" data-sec="3" style="top:63%; height:11%;" title="Writing"></button>
-  <button class="toc-overlay" data-sec="4" style="top:75%; height:11%;" title="Design"></button>
+  <!-- TOC clickable overlays — positions calculated by JS from image bounds -->
+  <button class="toc-overlay" data-sec="1" title="About Me"></button>
+  <button class="toc-overlay" data-sec="2" title="Drag"></button>
+  <button class="toc-overlay" data-sec="3" title="Writing"></button>
+  <button class="toc-overlay" data-sec="4" title="Design"></button>
 
   <!-- Page-number-style section nav -->
   <nav class="page-nav">
@@ -316,11 +316,55 @@
         nextBtn.disabled = curSpread === SPREADS.length - 1 || turning;
         secBtns.forEach((b, i) => b.classList.toggle('active', i === SPREAD_SECTION[curSpread]));
       }
-      // Show TOC overlays only when on spread 0 (the TOC page)
-      const showToc = !isMobile()
-        ? curSpread === 0
-        : curPage === 1; // page 2 (0-indexed page 1) is the TOC list on mobile
-      tocOverlays.forEach(o => o.style.display = showToc ? 'block' : 'none');
+      // Show/position TOC overlays only on the TOC list page
+      const showToc = isMobile() ? curPage === 1 : curSpread === 0;
+      if (showToc) positionTocOverlays();
+      else tocOverlays.forEach(o => o.style.display = 'none');
+    }
+
+    // ── Position TOC overlays based on actual rendered image bounds ──
+    // page-02.jpg is portrait letter (~1275×1650). Text items sit at these
+    // approximate % positions within the image:
+    const TOC_ROWS = [
+      { top: 0.40, bottom: 0.52 }, // About Me
+      { top: 0.53, bottom: 0.65 }, // Drag
+      { top: 0.66, bottom: 0.77 }, // Writing
+      { top: 0.78, bottom: 0.89 }, // Design
+    ];
+    const IMG_RATIO = 1275 / 1650; // natural width/height of each page
+
+    function positionTocOverlays() {
+      // The TOC list is on slotR on desktop, slotL on mobile
+      const slot = isMobile()
+        ? document.getElementById('slotL')
+        : document.getElementById('slotR');
+      const rect = slot.getBoundingClientRect();
+
+      // Calculate actual rendered image rect inside the slot (object-fit: contain)
+      const slotRatio = rect.width / rect.height;
+      let imgW, imgH, imgX, imgY;
+      if (slotRatio > IMG_RATIO) {
+        // slot wider than image → image fills height, centered horizontally
+        imgH = rect.height;
+        imgW = imgH * IMG_RATIO;
+        imgX = rect.left + (rect.width - imgW) / 2;
+        imgY = rect.top;
+      } else {
+        // slot taller than image → image fills width, centered vertically
+        imgW = rect.width;
+        imgH = imgW / IMG_RATIO;
+        imgX = rect.left;
+        imgY = rect.top + (rect.height - imgH) / 2;
+      }
+
+      tocOverlays.forEach((o, i) => {
+        const row = TOC_ROWS[i];
+        o.style.display = 'block';
+        o.style.left   = imgX + 'px';
+        o.style.width  = imgW + 'px';
+        o.style.top    = (imgY + row.top  * imgH) + 'px';
+        o.style.height = ((row.bottom - row.top) * imgH) + 'px';
+      });
     }
 
     // ── Navigation ────────────────────────────────────────
@@ -525,7 +569,11 @@
       tx = null;
     }, {passive:true});
 
-    window.addEventListener('resize', () => { renderStatic(); });
+    window.addEventListener('resize', () => {
+      renderStatic();
+      const showToc = isMobile() ? curPage === 1 : curSpread === 0;
+      if (showToc) positionTocOverlays();
+    });
 
     // ── Init ──────────────────────────────────────────────
     renderStatic();
