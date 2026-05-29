@@ -132,6 +132,24 @@
     .sec-btn:hover { color: #111; }
     .sec-btn.active { color: #111; font-weight: 700; }
 
+    /* TOC clickable overlays (shown only on spread 0) */
+    .toc-overlay {
+      position: fixed;
+      /* covers the right half (TOC page) */
+      left: 50%; width: 50%;
+      z-index: 150;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      display: none; /* shown via JS */
+    }
+    .toc-overlay:hover { background: rgba(228,2,140,0.06); }
+
+    /* On mobile the TOC is the left slot — shift to full width */
+    @media (max-width: 700px) {
+      .toc-overlay { left: 0; width: 100%; }
+    }
+
     /* ══════════════════════════════════════
        MOBILE: single page fills screen
     ══════════════════════════════════════ */
@@ -167,6 +185,13 @@
   <!-- Side arrows -->
   <button class="arrow arrow--prev" id="prev">&#8592;</button>
   <button class="arrow arrow--next" id="next">&#8594;</button>
+
+  <!-- TOC clickable overlays — positioned over the 4 section names on page 2 -->
+  <!-- top/height are % of viewport height, tuned to match the image layout -->
+  <button class="toc-overlay" data-sec="1" style="top:38%; height:12%;" title="About Me"></button>
+  <button class="toc-overlay" data-sec="2" style="top:51%; height:11%;" title="Drag"></button>
+  <button class="toc-overlay" data-sec="3" style="top:63%; height:11%;" title="Writing"></button>
+  <button class="toc-overlay" data-sec="4" style="top:75%; height:11%;" title="Design"></button>
 
   <!-- Page-number-style section nav -->
   <nav class="page-nav">
@@ -213,7 +238,8 @@
     const prevBtn  = document.getElementById('prev');
     const nextBtn  = document.getElementById('next');
     const counter  = document.getElementById('counter');
-    const secBtns  = document.querySelectorAll('.sec-btn');
+    const secBtns     = document.querySelectorAll('.sec-btn');
+    const tocOverlays = document.querySelectorAll('.toc-overlay');
 
     function isMobile() { return window.innerWidth <= 700; }
 
@@ -259,6 +285,11 @@
         nextBtn.disabled = curSpread === SPREADS.length - 1 || turning;
         secBtns.forEach((b, i) => b.classList.toggle('active', i === SPREAD_SECTION[curSpread]));
       }
+      // Show TOC overlays only when on spread 0 (the TOC page)
+      const showToc = !isMobile()
+        ? curSpread === 0
+        : curPage === 1; // page 2 (0-indexed page 1) is the TOC list on mobile
+      tocOverlays.forEach(o => o.style.display = showToc ? 'block' : 'none');
     }
 
     // ── Navigation ────────────────────────────────────────
@@ -426,6 +457,7 @@
     prevBtn.addEventListener('click', goPrev);
     nextBtn.addEventListener('click', goNext);
     secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
+    tocOverlays.forEach(o => o.addEventListener('click', () => goToSection(+o.dataset.sec)));
 
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft')  goPrev();
