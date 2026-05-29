@@ -15,7 +15,6 @@
       display: flex;
       flex-direction: column;
       font-family: 'Jost', sans-serif;
-      color: #fff;
     }
 
     /* ── Top bar ── */
@@ -23,28 +22,18 @@
       background: #111;
       border-bottom: 3px solid #ffd400;
       padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-shrink: 0;
-      z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; z-index: 10;
     }
-    .topbar__logo { height: 32px; width: auto; }
+    .topbar__logo { height: 32px; }
     .topbar__title {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 700;
-      font-size: 0.65rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
+      font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase;
       color: #ffd400;
     }
     .topbar__counter {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      color: #666;
-      white-space: nowrap;
+      font-family: 'Oswald', sans-serif; font-size: 0.65rem;
+      letter-spacing: 0.12em; color: #666;
     }
 
     /* ── Viewer ── */
@@ -55,144 +44,111 @@
       justify-content: center;
       position: relative;
       overflow: hidden;
-      padding: 12px 56px;
+      padding: 12px 58px;
     }
 
-    /* ── Spread ── */
-    .spread {
+    /* ── Spread outer (sized by JS, sets perspective) ── */
+    .spread-outer {
+      position: relative;
+      flex-shrink: 0;
+      box-shadow: 0 20px 70px rgba(0,0,0,0.85);
+    }
+
+    /* ── Spread inner (two page slots) ── */
+    .spread-inner {
+      width: 100%;
+      height: 100%;
       display: flex;
-      align-items: stretch;
-      justify-content: center;
-      height: 100%;
-      max-height: 100%;
-      gap: 0;
-    }
-
-    .spread-page {
-      display: none;
-      height: 100%;
       position: relative;
     }
-    .spread-page.visible {
-      display: flex;
-      align-items: center;
+
+    .page-slot {
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+      position: relative;
+      flex-shrink: 0;
     }
-    .spread-page img {
-      max-height: 100%;
-      max-width: 100%;
+    .page-slot img {
+      width: 100%; height: 100%;
       object-fit: contain;
       display: block;
     }
-    /* book seam shadow */
-    .spread-page:first-child img {
-      box-shadow: -4px 0 12px rgba(0,0,0,0.5), 0 6px 32px rgba(0,0,0,0.6);
-    }
-    .spread-page:last-child img {
-      box-shadow: 4px 0 12px rgba(0,0,0,0.5), 0 6px 32px rgba(0,0,0,0.6);
-    }
-    /* single page (odd last or mobile) */
-    .spread-page.solo img {
-      box-shadow: 0 6px 40px rgba(0,0,0,0.7);
+
+    /* Spine shadow */
+    .spine {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: calc(50% - 3px);
+      width: 6px;
+      background: linear-gradient(to right,
+        rgba(0,0,0,0.28) 0%,
+        rgba(0,0,0,0.06) 50%,
+        rgba(0,0,0,0.28) 100%);
+      z-index: 10;
+      pointer-events: none;
     }
 
-    /* ── Page turn transition overlay ── */
-    .viewer {
-      --turn: 0.38s;
-    }
-    .spread {
-      transition: opacity 0.18s ease;
-    }
-    .spread.turning {
-      opacity: 0;
-    }
-
-    /* ── Nav arrows ── */
+    /* ── Arrows ── */
     .arrow {
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 50%; transform: translateY(-50%);
       z-index: 30;
       background: rgba(255,212,0,0.92);
-      color: #111;
-      border: none;
-      width: 42px;
-      height: 70px;
-      font-size: 1.3rem;
-      font-weight: 900;
-      cursor: pointer;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+      color: #111; border: none;
+      width: 42px; height: 68px;
+      font-size: 1.25rem; font-weight: 900;
+      cursor: pointer; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.35);
       transition: background 0.15s, transform 0.15s;
     }
     .arrow:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
     .arrow:disabled { opacity: 0.12; cursor: default; pointer-events: none; }
-    .arrow--prev { left: 7px; }
-    .arrow--next { right: 7px; }
+    .arrow--prev { left: 8px; }
+    .arrow--next { right: 8px; }
 
     /* ── Section nav ── */
     .section-nav {
       background: #111;
       border-top: 3px solid #ffd400;
-      display: flex;
-      flex-shrink: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
+      display: flex; flex-shrink: 0;
+      overflow-x: auto; scrollbar-width: none;
     }
     .section-nav::-webkit-scrollbar { display: none; }
     .sec-btn {
-      flex: 1;
-      min-width: 70px;
+      flex: 1; min-width: 68px;
       padding: 11px 8px;
-      background: none;
-      border: none;
+      background: none; border: none;
       border-right: 1px solid #2a2828;
       font-family: 'Oswald', sans-serif;
-      font-weight: 600;
-      font-size: 0.58rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #555;
-      cursor: pointer;
+      font-weight: 600; font-size: 0.58rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: #555; cursor: pointer; line-height: 1.35;
       transition: color 0.15s, background 0.15s;
-      line-height: 1.3;
     }
     .sec-btn:last-child { border-right: none; }
     .sec-btn:hover { color: #ffd400; background: #1e1c1d; }
-    .sec-btn.active {
-      color: #ffd400;
-      background: #1a1818;
-      border-bottom: 3px solid #ffd400;
-    }
+    .sec-btn.active { color: #ffd400; background: #1a1818; border-bottom: 3px solid #ffd400; }
 
     /* ── Thumbnail strip ── */
     .strip-wrap {
       background: #0c0c0c;
-      border-top: 1px solid #2a2828;
-      padding: 5px 10px;
-      flex-shrink: 0;
+      border-top: 1px solid #272727;
+      padding: 5px 10px; flex-shrink: 0;
     }
     .strip {
-      display: flex;
-      gap: 4px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-      scrollbar-width: thin;
-      scrollbar-color: #ffd400 #222;
+      display: flex; gap: 4px;
+      overflow-x: auto; padding-bottom: 2px;
+      scrollbar-width: thin; scrollbar-color: #ffd400 #222;
     }
     .strip::-webkit-scrollbar { height: 3px; }
     .strip::-webkit-scrollbar-thumb { background: #ffd400; border-radius: 2px; }
     .thumb {
-      flex-shrink: 0;
-      width: 36px;
-      height: 50px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      border-radius: 3px;
-      overflow: hidden;
-      opacity: 0.4;
+      flex-shrink: 0; width: 36px; height: 50px;
+      cursor: pointer; border: 2px solid transparent;
+      border-radius: 3px; overflow: hidden; opacity: 0.4;
       transition: opacity 0.15s, border-color 0.15s;
     }
     .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -201,15 +157,17 @@
 
     /* ── Mobile ── */
     @media (max-width: 620px) {
-      .viewer { padding: 8px 44px; }
+      .viewer { padding: 8px 46px; }
       .arrow { width: 34px; height: 54px; font-size: 1rem; }
       .arrow--prev { left: 4px; }
       .arrow--next { right: 4px; }
       .strip-wrap { display: none; }
+      .page-slot:last-child { display: none; }
+      .spine { display: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .spread { transition: none; }
+      * { transition: none !important; animation: none !important; }
     }
   </style>
 </head>
@@ -221,22 +179,21 @@
     <span class="topbar__counter" id="counter"></span>
   </header>
 
-  <div class="viewer">
+  <div class="viewer" id="viewer">
     <button class="arrow arrow--prev" id="prev">&#8592;</button>
 
-    <div class="spread" id="spread">
-      <div class="spread-page" id="pageL">
-        <img id="imgL" src="" alt="" />
+    <div class="spread-outer" id="spreadOuter">
+      <div class="spread-inner" id="spreadInner">
+        <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
+        <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
       </div>
-      <div class="spread-page" id="pageR">
-        <img id="imgR" src="" alt="" />
-      </div>
+      <div class="spine"></div>
     </div>
 
     <button class="arrow arrow--next" id="next">&#8594;</button>
   </div>
 
-  <nav class="section-nav" id="sectionNav">
+  <nav class="section-nav">
     <button class="sec-btn" data-spread="0">Contents</button>
     <button class="sec-btn" data-spread="1">About Me</button>
     <button class="sec-btn" data-spread="2">Drag</button>
@@ -250,128 +207,266 @@
   </div>
 
   <script>
-    // All 16 pages, 1-indexed filenames
-    const pages = Array.from({length: 16}, (_, i) => {
-      const n = String(i + 1).padStart(2, '0');
-      return `assets/images/flipbook-pages/page-${n}.jpg`;
-    });
-
-    // Spreads: each entry is [leftPageIdx, rightPageIdx] (0-based), null = no page
-    // Pages pair up naturally: 0+1, 2+3, 4+5, 6+7, 8+9, 10+11, 12+13, 14+15
-    const spreads = [
-      [0, 1],   // TOC title + TOC list
-      [2, 3],   // About Me text + About Me photo
-      [4, 5],   // Drag text + Drag photo
-      [6, 7],   // Writing text + Writing collage
-      [8, 9],   // Design intro + Design sub-TOC
-      [10, 11], // Thot Bubbles title + TB cover
-      [12, 13], // TB text cont. + TB text cont.
-      [14, 15], // TB last text + TB photo
+    // ── Data ─────────────────────────────────────────────
+    const PAGES = Array.from({length: 16}, (_, i) =>
+      `assets/images/flipbook-pages/page-${String(i+1).padStart(2,'0')}.jpg`
+    );
+    // Each spread is [leftPageIndex, rightPageIndex] (0-based)
+    const SPREADS = [
+      [0,1], [2,3], [4,5], [6,7],
+      [8,9], [10,11], [12,13], [14,15]
     ];
+    // Which section button is active for each spread index
+    const SECTION_MAP = [0, 1, 2, 3, 4, 5, 5, 5];
+    const TURN_MS = 700; // animation duration
+    const PAGE_RATIO = 1275 / 1650; // portrait letter-ish aspect ratio
 
-    // Section buttons jump to specific spread index
-    // Contents=0, About=1, Drag=2, Writing=3, Design=4, Thot Bubbles=5
-    // (Thot Bubbles section starts at spread 5)
-
-    const total = spreads.length;
+    // ── State ─────────────────────────────────────────────
     let cur = 0;
-    let twoUp = window.innerWidth > 620;
+    let turning = false;
 
-    const spreadEl = document.getElementById('spread');
-    const pageL    = document.getElementById('pageL');
-    const pageR    = document.getElementById('pageR');
-    const imgL     = document.getElementById('imgL');
-    const imgR     = document.getElementById('imgR');
-    const prevBtn  = document.getElementById('prev');
-    const nextBtn  = document.getElementById('next');
-    const counter  = document.getElementById('counter');
-    const strip    = document.getElementById('strip');
-    const secBtns  = document.querySelectorAll('.sec-btn');
+    // ── DOM refs ──────────────────────────────────────────
+    const viewerEl    = document.getElementById('viewer');
+    const spreadOuter = document.getElementById('spreadOuter');
+    const spreadInner = document.getElementById('spreadInner');
+    const imgL        = document.getElementById('imgL');
+    const imgR        = document.getElementById('imgR');
+    const prevBtn     = document.getElementById('prev');
+    const nextBtn     = document.getElementById('next');
+    const counter     = document.getElementById('counter');
+    const strip       = document.getElementById('strip');
+    const secBtns     = document.querySelectorAll('.sec-btn');
 
-    // Build thumbnail strip (individual pages)
-    pages.forEach((src, i) => {
+    // ── Build thumbnail strip ─────────────────────────────
+    PAGES.forEach((src, i) => {
       const t = document.createElement('div');
       t.className = 'thumb';
-      t.innerHTML = `<img src="${src}" alt="p${i+1}" loading="lazy"/>`;
+      t.innerHTML = `<img src="${src}" loading="lazy" alt="p${i+1}"/>`;
       t.addEventListener('click', () => {
-        // Find which spread contains this page
-        const si = spreads.findIndex(s => s[0] === i || s[1] === i);
+        const si = SPREADS.findIndex(s => s[0] === i || s[1] === i);
         if (si >= 0) goTo(si);
       });
       strip.appendChild(t);
     });
 
-    function goTo(idx, animate = true) {
-      if (idx < 0 || idx >= total) return;
+    // ── Sizing ────────────────────────────────────────────
+    function resize() {
+      const isMobile = window.innerWidth <= 620;
+      const vw = viewerEl.clientWidth - 120;
+      const vh = viewerEl.clientHeight - 24;
+      const ratio = isMobile ? PAGE_RATIO : PAGE_RATIO * 2;
 
-      if (animate) {
-        spreadEl.classList.add('turning');
-        setTimeout(() => {
-          cur = idx;
-          render();
-          spreadEl.classList.remove('turning');
-        }, 180);
-      } else {
-        cur = idx;
-        render();
-      }
+      let w, h;
+      if (vw / vh > ratio) { h = vh; w = h * ratio; }
+      else                  { w = vw; h = w / ratio; }
+
+      spreadOuter.style.width  = Math.round(w) + 'px';
+      spreadOuter.style.height = Math.round(h) + 'px';
+      // Perspective on spreadInner so leaf 3D renders correctly
+      spreadInner.style.perspective = Math.round(w * 2.2) + 'px';
+      spreadInner.style.perspectiveOrigin = 'center center';
     }
 
-    function render() {
-      twoUp = window.innerWidth > 620;
+    // ── Preload adjacent spreads ──────────────────────────
+    function preload(idx) {
+      if (idx < 0 || idx >= SPREADS.length) return;
+      SPREADS[idx].forEach(pi => {
+        const img = new Image();
+        img.src = PAGES[pi];
+      });
+    }
 
-      const [l, r] = spreads[cur];
+    // ── Render static (no animation) ─────────────────────
+    function renderStatic() {
+      const [l, r] = SPREADS[cur];
+      imgL.src = PAGES[l];
+      imgR.src = PAGES[r];
+      updateUI();
+      preload(cur - 1);
+      preload(cur + 1);
+    }
 
-      // Left page always shown
-      imgL.src = pages[l];
-      imgL.alt = `Page ${l + 1}`;
-      pageL.classList.add('visible');
+    function updateUI() {
+      const [l, r] = SPREADS[cur];
+      const isMobile = window.innerWidth <= 620;
+      counter.textContent = isMobile
+        ? `${l+1} / ${PAGES.length}`
+        : `${l+1}–${r+1} / ${PAGES.length}`;
 
-      // Right page: show only in two-up and if it exists
-      if (twoUp && r !== null && r < pages.length) {
-        imgR.src = pages[r];
-        imgR.alt = `Page ${r + 1}`;
-        pageR.classList.add('visible');
-        pageL.classList.remove('solo');
-        pageR.classList.remove('solo');
-      } else {
-        pageR.classList.remove('visible');
-        pageL.classList.add('solo');
-      }
+      prevBtn.disabled = cur === 0 || turning;
+      nextBtn.disabled = cur === SPREADS.length - 1 || turning;
 
-      // Counter
-      if (twoUp && r !== null) {
-        counter.textContent = `${l+1}–${r+1} / ${pages.length}`;
-      } else {
-        counter.textContent = `${l+1} / ${pages.length}`;
-      }
+      secBtns.forEach((b, i) => b.classList.toggle('active', i === SECTION_MAP[cur]));
 
-      // Arrow state
-      prevBtn.disabled = cur === 0;
-      nextBtn.disabled = cur === total - 1;
-
-      // Section nav highlight
-      // Map spread index to section
-      // 0=Contents, 1=About Me, 2=Drag, 3=Writing, 4=Design, 5-7=Thot Bubbles
-      const sectionMap = [0, 1, 2, 3, 4, 5, 5, 5];
-      const activeSec = sectionMap[cur];
-      secBtns.forEach((b, i) => b.classList.toggle('active', i === activeSec));
-
-      // Thumbnail strip — highlight both pages in spread
       const thumbs = strip.querySelectorAll('.thumb');
       thumbs.forEach((t, i) => {
-        const active = i === l || (twoUp && i === r);
-        t.classList.toggle('active', active);
+        const on = i === l || (!isMobile && i === r);
+        t.classList.toggle('active', on);
       });
-      if (thumbs[l]) thumbs[l].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      if (thumbs[l]) thumbs[l].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
     }
 
+    // ── Page turn: forward ────────────────────────────────
+    // Physics: the right page (front=curR) rotates -180° around the spine
+    // (its left edge), carrying away curR and revealing nxtL on its back.
+    // Meanwhile slotR is pre-set to nxtR (the new right page, visible once
+    // the leaf sweeps past). After the turn, slotL is updated to nxtL.
+    function turnForward(nextIdx) {
+      const [curL, curR] = SPREADS[cur];
+      const [nxtL, nxtR] = SPREADS[nextIdx];
+
+      // Destination right page sits behind the leaf from the start
+      imgR.src = PAGES[nxtR];
+
+      const leaf = makeLeaf(PAGES[curR], PAGES[nxtL], true);
+      spreadInner.appendChild(leaf);
+
+      // Double rAF to ensure CSS transition picks up the starting state
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        leaf.style.transform = 'rotateY(-180deg)';
+      }));
+
+      leaf.addEventListener('transitionend', () => {
+        imgL.src = PAGES[nxtL];
+        spreadInner.removeChild(leaf);
+        cur = nextIdx;
+        turning = false;
+        updateUI();
+        preload(cur + 1);
+      }, { once: true });
+    }
+
+    // ── Page turn: backward ───────────────────────────────
+    // The left page (front=curL) rotates +180° around its right edge
+    // (the spine), revealing prvR on its back.
+    // slotL is pre-set to prvL (hidden under leaf). After turn, slotR=prvR.
+    function turnBackward(prevIdx) {
+      const [curL, curR] = SPREADS[cur];
+      const [prvL, prvR] = SPREADS[prevIdx];
+
+      // Destination left page sits behind the leaf from the start
+      imgL.src = PAGES[prvL];
+
+      const leaf = makeLeaf(PAGES[curL], PAGES[prvR], false);
+      spreadInner.appendChild(leaf);
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        leaf.style.transform = 'rotateY(180deg)';
+      }));
+
+      leaf.addEventListener('transitionend', () => {
+        imgR.src = PAGES[prvR];
+        spreadInner.removeChild(leaf);
+        cur = prevIdx;
+        turning = false;
+        updateUI();
+        preload(cur - 1);
+      }, { once: true });
+    }
+
+    // ── Build a turning leaf ──────────────────────────────
+    // The leaf is a div with front and back faces (preserve-3d).
+    // isForward=true → covers right half, origin left; rotates -180°
+    // isForward=false → covers left half, origin right; rotates +180°
+    function makeLeaf(frontSrc, backSrc, isForward) {
+      const leaf = document.createElement('div');
+      leaf.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: ${isForward ? '50%' : '0'};
+        width: 50%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transform-origin: ${isForward ? 'left' : 'right'} center;
+        transform: rotateY(0deg);
+        transition: transform ${TURN_MS}ms cubic-bezier(0.645,0.045,0.355,1.000);
+        z-index: 20;
+        pointer-events: none;
+      `;
+      leaf.appendChild(makeLeafFace(frontSrc, false, isForward));
+      leaf.appendChild(makeLeafFace(backSrc,  true,  isForward));
+      return leaf;
+    }
+
+    function makeLeafFace(src, isBack, isForward) {
+      const face = document.createElement('div');
+      face.style.cssText = `
+        position: absolute; inset: 0;
+        overflow: hidden;
+        background: #fff;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        ${isBack ? 'transform: rotateY(180deg);' : ''}
+      `;
+
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
+      img.draggable = false;
+      face.appendChild(img);
+
+      // Fold shadow — simulates paper bending at the spine
+      const shadow = document.createElement('div');
+      let gradient;
+      if (!isBack) {
+        // Front: shadow deepens toward the fold edge (the edge that lifts first)
+        gradient = isForward
+          ? 'linear-gradient(to left, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.04) 45%, transparent 60%)'
+          : 'linear-gradient(to right, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.04) 45%, transparent 60%)';
+      } else {
+        // Back: shadow at the spine edge (the crease)
+        gradient = isForward
+          ? 'linear-gradient(to right, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.06) 40%, transparent 60%)'
+          : 'linear-gradient(to left, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.06) 40%, transparent 60%)';
+      }
+      shadow.style.cssText = `
+        position: absolute; inset: 0;
+        background: ${gradient};
+        pointer-events: none;
+      `;
+      face.appendChild(shadow);
+
+      return face;
+    }
+
+    // ── Main navigation ───────────────────────────────────
+    function goTo(idx) {
+      if (turning || idx < 0 || idx >= SPREADS.length || idx === cur) return;
+
+      const isMobile = window.innerWidth <= 620;
+      const steps = Math.abs(idx - cur);
+
+      // Multi-step jump or mobile: instant swap
+      if (steps > 1 || isMobile) {
+        const prev = cur;
+        cur = idx;
+        if (isMobile && steps === 1) {
+          // Subtle fade on mobile
+          spreadOuter.style.transition = 'opacity 0.22s';
+          spreadOuter.style.opacity = '0';
+          setTimeout(() => {
+            renderStatic();
+            spreadOuter.style.opacity = '1';
+          }, 220);
+        } else {
+          renderStatic();
+        }
+        return;
+      }
+
+      // Single-step on desktop: 3D page turn
+      turning = true;
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+
+      if (idx > cur) turnForward(idx);
+      else           turnBackward(idx);
+    }
+
+    // ── Event listeners ───────────────────────────────────
     prevBtn.addEventListener('click', () => goTo(cur - 1));
     nextBtn.addEventListener('click', () => goTo(cur + 1));
-
-    secBtns.forEach(b => {
-      b.addEventListener('click', () => goTo(+b.dataset.spread));
-    });
+    secBtns.forEach(b => b.addEventListener('click', () => goTo(+b.dataset.spread)));
 
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft')  goTo(cur - 1);
@@ -379,17 +474,19 @@
     });
 
     let tx = null;
-    spreadEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
-    spreadEl.addEventListener('touchend', e => {
+    spreadOuter.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+    spreadOuter.addEventListener('touchend', e => {
       if (tx === null) return;
       const dx = e.changedTouches[0].clientX - tx;
       if (Math.abs(dx) > 45) goTo(cur + (dx < 0 ? 1 : -1));
       tx = null;
-    }, { passive: true });
+    }, {passive:true});
 
-    window.addEventListener('resize', () => { twoUp = window.innerWidth > 620; render(); });
+    window.addEventListener('resize', () => { resize(); updateUI(); });
 
-    goTo(0, false);
+    // ── Init ──────────────────────────────────────────────
+    resize();
+    renderStatic();
   </script>
 
 </body>
