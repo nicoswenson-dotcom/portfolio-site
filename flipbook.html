@@ -132,8 +132,8 @@
     .sec-btn:hover { color: #111; }
     .sec-btn.active { color: #111; font-weight: 700; }
 
-    /* Writing text hover card */
-    #zoomWriting {
+    /* Hover text card (all sections) */
+    #zoomCard {
       position: fixed;
       top: 50%;
       left: 25%;
@@ -149,20 +149,17 @@
       transition: opacity 0.18s;
       padding: 28px 30px;
     }
-    #zoomWriting p {
+    #zoomCard p {
       font-family: Georgia, serif;
-      font-size: clamp(0.88rem, 1.1vw, 1rem);
+      font-size: clamp(0.82rem, 1.05vw, 0.97rem);
       line-height: 1.75;
       color: #1a1718;
       margin-bottom: 1.1em;
     }
-    #zoomWriting p:last-child { margin-bottom: 0; }
-    #zoomWriting em { font-style: italic; }
+    #zoomCard p:last-child { margin-bottom: 0; }
+    #zoomCard em { font-style: italic; }
     @media (max-width: 700px) {
-      #zoomWriting {
-        left: 50%;
-        width: min(88vw, 360px);
-      }
+      #zoomCard { left: 50%; width: min(88vw, 360px); }
     }
 
     /* TOC clickable overlays — positioned entirely by JS */
@@ -212,11 +209,8 @@
   <button class="arrow arrow--prev" id="prev">&#8592;</button>
   <button class="arrow arrow--next" id="next">&#8594;</button>
 
-  <!-- Writing text hover card -->
-  <div id="zoomWriting">
-    <p>While Texas Bops around in front of the camera as a reporter for The Stranger's social media, Nico covers local art as a regular columnist.</p>
-    <p>Through my recurring column "Spotlit In Seattle" I've had the honor of interviewing local celebs like Dina Martina and covering the successes of our home town champions like <em>RuPaul's Drag Race</em> star Jane Don't. I've highlight the city's extreme talent from dance, to puppetry, visual art, music and more.</p>
-  </div>
+  <!-- Hover text card (content set dynamically by JS) -->
+  <div id="zoomCard"></div>
 
   <!-- TOC clickable overlays — positions calculated by JS from image bounds -->
   <button class="toc-overlay" data-sec="1" title="About Me"></button>
@@ -321,12 +315,9 @@
       if (showToc) positionTocOverlays();
       else tocOverlays.forEach(o => o.style.display = 'none');
 
-      // Hide writing zoom card when not on writing spread
-      const zoomEl = document.getElementById('zoomWriting');
-      if (curSpread !== 3) {
-        zoomEl.style.opacity = '0';
-        zoomEl.style.display = 'none';
-      }
+      // Hide hover card on spread change
+      const _z = document.getElementById('zoomCard');
+      if (_z) { _z.style.opacity = '0'; _z.style.display = 'none'; }
     }
 
     // ── Position TOC overlays ────────────────────────────
@@ -542,18 +533,43 @@
     secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
     tocOverlays.forEach(o => o.addEventListener('click', () => goToSection(+o.dataset.sec)));
 
-    // Writing text zoom — show on hover when on the writing spread (spread 3)
-    const zoomEl = document.getElementById('zoomWriting');
+    // ── Hover text cards ─────────────────────────────────
+    // Key format: `${spreadIndex}_${'L'|'R'}`
+    const HOVER_CARDS = {
+      '1_L': `<p>Hi, my name is Nico Swenson, a local drag artist, writer, and designer. Most people know me by my alter ego Miss Texas 1988.</p><p>As Texas you can find me performing, hosting, and producing events around the city. In or out of drag I am a political advocate and community builder. As a writer I cover local arts and culture. As a designer, I strive to use my art to help other people's visions be realized, especially in ways that help promote a creative, functional society for all.</p>`,
+      '2_L': `<p>Currently you can find me rampaging around town in my Queen form Miss Texas 1988 or my King side JohnJacobJingleHeimerSH!T.</p><p>My recurring shows include TUSH · The Sunday Sip · Jawbreaker · Lashes · High F@ggotry · Glory Hole.</p><p>When not at those locations, I've been spotted performing at Lumen Field, The Space Needle, Showbox Downtown and SODO, The Seattle Art Museum, and even as a painting at SeaTac Airport.</p><p>Oh! I also won a tv show... Check out Camp Wannakiki Season 5 on OutTV!</p>`,
+      '3_L': `<p>While Texas Bops around in front of the camera as a reporter for The Stranger's social media, Nico covers local art as a regular columnist.</p><p>Through my recurring column "Spotlit In Seattle" I've had the honor of interviewing local celebs like Dina Martina and covering the successes of our home town champions like <em>RuPaul's Drag Race</em> star Jane Don't. I've highlight the city's extreme talent from dance, to puppetry, visual art, music and more.</p>`,
+      '4_R': `<p>My most recent adventure has been tackling a degree in graphic design through Seattle Central Creative Acadamy.</p><p>Through the program I have gained new skills and interests in print, branding, systems thinking, motion graphics, and really waky photoshopping.</p>`,
+      '5_L': `<p>One of my proudest achievements in design was creating and producing a 60 page magazine to highlight PNW queer culture past and present. With co-editor D. Smith, Thot Bubbles combines poetry, painting, interviews with Seattle icons, essays on queer landscapes, and interactive twists to put your own self into the pages of PNW Queer culture.</p>`,
+      '6_L': `<p>Over the course of 9 months, my role was to cultivate detailed moodboards, style guides, and well researched content to build an expressive yet cohesive product. With careful precision, many rounds of edits, and funding from Seattle Office of Arts and Culture, Thot Bubbles coalesced into printed form.</p>`,
+      '6_R': `<p>To supplement its launch, I utilized other assignments to build out the brand. A custom point of purchase was designed and built using collaged images from past queer community events.</p><p>Mockups of potential parties were built in Photoshop to ideate the gathering of community and the environmental design components that could expand content from page to pop-up.</p>`,
+      '7_L': `<p>Ultimately, a launch party took place that tangibly manifested the ma(gay)zine's goal: To unite contemporary faggotry with the queer history that originated it.</p>`,
+    };
+
+    const zoomEl  = document.getElementById('zoomCard');
     const slotLEl = document.getElementById('slotL');
-    slotLEl.addEventListener('mouseenter', () => {
-      if (curSpread !== 3) return;
+    const slotREl = document.getElementById('slotR');
+
+    function showZoom(slot) {
+      const key = `${curSpread}_${slot}`;
+      const html = HOVER_CARDS[key];
+      if (!html) return;
+      zoomEl.innerHTML = html;
+      // Position card over the appropriate half
+      zoomEl.style.left = slot === 'L' ? '25%' : '75%';
       zoomEl.style.display = 'block';
       requestAnimationFrame(() => { zoomEl.style.opacity = '1'; });
-    });
-    slotLEl.addEventListener('mouseleave', () => {
+    }
+
+    function hideZoom() {
       zoomEl.style.opacity = '0';
       setTimeout(() => { if (zoomEl.style.opacity === '0') zoomEl.style.display = 'none'; }, 180);
-    });
+    }
+
+    slotLEl.addEventListener('mouseenter', () => showZoom('L'));
+    slotLEl.addEventListener('mouseleave', hideZoom);
+    slotREl.addEventListener('mouseenter', () => showZoom('R'));
+    slotREl.addEventListener('mouseleave', hideZoom);
 
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft')  goPrev();
