@@ -320,39 +320,47 @@
       const showToc = isMobile() ? curPage === 1 : curSpread === 0;
       if (showToc) positionTocOverlays();
       else tocOverlays.forEach(o => o.style.display = 'none');
+
+      // Hide writing zoom card when not on writing spread
+      const zoomEl = document.getElementById('zoomWriting');
+      if (curSpread !== 3) {
+        zoomEl.style.opacity = '0';
+        zoomEl.style.display = 'none';
+      }
     }
 
-    // ── Position TOC overlays based on actual rendered image bounds ──
-    // page-02.jpg is portrait letter (~1275×1650). Text items sit at these
-    // approximate % positions within the image:
+    // ── Position TOC overlays ────────────────────────────
+    // page-02.jpg is 1090×1540. Pixel-measured text row positions:
+    // About Me: 584-626px  Drag: 692-734px  Writing: 801-843px  Design: 909-951px
     const TOC_ROWS = [
-      { top: 0.40, bottom: 0.52 }, // About Me
-      { top: 0.53, bottom: 0.65 }, // Drag
-      { top: 0.66, bottom: 0.77 }, // Writing
-      { top: 0.78, bottom: 0.89 }, // Design
+      { top: 0.36, bottom: 0.44 }, // About Me
+      { top: 0.44, bottom: 0.51 }, // Drag
+      { top: 0.51, bottom: 0.58 }, // Writing
+      { top: 0.58, bottom: 0.65 }, // Design
     ];
-    const IMG_RATIO = 1275 / 1650; // natural width/height of each page
 
     function positionTocOverlays() {
-      // The TOC list is on slotR on desktop, slotL on mobile
       const slot = isMobile()
         ? document.getElementById('slotL')
         : document.getElementById('slotR');
-      const rect = slot.getBoundingClientRect();
+      const imgEl = slot.querySelector('img');
+      const rect  = slot.getBoundingClientRect();
 
-      // Calculate actual rendered image rect inside the slot (object-fit: contain)
+      // Use natural image dimensions for exact ratio; fall back to measured 1090/1540
+      const nw = imgEl.naturalWidth  || 1090;
+      const nh = imgEl.naturalHeight || 1540;
+      const ratio = nw / nh;
+
       const slotRatio = rect.width / rect.height;
       let imgW, imgH, imgX, imgY;
-      if (slotRatio > IMG_RATIO) {
-        // slot wider than image → image fills height, centered horizontally
+      if (slotRatio > ratio) {
         imgH = rect.height;
-        imgW = imgH * IMG_RATIO;
+        imgW = imgH * ratio;
         imgX = rect.left + (rect.width - imgW) / 2;
         imgY = rect.top;
       } else {
-        // slot taller than image → image fills width, centered vertically
         imgW = rect.width;
-        imgH = imgW / IMG_RATIO;
+        imgH = imgW / ratio;
         imgX = rect.left;
         imgY = rect.top + (rect.height - imgH) / 2;
       }
