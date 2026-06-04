@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; background: #111; }
+    html, body { height: 100%; overflow: hidden; background: #fff; }
 
     /* ══════════════════════════════════════
        FULL-SCREEN VIEWER
@@ -42,7 +42,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 18px;
-      background: linear-gradient(to bottom, rgba(17,17,17,0.88) 0%, transparent 100%);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.92) 0%, transparent 100%);
       pointer-events: none;
     }
     .nav-top > * { pointer-events: auto; }
@@ -51,18 +51,18 @@
       font-family: 'Oswald', sans-serif;
       font-size: 0.68rem;
       letter-spacing: 0.16em;
-      color: rgba(255,255,255,0.55);
+      color: rgba(0,0,0,0.45);
     }
     .nav-top__back {
       font-family: 'Oswald', sans-serif;
       font-size: 0.62rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
+      color: rgba(0,0,0,0.5);
       text-decoration: none;
       transition: color 0.15s;
     }
-    .nav-top__back:hover { color: #ffd400; }
+    .nav-top__back:hover { color: #e0002a; }
 
     /* Side arrows */
     .arrow {
@@ -81,7 +81,7 @@
       box-shadow: 2px 2px 12px rgba(0,0,0,0.5);
       transition: background 0.15s, transform 0.15s, opacity 0.2s;
     }
-    .arrow:hover { background: #fff; transform: translateY(-50%) scale(1.07); }
+    .arrow:hover { background: #111; color: #ffd400; transform: translateY(-50%) scale(1.07); }
     .arrow:disabled { opacity: 0; pointer-events: none; }
     .arrow--prev { left: 8px; }
     .arrow--next { right: 8px; }
@@ -106,7 +106,7 @@
       font-size: 0.6rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
+      color: rgba(0,0,0,0.4);
       cursor: pointer;
       padding: 4px 10px;
       line-height: 1;
@@ -117,11 +117,11 @@
       content: '·';
       position: absolute;
       left: 0;
-      color: rgba(255,255,255,0.3);
+      color: rgba(0,0,0,0.25);
       font-size: 0.7rem;
     }
-    .sec-btn:hover { color: rgba(255,255,255,0.9); }
-    .sec-btn.active { color: #ffd400; font-weight: 700; }
+    .sec-btn:hover { color: rgba(0,0,0,0.85); }
+    .sec-btn.active { color: #111; font-weight: 700; }
 
     /* TOC clickable overlays */
     .toc-overlay {
