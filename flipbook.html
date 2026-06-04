@@ -186,8 +186,8 @@
 
     /* ══ MOBILE ════════════════════════════════════ */
     @media (max-width: 700px) {
-      body:not(.fullscreen-right) #slotR { display: none; }
-      body:not(.fullscreen-right) #slotL { flex: 2; }
+      #slotR { display: none !important; }
+      #slotL { flex: 2 !important; display: block !important; }
       .arrow { width: 32px; height: 52px; font-size: 0.95rem; }
       .arrow--prev { left: 4px; }
       .arrow--next { right: 4px; }
@@ -203,14 +203,13 @@
 
 <div class="spread" id="spread">
   <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
-  <div class="page-slot" id="slotR">
-    <img id="imgR" alt="" />
-    <div id="tbCarousel">
-      <!-- slides injected by JS -->
-      <div class="tbc-dots" id="tbcDots"></div>
-      <div class="tbc-label">Thot Bubbles Ma(gay)zine — Interior Pages</div>
-    </div>
-  </div>
+  <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
+</div>
+
+<!-- TB Carousel: full-screen overlay, shown on last page -->
+<div id="tbCarousel" style="display:none;position:fixed;inset:0;z-index:10;background:#f5eedc;">
+  <div class="tbc-dots" id="tbcDots"></div>
+  <div class="tbc-label">Thot Bubbles Ma(gay)zine — Interior Pages</div>
 </div>
 
 <div class="nav-top">
@@ -232,8 +231,7 @@
 </nav>
 
 <script>
-  // ── Data ────────────────────────────────────────
-  // Virtual pages: 0=cover, 1-10=spreads (pairs), 11=TB carousel
+  // ── Pages (0=cover … 10=TB cover, 11=carousel) ──
   const IMG = [
     'assets/images/v3-pages/page-01.jpg',  // 0  cover (standalone)
     'assets/images/v3-pages/page-02.jpg',  // 1  portrait
@@ -249,27 +247,28 @@
     'CAROUSEL',                             // 11 TB interior rotation
   ];
 
-  // States: 0=cover, 1-5=spreads, 6=carousel
-  // state 0 → fullscreen right (cover image)
-  // states 1-5 → 2-page spreads: L/R image pairs
-  // state 6 → fullscreen right (carousel)
+  // ── Desktop: 7 states (cover, 5 spreads, carousel) ──
   const STATES = [
-    { type: 'full',   page: 0 },              // cover
-    { type: 'spread', L: 1,  R: 2  },         // about me
-    { type: 'spread', L: 3,  R: 4  },         // drag
-    { type: 'spread', L: 5,  R: 6  },         // writing
-    { type: 'spread', L: 7,  R: 8  },         // design
-    { type: 'spread', L: 9,  R: 10 },         // thot bubbles
-    { type: 'full',   page: 11 },             // TB carousel
+    { type: 'cover'  },
+    { type: 'spread', L: 1,  R: 2  },
+    { type: 'spread', L: 3,  R: 4  },
+    { type: 'spread', L: 5,  R: 6  },
+    { type: 'spread', L: 7,  R: 8  },
+    { type: 'spread', L: 9,  R: 10 },
+    { type: 'carousel' },
   ];
-
-  // State → section
   const STATE_SECTION = [0, 1, 2, 3, 4, 5, 5];
-  // Section → first state
   const SECTION_STATE = [0, 1, 2, 3, 4, 5];
 
+  // ── Mobile: 12 individual pages ──────────────────
+  // pages 0-10 = IMG indices, page 11 = carousel
+  const MOB_SECTION  = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5];
+  const SECTION_MOB  = [0, 1, 3, 5, 7, 9];
+  const MOB_TOTAL    = 12;
+
   const TURN_MS = 650;
-  let cur     = 0;
+  let cur    = 0;   // desktop state index
+  let curMob = 0;   // mobile page index
   let turning = false;
 
   const spreadEl = document.getElementById('spread');
@@ -296,7 +295,7 @@
     'assets/images/tb-pages/tb-52.jpg',
     'assets/images/tb-pages/tb-58.jpg',
   ];
-  const dotsEl = document.getElementById('tbcDots');
+  const dotsEl  = document.getElementById('tbcDots');
   let tbIdx = 0, tbTimer = null;
   const tbSlides = [];
 
@@ -304,12 +303,10 @@
     const div = document.createElement('div');
     div.className = 'tbc-slide' + (i === 0 ? ' active' : '');
     const img = document.createElement('img');
-    img.src = src;
-    img.alt = 'Thot Bubbles interior page';
+    img.src = src; img.alt = 'Thot Bubbles interior page';
     div.appendChild(img);
     carousel.insertBefore(div, dotsEl);
     tbSlides.push(div);
-
     const dot = document.createElement('div');
     dot.className = 'tbc-dot' + (i === 0 ? ' active' : '');
     dotsEl.appendChild(dot);
@@ -317,196 +314,179 @@
   const tbDots = dotsEl.querySelectorAll('.tbc-dot');
 
   function tbGoTo(n) {
-    tbSlides[tbIdx].classList.remove('active');
-    tbDots[tbIdx].classList.remove('active');
+    tbSlides[tbIdx].classList.remove('active'); tbDots[tbIdx].classList.remove('active');
     tbIdx = (n + tbSlides.length) % tbSlides.length;
-    tbSlides[tbIdx].classList.add('active');
-    tbDots[tbIdx].classList.add('active');
+    tbSlides[tbIdx].classList.add('active'); tbDots[tbIdx].classList.add('active');
   }
-  function tbStart() { tbGoTo(0); tbTimer = setInterval(() => tbGoTo(tbIdx + 1), 2800); }
-  function tbStop()  { clearInterval(tbTimer); tbTimer = null; }
+  function tbShow() {
+    carousel.style.display = 'block';
+    spreadEl.style.display = 'none';
+    tbGoTo(0);
+    tbTimer = setInterval(() => tbGoTo(tbIdx + 1), 2800);
+  }
+  function tbHide() {
+    carousel.style.display = 'none';
+    spreadEl.style.display = '';
+    clearInterval(tbTimer); tbTimer = null;
+  }
 
   // ── Render ───────────────────────────────────────
   function render() {
-    const s = STATES[cur];
+    if (isMobile()) { renderMobile(); } else { renderDesktop(); }
+  }
 
-    if (s.type === 'full') {
+  function renderDesktop() {
+    const s = STATES[cur];
+    tbHide();
+    document.body.classList.remove('fullscreen-right');
+
+    if (s.type === 'cover') {
       document.body.classList.add('fullscreen-right');
-      if (s.page === 11) {
-        imgR.style.display = 'none';
-        carousel.style.display = '';
-        tbStart();
-      } else {
-        carousel.style.display = 'none';
-        tbStop();
-        imgR.style.display = '';
-        imgR.src = IMG[s.page];
-      }
+      imgR.src = IMG[0];
+    } else if (s.type === 'carousel') {
+      tbShow();
     } else {
-      document.body.classList.remove('fullscreen-right');
-      carousel.style.display = 'none';
-      tbStop();
-      imgR.style.display = '';
-      if (isMobile()) {
-        imgL.src = IMG[s.L];
-      } else {
-        imgL.src = IMG[s.L];
-        imgR.src = IMG[s.R];
-      }
+      imgL.src = IMG[s.L];
+      imgR.src = IMG[s.R];
     }
     updateUI();
-    preload(cur);
+    preloadDesktop(cur);
+  }
+
+  function renderMobile() {
+    tbHide();
+    document.body.classList.remove('fullscreen-right');
+    if (curMob === 11) {
+      tbShow();
+    } else {
+      imgL.src = IMG[curMob];
+    }
+    updateUI();
   }
 
   function updateUI() {
-    const s = STATES[cur];
-    if (s.type === 'full') {
-      counter.textContent = s.page === 0 ? 'Cover' : 'Thot Bubbles';
+    if (isMobile()) {
+      counter.textContent = curMob === 11 ? '★' : `${curMob + 1} / ${MOB_TOTAL - 1}`;
+      prevBtn.disabled = curMob === 0 || turning;
+      nextBtn.disabled = curMob === MOB_TOTAL - 1 || turning;
+      secBtns.forEach((b, i) => b.classList.toggle('active', i === MOB_SECTION[curMob]));
     } else {
-      counter.textContent = `${s.L}–${s.R} / ${IMG.length - 2}`;
+      const s = STATES[cur];
+      counter.textContent = s.type === 'cover' ? 'Cover'
+        : s.type === 'carousel' ? '★'
+        : `${s.L}–${s.R} / ${IMG.length - 2}`;
+      prevBtn.disabled = cur === 0 || turning;
+      nextBtn.disabled = cur === STATES.length - 1 || turning;
+      secBtns.forEach((b, i) => b.classList.toggle('active', i === STATE_SECTION[cur]));
     }
-    prevBtn.disabled = cur === 0 || turning;
-    nextBtn.disabled = cur === STATES.length - 1 || turning;
-    secBtns.forEach((b, i) => b.classList.toggle('active', i === STATE_SECTION[cur]));
   }
 
-  function preload(si) {
+  function preloadDesktop(si) {
     [si - 1, si + 1].forEach(s => {
       if (s < 0 || s >= STATES.length) return;
       const st = STATES[s];
-      if (st.type === 'spread') {
-        new Image().src = IMG[st.L];
-        new Image().src = IMG[st.R];
-      } else if (st.page !== 11) {
-        new Image().src = IMG[st.page];
-      }
+      if (st.type === 'spread') { new Image().src = IMG[st.L]; new Image().src = IMG[st.R]; }
+      else if (st.type === 'cover') new Image().src = IMG[0];
     });
   }
 
-  // ── Navigation ────────────────────────────────────
-  function goTo(next) {
+  // ── Desktop navigation (3D page turn) ────────────
+  function goToDesktop(next) {
     if (turning || next === cur || next < 0 || next >= STATES.length) return;
+    turning = true; prevBtn.disabled = true; nextBtn.disabled = true;
 
-    if (isMobile()) {
-      mobileFade(next);
-      return;
-    }
-
-    turning = true;
-    prevBtn.disabled = true;
-    nextBtn.disabled = true;
-
-    const forward = next > cur;
+    const forward   = next > cur;
     const fromState = STATES[cur];
     const toState   = STATES[next];
 
-    // Get the image src for each face of the turning leaf
-    function pageImg(state, side) {
-      if (state.type === 'full') return state.page !== 11 ? IMG[state.page] : null;
-      return IMG[side === 'L' ? state.L : state.R];
+    function pageImg(st, side) {
+      if (st.type === 'cover')    return IMG[0];
+      if (st.type === 'carousel') return null;
+      return IMG[side === 'L' ? st.L : st.R];
     }
 
+    // Pre-set the destination behind the leaf
+    tbHide();
     if (forward) {
-      // Right page of current state turns forward
-      const frontSrc = pageImg(fromState, 'R');
-      // Pre-set destination: left of next state (under leaf)
-      if (toState.type === 'full') {
+      if (toState.type === 'carousel') {
+        document.body.classList.remove('fullscreen-right');
+        tbShow();
+      } else if (toState.type === 'cover') {
         document.body.classList.add('fullscreen-right');
-        imgR.style.display = toState.page !== 11 ? '' : 'none';
-        if (toState.page !== 11 && toState.page !== undefined) imgR.src = IMG[toState.page];
-        if (toState.page === 11) { carousel.style.display = ''; tbStart(); }
+        imgR.src = IMG[0];
       } else {
         document.body.classList.remove('fullscreen-right');
         imgR.src = IMG[toState.R];
-        imgR.style.display = '';
-        carousel.style.display = 'none';
       }
-
-      const backSrc = toState.type === 'spread' ? IMG[toState.L] : null;
-      const leafOriginX = fromState.type === 'full' ? '50%' : '50%';
-
-      const leaf = makeLeaf(frontSrc, backSrc, true, fromState.type === 'full');
-      spreadEl.appendChild(leaf);
-
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        leaf.style.transform = 'rotateY(-180deg)';
-      }));
-
-      leaf.addEventListener('transitionend', () => {
-        spreadEl.removeChild(leaf);
-        if (toState.type === 'spread') imgL.src = IMG[toState.L];
-        cur = next;
-        turning = false;
-        updateUI();
-        preload(cur);
-      }, { once: true });
-
     } else {
-      // Backward: left page of current state turns back
-      const frontSrc = fromState.type === 'spread' ? IMG[fromState.L] : null;
-      // Pre-set destination right side
-      if (toState.type === 'full') {
+      if (toState.type === 'cover') {
         document.body.classList.add('fullscreen-right');
-        imgR.src = IMG[toState.page];
-        imgR.style.display = '';
-        carousel.style.display = 'none';
-        tbStop();
+        imgR.src = IMG[0];
+      } else if (toState.type === 'carousel') {
+        document.body.classList.remove('fullscreen-right');
+        tbShow();
       } else {
         document.body.classList.remove('fullscreen-right');
         imgL.src = IMG[toState.L];
-        imgR.style.display = '';
-        carousel.style.display = 'none';
-        tbStop();
       }
-
-      const backSrc = toState.type === 'full'
-        ? IMG[toState.page]
-        : IMG[toState.R];
-
-      const leaf = makeLeaf(frontSrc, backSrc, false, toState.type === 'full');
-      spreadEl.appendChild(leaf);
-
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        leaf.style.transform = 'rotateY(180deg)';
-      }));
-
-      leaf.addEventListener('transitionend', () => {
-        spreadEl.removeChild(leaf);
-        if (toState.type === 'spread') imgR.src = IMG[toState.R];
-        cur = next;
-        turning = false;
-        updateUI();
-        preload(cur);
-      }, { once: true });
     }
+
+    const frontSrc   = forward ? pageImg(fromState, 'R') : pageImg(fromState, 'L');
+    const backSrc    = forward ? pageImg(toState,   'L') : pageImg(toState,   'R');
+    const isFullscr  = fromState.type === 'cover' || fromState.type === 'carousel';
+    const leaf = makeLeaf(frontSrc, backSrc, forward, isFullscr);
+    spreadEl.appendChild(leaf);
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      leaf.style.transform = forward ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+
+    leaf.addEventListener('transitionend', () => {
+      spreadEl.removeChild(leaf);
+      cur = next;
+      if (toState.type === 'spread') {
+        if (forward) imgL.src = IMG[toState.L];
+        else         imgR.src = IMG[toState.R];
+      }
+      turning = false;
+      updateUI();
+      preloadDesktop(cur);
+    }, { once: true });
   }
 
-  function mobileFade(next) {
+  // ── Mobile navigation (fade) ─────────────────────
+  function goToMobile(next) {
+    if (turning || next === curMob || next < 0 || next >= MOB_TOTAL) return;
     turning = true;
-    const el = STATES[cur].type === 'full' ? imgR : imgL;
-    el.style.transition = 'opacity 0.2s';
-    el.style.opacity = '0';
+    imgL.style.transition = 'opacity 0.2s';
+    imgL.style.opacity = '0';
     setTimeout(() => {
-      cur = next;
-      render();
-      el.style.opacity = '1';
-      setTimeout(() => { el.style.transition = ''; turning = false; }, 200);
+      curMob = next;
+      renderMobile();
+      imgL.style.opacity = '1';
+      setTimeout(() => { imgL.style.transition = ''; turning = false; }, 200);
     }, 200);
   }
 
-  // ── Leaf builder ──────────────────────────────────
+  // ── Unified goTo ─────────────────────────────────
+  function goTo(n) {
+    if (isMobile()) goToMobile(n); else goToDesktop(n);
+  }
+
+  function goToSection(sec) {
+    if (isMobile()) goToMobile(SECTION_MOB[sec]);
+    else            goToDesktop(SECTION_STATE[sec]);
+  }
+
+  // ── Leaf builder ─────────────────────────────────
   function makeLeaf(frontSrc, backSrc, isForward, isFullscreen) {
     const leaf = document.createElement('div');
-    // For fullscreen states the leaf covers the full width
-    const leftPos  = isForward  ? (isFullscreen ? '0%'  : '50%') : '0';
-    const originX  = isForward  ? 'left' : 'right';
-    const leafWidth = isFullscreen ? '100%' : '50%';
-
     leaf.style.cssText = `
       position:absolute; top:0;
-      left:${leftPos}; width:${leafWidth}; height:100%;
+      left:${isForward ? (isFullscreen ? '0' : '50%') : '0'};
+      width:${isFullscreen ? '100%' : '50%'}; height:100%;
       transform-style:preserve-3d;
-      transform-origin:${originX} center;
+      transform-origin:${isForward ? 'left' : 'right'} center;
       transform:rotateY(0deg);
       transition:transform ${TURN_MS}ms cubic-bezier(0.645,0.045,0.355,1.000);
       z-index:50; pointer-events:none;
@@ -541,13 +521,13 @@
   }
 
   // ── Events ───────────────────────────────────────
-  prevBtn.addEventListener('click', () => goTo(cur - 1));
-  nextBtn.addEventListener('click', () => goTo(cur + 1));
-  secBtns.forEach(b => b.addEventListener('click', () => goTo(SECTION_STATE[+b.dataset.sec])));
+  prevBtn.addEventListener('click', () => goTo(isMobile() ? curMob - 1 : cur - 1));
+  nextBtn.addEventListener('click', () => goTo(isMobile() ? curMob + 1 : cur + 1));
+  secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft')  goTo(cur - 1);
-    if (e.key === 'ArrowRight') goTo(cur + 1);
+    if (e.key === 'ArrowLeft')  goTo(isMobile() ? curMob - 1 : cur - 1);
+    if (e.key === 'ArrowRight') goTo(isMobile() ? curMob + 1 : cur + 1);
   });
 
   let tx = null;
@@ -555,7 +535,7 @@
   document.addEventListener('touchend', e => {
     if (tx === null) return;
     const dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 45) goTo(dx < 0 ? cur + 1 : cur - 1);
+    if (Math.abs(dx) > 45) goTo(dx < 0 ? curMob + 1 : curMob - 1);
     tx = null;
   }, {passive:true});
 
