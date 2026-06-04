@@ -10,7 +10,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; overflow: hidden; background: #fff; }
 
-    /* ══ SPREAD ════════════════════════════════ */
+    /* ══ SPREAD ════════════════════════════════════ */
     .spread {
       position: fixed;
       inset: 0;
@@ -18,13 +18,25 @@
       perspective: 4000px;
       perspective-origin: center center;
     }
-    .page-slot {
+
+    /* Left slot — hidden on cover / carousel states */
+    #slotL {
+      flex: 1;
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+      position: relative;
+      transition: flex 0s;
+    }
+    /* Right slot */
+    #slotR {
       flex: 1;
       height: 100%;
       overflow: hidden;
       background: #fff;
       position: relative;
     }
+
     .page-slot img {
       width: 100%;
       height: 100%;
@@ -34,55 +46,59 @@
       -webkit-user-drag: none;
     }
 
-    /* ══ TB CAROUSEL SLOT ══════════════════════ */
-    .tb-carousel {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      overflow: hidden;
-      background: #f0e8c8;
+    /* Full-screen mode: hide left slot, right takes full width */
+    body.fullscreen-right #slotL { display: none; }
+    body.fullscreen-right #slotR { flex: 2; }
+
+    /* ══ TB CAROUSEL ═══════════════════════════════ */
+    #tbCarousel {
+      position: absolute;
+      inset: 0;
+      background: #f5eedc;
+      display: none;
     }
-    .tb-carousel__slide {
+    .tbc-slide {
       position: absolute;
       inset: 0;
       opacity: 0;
-      transition: opacity 0.8s ease;
+      transition: opacity 0.9s ease;
     }
-    .tb-carousel__slide.active { opacity: 1; }
-    .tb-carousel__slide img {
+    .tbc-slide.active { opacity: 1; }
+    .tbc-slide img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
     }
-    .tb-carousel__label {
+    .tbc-dots {
       position: absolute;
-      bottom: 14px;
-      left: 0; right: 0;
-      text-align: center;
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.35);
-    }
-    .tb-carousel__dots {
-      position: absolute;
-      bottom: 28px;
+      bottom: 48px;
       left: 0; right: 0;
       display: flex;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
+      z-index: 10;
     }
-    .tb-carousel__dot {
-      width: 5px; height: 5px;
+    .tbc-dot {
+      width: 6px; height: 6px;
       border-radius: 50%;
-      background: rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.18);
       transition: background 0.3s;
     }
-    .tb-carousel__dot.active { background: #e4028c; }
+    .tbc-dot.active { background: #e4028c; }
+    .tbc-label {
+      position: absolute;
+      bottom: 28px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.3);
+    }
 
-    /* ══ OVERLAID NAV ══════════════════════════ */
+    /* ══ OVERLAID NAV ══════════════════════════════ */
     .nav-top {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -91,7 +107,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 10px 18px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.92) 0%, transparent 100%);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.94) 0%, transparent 100%);
       pointer-events: none;
     }
     .nav-top > * { pointer-events: auto; }
@@ -122,27 +138,26 @@
       color: #fff;
       border: none;
       width: 38px; height: 62px;
-      font-size: 1.15rem; font-weight: 900;
+      font-size: 1.1rem; font-weight: 900;
       cursor: pointer;
       border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 2px 2px 12px rgba(0,0,0,0.18);
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
       transition: background 0.15s, transform 0.15s, opacity 0.2s;
     }
-    .arrow:hover { background: #1a1718; transform: translateY(-50%) scale(1.07); }
+    .arrow:hover { background: #1a1718; transform: translateY(-50%) scale(1.06); }
     .arrow:disabled { opacity: 0; pointer-events: none; }
     .arrow--prev { left: 6px; }
     .arrow--next { right: 6px; }
 
     .page-nav {
       position: fixed;
-      bottom: 16px;
+      bottom: 14px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 200;
       display: flex;
       align-items: baseline;
-      gap: 0;
       white-space: nowrap;
     }
     .sec-btn {
@@ -165,19 +180,18 @@
       position: absolute;
       left: 0;
       color: rgba(0,0,0,0.2);
-      font-size: 0.7rem;
     }
     .sec-btn:hover { color: #e4028c; }
     .sec-btn.active { color: #1a1718; font-weight: 700; }
 
-    /* ══ MOBILE ════════════════════════════════ */
+    /* ══ MOBILE ════════════════════════════════════ */
     @media (max-width: 700px) {
-      .page-slot:last-child { display: none; }
-      .arrow { width: 32px; height: 52px; font-size: 1rem; }
+      body:not(.fullscreen-right) #slotR { display: none; }
+      body:not(.fullscreen-right) #slotL { flex: 2; }
+      .arrow { width: 32px; height: 52px; font-size: 0.95rem; }
       .arrow--prev { left: 4px; }
       .arrow--next { right: 4px; }
-      .sec-btn { font-size: 0.48rem; padding: 3px 6px; }
-      .page-nav { bottom: 10px; }
+      .sec-btn { font-size: 0.46rem; padding: 3px 5px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -185,26 +199,16 @@
     }
   </style>
 </head>
-<body>
+<body class="fullscreen-right">
 
 <div class="spread" id="spread">
   <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
-  <div class="page-slot" id="slotR" id="slotR">
+  <div class="page-slot" id="slotR">
     <img id="imgR" alt="" />
-    <!-- TB carousel, shown only on spread 5 -->
-    <div class="tb-carousel" id="tbCarousel" style="display:none;">
-      <div class="tb-carousel__slide active"><img src="assets/images/tb-pages/tb-01.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-04.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-08.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-14.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-20.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-28.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-36.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-44.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-52.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-58.jpg" alt="Thot Bubbles page" /></div>
-      <div class="tb-carousel__dots" id="tbDots"></div>
-      <div class="tb-carousel__label">Thot Bubbles Ma(gay)zine — Interior Pages</div>
+    <div id="tbCarousel">
+      <!-- slides injected by JS -->
+      <div class="tbc-dots" id="tbcDots"></div>
+      <div class="tbc-label">Thot Bubbles Ma(gay)zine — Interior Pages</div>
     </div>
   </div>
 </div>
@@ -228,57 +232,89 @@
 </nav>
 
 <script>
-  // 11 real pages + 1 carousel slot = 12 virtual pages
-  // Pages 0-10 are images; page 11 is the TB carousel
-  const PAGES = [
-    'assets/images/v3-pages/page-01.jpg',  // 0  cover/TOC
+  // ── Data ────────────────────────────────────────
+  // Virtual pages: 0=cover, 1-10=spreads (pairs), 11=TB carousel
+  const IMG = [
+    'assets/images/v3-pages/page-01.jpg',  // 0  cover (standalone)
     'assets/images/v3-pages/page-02.jpg',  // 1  portrait
-    'assets/images/v3-pages/page-03.jpg',  // 2  about me text
+    'assets/images/v3-pages/page-03.jpg',  // 2  about me
     'assets/images/v3-pages/page-04.jpg',  // 3  drag
-    'assets/images/v3-pages/page-05.jpg',  // 4  drag photos
+    'assets/images/v3-pages/page-05.jpg',  // 4  drag
     'assets/images/v3-pages/page-06.jpg',  // 5  writing
     'assets/images/v3-pages/page-07.jpg',  // 6  writing collage
-    'assets/images/v3-pages/page-08.jpg',  // 7  design images
-    'assets/images/v3-pages/page-09.jpg',  // 8  design text
-    'assets/images/v3-pages/page-10.jpg',  // 9  thot bubbles intro
+    'assets/images/v3-pages/page-08.jpg',  // 7  design
+    'assets/images/v3-pages/page-09.jpg',  // 8  design
+    'assets/images/v3-pages/page-10.jpg',  // 9  thot bubbles
     'assets/images/v3-pages/page-11.jpg',  // 10 thot bubbles cover
     'CAROUSEL',                             // 11 TB interior rotation
   ];
 
-  const SPREADS = [
-    [0,1],[2,3],[4,5],[6,7],[8,9],[10,11]
+  // States: 0=cover, 1-5=spreads, 6=carousel
+  // state 0 → fullscreen right (cover image)
+  // states 1-5 → 2-page spreads: L/R image pairs
+  // state 6 → fullscreen right (carousel)
+  const STATES = [
+    { type: 'full',   page: 0 },              // cover
+    { type: 'spread', L: 1,  R: 2  },         // about me
+    { type: 'spread', L: 3,  R: 4  },         // drag
+    { type: 'spread', L: 5,  R: 6  },         // writing
+    { type: 'spread', L: 7,  R: 8  },         // design
+    { type: 'spread', L: 9,  R: 10 },         // thot bubbles
+    { type: 'full',   page: 11 },             // TB carousel
   ];
 
-  const SPREAD_SECTION = [0, 1, 2, 3, 4, 5];
-  const SECTION_SPREAD = [0, 1, 2, 3, 4, 5];
+  // State → section
+  const STATE_SECTION = [0, 1, 2, 3, 4, 5, 5];
+  // Section → first state
+  const SECTION_STATE = [0, 1, 2, 3, 4, 5];
 
   const TURN_MS = 650;
-  let curSpread = 0;
-  let turning   = false;
+  let cur     = 0;
+  let turning = false;
 
-  const spreadEl   = document.getElementById('spread');
-  const imgL       = document.getElementById('imgL');
-  const imgR       = document.getElementById('imgR');
-  const tbCarousel = document.getElementById('tbCarousel');
-  const prevBtn    = document.getElementById('prev');
-  const nextBtn    = document.getElementById('next');
-  const counter    = document.getElementById('counter');
-  const secBtns    = document.querySelectorAll('.sec-btn');
+  const spreadEl = document.getElementById('spread');
+  const imgL     = document.getElementById('imgL');
+  const imgR     = document.getElementById('imgR');
+  const carousel = document.getElementById('tbCarousel');
+  const prevBtn  = document.getElementById('prev');
+  const nextBtn  = document.getElementById('next');
+  const counter  = document.getElementById('counter');
+  const secBtns  = document.querySelectorAll('.sec-btn');
 
   function isMobile() { return window.innerWidth <= 700; }
 
-  // ── Carousel ─────────────────────────────────────
-  const tbSlides = tbCarousel.querySelectorAll('.tb-carousel__slide');
-  const tbDotsEl = document.getElementById('tbDots');
+  // ── Carousel setup ───────────────────────────────
+  const TB_IMGS = [
+    'assets/images/tb-pages/tb-01.jpg',
+    'assets/images/tb-pages/tb-04.jpg',
+    'assets/images/tb-pages/tb-08.jpg',
+    'assets/images/tb-pages/tb-14.jpg',
+    'assets/images/tb-pages/tb-20.jpg',
+    'assets/images/tb-pages/tb-28.jpg',
+    'assets/images/tb-pages/tb-36.jpg',
+    'assets/images/tb-pages/tb-44.jpg',
+    'assets/images/tb-pages/tb-52.jpg',
+    'assets/images/tb-pages/tb-58.jpg',
+  ];
+  const dotsEl = document.getElementById('tbcDots');
   let tbIdx = 0, tbTimer = null;
+  const tbSlides = [];
 
-  // Build dots
-  tbSlides.forEach((_, i) => {
-    const d = document.createElement('div');
-    d.className = 'tb-carousel__dot' + (i === 0 ? ' active' : '');
-    tbDotsEl.appendChild(d);
+  TB_IMGS.forEach((src, i) => {
+    const div = document.createElement('div');
+    div.className = 'tbc-slide' + (i === 0 ? ' active' : '');
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Thot Bubbles interior page';
+    div.appendChild(img);
+    carousel.insertBefore(div, dotsEl);
+    tbSlides.push(div);
+
+    const dot = document.createElement('div');
+    dot.className = 'tbc-dot' + (i === 0 ? ' active' : '');
+    dotsEl.appendChild(dot);
   });
-  const tbDots = tbDotsEl.querySelectorAll('.tb-carousel__dot');
+  const tbDots = dotsEl.querySelectorAll('.tbc-dot');
 
   function tbGoTo(n) {
     tbSlides[tbIdx].classList.remove('active');
@@ -287,173 +323,190 @@
     tbSlides[tbIdx].classList.add('active');
     tbDots[tbIdx].classList.add('active');
   }
+  function tbStart() { tbGoTo(0); tbTimer = setInterval(() => tbGoTo(tbIdx + 1), 2800); }
+  function tbStop()  { clearInterval(tbTimer); tbTimer = null; }
 
-  function tbStartAuto() {
-    tbTimer = setInterval(() => tbGoTo(tbIdx + 1), 2800);
-  }
+  // ── Render ───────────────────────────────────────
+  function render() {
+    const s = STATES[cur];
 
-  function tbStopAuto() {
-    clearInterval(tbTimer);
-    tbTimer = null;
-  }
-
-  // ── Render ────────────────────────────────────────
-  function setSlot(imgEl, pageIdx, show) {
-    if (!show) { imgEl.style.display = 'none'; return; }
-    if (pageIdx === 11) {
-      imgEl.style.display = 'none';
+    if (s.type === 'full') {
+      document.body.classList.add('fullscreen-right');
+      if (s.page === 11) {
+        imgR.style.display = 'none';
+        carousel.style.display = '';
+        tbStart();
+      } else {
+        carousel.style.display = 'none';
+        tbStop();
+        imgR.style.display = '';
+        imgR.src = IMG[s.page];
+      }
     } else {
-      imgEl.style.display = '';
-      imgEl.src = PAGES[pageIdx];
-    }
-  }
-
-  function showCarousel(show) {
-    if (show) {
-      tbCarousel.style.display = '';
-      tbGoTo(0);
-      tbStartAuto();
-    } else {
-      tbCarousel.style.display = 'none';
-      tbStopAuto();
-    }
-  }
-
-  function renderStatic() {
-    const [l, r] = SPREADS[curSpread];
-    if (isMobile()) {
-      // Mobile: determine which single page to show
-      const mobileIdx = isMobile() ? SPREADS[curSpread][0] : null;
-      setSlot(imgL, l, true);
-      showCarousel(false);
-    } else {
-      setSlot(imgL, l, true);
-      setSlot(imgR, r, r !== 11);
-      showCarousel(r === 11);
+      document.body.classList.remove('fullscreen-right');
+      carousel.style.display = 'none';
+      tbStop();
+      imgR.style.display = '';
+      if (isMobile()) {
+        imgL.src = IMG[s.L];
+      } else {
+        imgL.src = IMG[s.L];
+        imgR.src = IMG[s.R];
+      }
     }
     updateUI();
-    preload(curSpread);
+    preload(cur);
   }
 
   function updateUI() {
-    const [l, r] = SPREADS[curSpread];
-    if (isMobile()) {
-      counter.textContent = `${l + 1} / ${PAGES.length - 1}`;
+    const s = STATES[cur];
+    if (s.type === 'full') {
+      counter.textContent = s.page === 0 ? 'Cover' : 'Thot Bubbles';
     } else {
-      const rLabel = r === 11 ? '★' : r + 1;
-      counter.textContent = `${l + 1}–${rLabel} / ${PAGES.length - 1}`;
+      counter.textContent = `${s.L}–${s.R} / ${IMG.length - 2}`;
     }
-    prevBtn.disabled = curSpread === 0 || turning;
-    nextBtn.disabled = curSpread === SPREADS.length - 1 || turning;
-    secBtns.forEach((b, i) => b.classList.toggle('active', i === SPREAD_SECTION[curSpread]));
+    prevBtn.disabled = cur === 0 || turning;
+    nextBtn.disabled = cur === STATES.length - 1 || turning;
+    secBtns.forEach((b, i) => b.classList.toggle('active', i === STATE_SECTION[cur]));
   }
 
-  // ── Preload ───────────────────────────────────────
   function preload(si) {
     [si - 1, si + 1].forEach(s => {
-      if (s >= 0 && s < SPREADS.length) {
-        SPREADS[s].forEach(pi => {
-          if (pi !== 11) new Image().src = PAGES[pi];
-        });
+      if (s < 0 || s >= STATES.length) return;
+      const st = STATES[s];
+      if (st.type === 'spread') {
+        new Image().src = IMG[st.L];
+        new Image().src = IMG[st.R];
+      } else if (st.page !== 11) {
+        new Image().src = IMG[st.page];
       }
     });
   }
 
   // ── Navigation ────────────────────────────────────
-  function goNext() {
-    if (turning || curSpread >= SPREADS.length - 1) return;
-    if (isMobile()) { mobileFade(curSpread + 1); return; }
-    turning = true; prevBtn.disabled = true; nextBtn.disabled = true;
-    doTurnForward(curSpread + 1);
-  }
+  function goTo(next) {
+    if (turning || next === cur || next < 0 || next >= STATES.length) return;
 
-  function goPrev() {
-    if (turning || curSpread <= 0) return;
-    if (isMobile()) { mobileFade(curSpread - 1); return; }
-    turning = true; prevBtn.disabled = true; nextBtn.disabled = true;
-    doTurnBackward(curSpread - 1);
-  }
+    if (isMobile()) {
+      mobileFade(next);
+      return;
+    }
 
-  function goToSection(sec) {
-    if (turning) return;
-    const target = SECTION_SPREAD[sec];
-    if (target === curSpread) return;
-    if (isMobile()) { mobileFade(target); return; }
-    curSpread = target;
-    renderStatic();
-  }
-
-  // ── Mobile fade ───────────────────────────────────
-  function mobileFade(target) {
     turning = true;
-    imgL.style.transition = 'opacity 0.2s';
-    imgL.style.opacity = '0';
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+
+    const forward = next > cur;
+    const fromState = STATES[cur];
+    const toState   = STATES[next];
+
+    // Get the image src for each face of the turning leaf
+    function pageImg(state, side) {
+      if (state.type === 'full') return state.page !== 11 ? IMG[state.page] : null;
+      return IMG[side === 'L' ? state.L : state.R];
+    }
+
+    if (forward) {
+      // Right page of current state turns forward
+      const frontSrc = pageImg(fromState, 'R');
+      // Pre-set destination: left of next state (under leaf)
+      if (toState.type === 'full') {
+        document.body.classList.add('fullscreen-right');
+        imgR.style.display = toState.page !== 11 ? '' : 'none';
+        if (toState.page !== 11 && toState.page !== undefined) imgR.src = IMG[toState.page];
+        if (toState.page === 11) { carousel.style.display = ''; tbStart(); }
+      } else {
+        document.body.classList.remove('fullscreen-right');
+        imgR.src = IMG[toState.R];
+        imgR.style.display = '';
+        carousel.style.display = 'none';
+      }
+
+      const backSrc = toState.type === 'spread' ? IMG[toState.L] : null;
+      const leafOriginX = fromState.type === 'full' ? '50%' : '50%';
+
+      const leaf = makeLeaf(frontSrc, backSrc, true, fromState.type === 'full');
+      spreadEl.appendChild(leaf);
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        leaf.style.transform = 'rotateY(-180deg)';
+      }));
+
+      leaf.addEventListener('transitionend', () => {
+        spreadEl.removeChild(leaf);
+        if (toState.type === 'spread') imgL.src = IMG[toState.L];
+        cur = next;
+        turning = false;
+        updateUI();
+        preload(cur);
+      }, { once: true });
+
+    } else {
+      // Backward: left page of current state turns back
+      const frontSrc = fromState.type === 'spread' ? IMG[fromState.L] : null;
+      // Pre-set destination right side
+      if (toState.type === 'full') {
+        document.body.classList.add('fullscreen-right');
+        imgR.src = IMG[toState.page];
+        imgR.style.display = '';
+        carousel.style.display = 'none';
+        tbStop();
+      } else {
+        document.body.classList.remove('fullscreen-right');
+        imgL.src = IMG[toState.L];
+        imgR.style.display = '';
+        carousel.style.display = 'none';
+        tbStop();
+      }
+
+      const backSrc = toState.type === 'full'
+        ? IMG[toState.page]
+        : IMG[toState.R];
+
+      const leaf = makeLeaf(frontSrc, backSrc, false, toState.type === 'full');
+      spreadEl.appendChild(leaf);
+
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        leaf.style.transform = 'rotateY(180deg)';
+      }));
+
+      leaf.addEventListener('transitionend', () => {
+        spreadEl.removeChild(leaf);
+        if (toState.type === 'spread') imgR.src = IMG[toState.R];
+        cur = next;
+        turning = false;
+        updateUI();
+        preload(cur);
+      }, { once: true });
+    }
+  }
+
+  function mobileFade(next) {
+    turning = true;
+    const el = STATES[cur].type === 'full' ? imgR : imgL;
+    el.style.transition = 'opacity 0.2s';
+    el.style.opacity = '0';
     setTimeout(() => {
-      curSpread = target;
-      renderStatic();
-      imgL.style.opacity = '1';
-      setTimeout(() => { imgL.style.transition = ''; turning = false; }, 200);
+      cur = next;
+      render();
+      el.style.opacity = '1';
+      setTimeout(() => { el.style.transition = ''; turning = false; }, 200);
     }, 200);
   }
 
-  // ── 3D page turn ──────────────────────────────────
-  function doTurnForward(nextIdx) {
-    const [curL, curR] = SPREADS[curSpread];
-    const [nxtL, nxtR] = SPREADS[nextIdx];
-
-    // Pre-load next right behind
-    setSlot(imgR, nxtR, nxtR !== 11);
-    showCarousel(nxtR === 11);
-
-    const leaf = makeLeaf(PAGES[curR] || null, nxtL !== 11 ? PAGES[nxtL] : null, true, curR, nxtL);
-    spreadEl.appendChild(leaf);
-
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      leaf.style.transform = 'rotateY(-180deg)';
-    }));
-
-    leaf.addEventListener('transitionend', () => {
-      spreadEl.removeChild(leaf);
-      setSlot(imgL, nxtL, true);
-      curSpread = nextIdx;
-      turning = false;
-      updateUI();
-      preload(curSpread);
-    }, { once: true });
-  }
-
-  function doTurnBackward(prevIdx) {
-    const [curL, curR] = SPREADS[curSpread];
-    const [prvL, prvR] = SPREADS[prevIdx];
-
-    setSlot(imgL, prvL, true);
-    showCarousel(false);
-
-    const leaf = makeLeaf(PAGES[curL], prvR !== 11 ? PAGES[prvR] : null, false, curL, prvR);
-    spreadEl.appendChild(leaf);
-
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      leaf.style.transform = 'rotateY(180deg)';
-    }));
-
-    leaf.addEventListener('transitionend', () => {
-      spreadEl.removeChild(leaf);
-      setSlot(imgR, prvR, prvR !== 11);
-      showCarousel(prvR === 11);
-      curSpread = prevIdx;
-      turning = false;
-      updateUI();
-      preload(curSpread);
-    }, { once: true });
-  }
-
-  function makeLeaf(frontSrc, backSrc, isForward) {
+  // ── Leaf builder ──────────────────────────────────
+  function makeLeaf(frontSrc, backSrc, isForward, isFullscreen) {
     const leaf = document.createElement('div');
+    // For fullscreen states the leaf covers the full width
+    const leftPos  = isForward  ? (isFullscreen ? '0%'  : '50%') : '0';
+    const originX  = isForward  ? 'left' : 'right';
+    const leafWidth = isFullscreen ? '100%' : '50%';
+
     leaf.style.cssText = `
       position:absolute; top:0;
-      left:${isForward ? '50%' : '0'}; width:50%; height:100%;
+      left:${leftPos}; width:${leafWidth}; height:100%;
       transform-style:preserve-3d;
-      transform-origin:${isForward ? 'left' : 'right'} center;
+      transform-origin:${originX} center;
       transform:rotateY(0deg);
       transition:transform ${TURN_MS}ms cubic-bezier(0.645,0.045,0.355,1.000);
       z-index:50; pointer-events:none;
@@ -473,50 +526,43 @@
     if (src) {
       const img = document.createElement('img');
       img.src = src;
-      img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;user-select:none;';
       face.appendChild(img);
     }
-    const shadow = document.createElement('div');
     const g = !isBack
-      ? (isForward ? 'linear-gradient(to left,rgba(0,0,0,0.18) 0%,transparent 40%)'
-                   : 'linear-gradient(to right,rgba(0,0,0,0.18) 0%,transparent 40%)')
-      : (isForward ? 'linear-gradient(to right,rgba(0,0,0,0.25) 0%,transparent 40%)'
-                   : 'linear-gradient(to left,rgba(0,0,0,0.25) 0%,transparent 40%)');
+      ? (isForward ? 'linear-gradient(to left,rgba(0,0,0,0.15) 0%,transparent 35%)'
+                   : 'linear-gradient(to right,rgba(0,0,0,0.15) 0%,transparent 35%)')
+      : (isForward ? 'linear-gradient(to right,rgba(0,0,0,0.22) 0%,transparent 35%)'
+                   : 'linear-gradient(to left,rgba(0,0,0,0.22) 0%,transparent 35%)');
+    const shadow = document.createElement('div');
     shadow.style.cssText = `position:absolute;inset:0;background:${g};pointer-events:none;`;
     face.appendChild(shadow);
     return face;
   }
 
-  // ── Events ────────────────────────────────────────
-  prevBtn.addEventListener('click', goPrev);
-  nextBtn.addEventListener('click', goNext);
-  secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
+  // ── Events ───────────────────────────────────────
+  prevBtn.addEventListener('click', () => goTo(cur - 1));
+  nextBtn.addEventListener('click', () => goTo(cur + 1));
+  secBtns.forEach(b => b.addEventListener('click', () => goTo(SECTION_STATE[+b.dataset.sec])));
 
   document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft')  goPrev();
-    if (e.key === 'ArrowRight') goNext();
-  });
-
-  spreadEl.addEventListener('click', e => {
-    if (isMobile()) return;
-    const half = e.clientX / window.innerWidth;
-    if (half < 0.12) goPrev();
-    else if (half > 0.88) goNext();
+    if (e.key === 'ArrowLeft')  goTo(cur - 1);
+    if (e.key === 'ArrowRight') goTo(cur + 1);
   });
 
   let tx = null;
-  spreadEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
-  spreadEl.addEventListener('touchend', e => {
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', e => {
     if (tx === null) return;
     const dx = e.changedTouches[0].clientX - tx;
-    if (Math.abs(dx) > 45) dx < 0 ? goNext() : goPrev();
+    if (Math.abs(dx) > 45) goTo(dx < 0 ? cur + 1 : cur - 1);
     tx = null;
   }, {passive:true});
 
-  window.addEventListener('resize', renderStatic);
+  window.addEventListener('resize', render);
 
-  // ── Init ──────────────────────────────────────────
-  renderStatic();
+  // ── Init ─────────────────────────────────────────
+  render();
 </script>
 </body>
 </html>
