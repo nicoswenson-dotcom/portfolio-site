@@ -5,111 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio — Nico Swenson</title>
   <link rel="icon" href="assets/images/favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; background: #fff; }
+    html, body { height: 100%; overflow: hidden; background: #fff; font-family: 'Jost', sans-serif; }
 
-    /* ══════════════════════════════════════
-       FULL-SCREEN VIEWER
-    ══════════════════════════════════════ */
-    .viewer {
+    /* ── SLIDE SYSTEM ─────────────────────────────── */
+    .slides {
       position: fixed;
       inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-    .viewer img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      user-select: none;
-      -webkit-user-drag: none;
-      transition: opacity 0.25s ease;
+    .slide {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      display: none;
+      overflow: hidden;
     }
-    .viewer img.fade-out { opacity: 0; }
+    .slide.active { display: flex; }
+    .slide.fade-out { animation: fadeOut 0.22s forwards; }
+    .slide.fade-in  { animation: fadeIn  0.22s forwards; }
+    @keyframes fadeOut { from { opacity:1; } to { opacity:0; } }
+    @keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
 
-    /* ══════════════════════════════════════
-       OVERLAID NAVIGATION
-    ══════════════════════════════════════ */
+    /* ── NAV OVERLAYS ─────────────────────────────── */
     .nav-top {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 200;
+      z-index: 300;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 18px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.92) 0%, transparent 100%);
+      padding: 10px 20px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.95) 60%, transparent);
       pointer-events: none;
     }
     .nav-top > * { pointer-events: auto; }
-    .nav-top__logo { height: 30px; opacity: 0.92; }
+    .nav-top__logo { height: 28px; }
     .nav-top__counter {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.16em;
-      color: rgba(0,0,0,0.45);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      color: rgba(0,0,0,0.35);
     }
     .nav-top__back {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(0,0,0,0.5);
+      color: rgba(0,0,0,0.45);
       text-decoration: none;
       transition: color 0.15s;
     }
-    .nav-top__back:hover { color: #e0002a; }
+    .nav-top__back:hover { color: #e4028c; }
 
-    /* Side arrows */
     .arrow {
       position: fixed;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 200;
-      background: rgba(255, 212, 0, 0.85);
-      color: #111;
+      z-index: 300;
+      background: #e4028c;
+      color: #fff;
       border: none;
-      width: 40px; height: 64px;
-      font-size: 1.2rem; font-weight: 900;
+      width: 36px; height: 58px;
+      font-size: 1.1rem;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 2px 2px 12px rgba(0,0,0,0.5);
       transition: background 0.15s, transform 0.15s, opacity 0.2s;
     }
-    .arrow:hover { background: #111; color: #ffd400; transform: translateY(-50%) scale(1.07); }
+    .arrow:hover { background: #1a1718; transform: translateY(-50%) scale(1.06); }
     .arrow:disabled { opacity: 0; pointer-events: none; }
-    .arrow--prev { left: 8px; }
-    .arrow--next { right: 8px; }
+    .arrow--prev { left: 6px; }
+    .arrow--next { right: 6px; }
 
-    /* Section nav */
     .page-nav {
       position: fixed;
-      bottom: 18px;
+      bottom: 14px;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 200;
+      z-index: 300;
       display: flex;
       align-items: baseline;
-      gap: 0;
       white-space: nowrap;
     }
     .sec-btn {
       background: none;
       border: none;
       font-family: 'Oswald', sans-serif;
+      font-size: 0.58rem;
       font-weight: 600;
-      font-size: 0.6rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(0,0,0,0.4);
+      color: rgba(0,0,0,0.35);
       cursor: pointer;
       padding: 4px 10px;
-      line-height: 1;
       transition: color 0.15s;
       position: relative;
     }
@@ -117,198 +107,729 @@
       content: '·';
       position: absolute;
       left: 0;
-      color: rgba(0,0,0,0.25);
-      font-size: 0.7rem;
+      color: rgba(0,0,0,0.2);
     }
-    .sec-btn:hover { color: rgba(0,0,0,0.85); }
-    .sec-btn.active { color: #111; font-weight: 700; }
+    .sec-btn:hover { color: #e4028c; }
+    .sec-btn.active { color: #1a1718; font-weight: 700; }
 
-    /* TOC clickable overlays */
-    .toc-overlay {
-      position: fixed;
-      z-index: 150;
-      cursor: pointer;
-      background: transparent;
-      border: none;
-      display: none;
+    /* ── SHARED LAYOUT HELPERS ─────────────────────── */
+    .half { flex: 1; height: 100%; position: relative; overflow: hidden; }
+    .pad  { padding: clamp(24px, 4vw, 60px); }
+
+    /* ══════════════════════════════
+       SLIDE 0 — COVER / TOC
+    ══════════════════════════════ */
+    #slide-0 {
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0;
     }
-    .toc-overlay:hover { background: rgba(228,2,140,0.08); }
+    .cover__logo {
+      height: clamp(120px, 18vw, 220px);
+      margin-bottom: clamp(30px, 5vw, 60px);
+    }
+    .cover__links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(10px, 1.8vw, 22px);
+    }
+    .cover__link {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2.8vw, 2.2rem);
+      letter-spacing: 0.08em;
+      color: #e4028c;
+      text-transform: uppercase;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.15s;
+      padding: 0;
+    }
+    .cover__link:hover { color: #1a1718; }
+
+    /* ══════════════════════════════
+       SLIDE 1 — ABOUT ME
+    ══════════════════════════════ */
+    #slide-1 { flex-direction: row; }
+    .about__photo {
+      width: 38%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .about__text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(30px, 5vw, 80px) clamp(30px, 5vw, 70px);
+      position: relative;
+    }
+    .about__eyebrow {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 300;
+      font-size: clamp(0.8rem, 1.4vw, 1.1rem);
+      letter-spacing: 0.06em;
+      color: #1a1718;
+      margin-bottom: 0;
+    }
+    .about__head1 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 8vw, 7.5rem);
+      line-height: 0.9;
+      color: #1a1718;
+      text-transform: uppercase;
+    }
+    .about__body {
+      font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+      line-height: 1.7;
+      color: #1a1718;
+      max-width: 320px;
+      margin: clamp(12px, 2vw, 24px) 0;
+    }
+    .about__body p + p { margin-top: 1em; }
+    .about__head2 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 8vw, 7.5rem);
+      line-height: 0.9;
+      color: #1a1718;
+      text-transform: uppercase;
+      text-align: right;
+      position: absolute;
+      bottom: clamp(20px, 4vw, 60px);
+      right: clamp(20px, 3vw, 50px);
+    }
+
+    /* ══════════════════════════════
+       SLIDE 2 — DRAG
+    ══════════════════════════════ */
+    #slide-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      position: relative;
+    }
+    .drag__title-block {
+      grid-column: 1; grid-row: 1;
+      padding: clamp(16px,3vw,44px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      z-index: 2;
+    }
+    .drag__crown { height: clamp(36px,5vw,64px); width: auto; display: block; margin-bottom: 4px; }
+    .drag__section-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5.5vw, 5.5rem);
+      line-height: 0.88;
+      color: #1a1718;
+      text-transform: uppercase;
+    }
+    .drag__title-rule {
+      width: clamp(60px, 10vw, 120px);
+      height: 3px;
+      background: #f7a800;
+      margin: 6px 0;
+    }
+    .drag__subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.65rem, 1.3vw, 1.1rem);
+      letter-spacing: 0.1em;
+      color: #1a1718;
+      text-transform: uppercase;
+    }
+    .drag__zebra {
+      grid-column: 2; grid-row: 1;
+      display: flex; align-items: flex-end; justify-content: center;
+      overflow: hidden;
+      background: #fff;
+    }
+    .drag__zebra img { height: 100%; width: 100%; object-fit: contain; object-position: bottom center; }
+    .drag__blue {
+      grid-column: 3; grid-row: 1 / 3;
+      overflow: hidden;
+    }
+    .drag__blue img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .drag__body-left {
+      grid-column: 1; grid-row: 2;
+      padding: clamp(12px,2vw,28px) clamp(16px,3vw,40px);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .drag__body-left p {
+      font-size: clamp(0.62rem, 0.88vw, 0.82rem);
+      line-height: 1.65;
+      color: #1a1718;
+      margin-bottom: 0.6em;
+    }
+    .drag__body-left p.show-item {
+      margin-bottom: 0.1em;
+    }
+    .drag__gothic {
+      grid-column: 2; grid-row: 2;
+      overflow: hidden; position: relative;
+      background: #f9f0f5;
+    }
+    .drag__gothic img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+
+    /* ══════════════════════════════
+       SLIDE 3 — WRITING
+    ══════════════════════════════ */
+    #slide-3 { flex-direction: row; }
+    .writing__images {
+      width: 54%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+      background: #f2f2f2;
+    }
+    .writing__images img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .writing__right {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .writing__body {
+      flex: 1;
+      padding: clamp(30px,4vw,60px) clamp(20px,3vw,40px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .writing__body p {
+      font-size: clamp(0.72rem, 1vw, 0.9rem);
+      line-height: 1.75;
+      color: #1a1718;
+      margin-bottom: 1.2em;
+    }
+    .writing__body p:last-child { margin-bottom: 0; }
+    .writing__title-vert {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3.5rem, 7vw, 8rem);
+      line-height: 1;
+      color: #1a1718;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      padding: clamp(10px,2vw,20px) clamp(6px,1vw,12px);
+      display: flex;
+      align-items: center;
+    }
+
+    /* ══════════════════════════════
+       SLIDE 4 — DESIGN
+    ══════════════════════════════ */
+    #slide-4 { flex-direction: row; }
+    .design__left {
+      width: 28%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(24px,3vw,50px) clamp(20px,2.5vw,40px);
+    }
+    .design__body {
+      font-size: clamp(0.68rem, 0.95vw, 0.88rem);
+      line-height: 1.7;
+      color: #1a1718;
+      margin-bottom: clamp(18px,2.5vw,32px);
+    }
+    .design__body p + p { margin-top: 0.9em; }
+    .design__skills {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 0.8vw, 10px);
+    }
+    .design__skill {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 1.6vw, 1.5rem);
+      letter-spacing: 0.06em;
+      color: #e4028c;
+      text-transform: uppercase;
+    }
+    .design__right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    .design__big-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 8.5vw, 9rem);
+      line-height: 0.85;
+      color: #1a1718;
+      text-transform: uppercase;
+      text-align: right;
+      padding: clamp(10px,2vw,20px) clamp(12px,2vw,24px) 0;
+      flex-shrink: 0;
+    }
+    .design__images {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+      overflow: hidden;
+      padding: 0 3px 3px;
+    }
+    .design__images img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .design__images img:first-child {
+      grid-row: 1 / 3;
+    }
+
+    /* ══════════════════════════════
+       SLIDE 5 — THOT BUBBLES INTRO
+    ══════════════════════════════ */
+    #slide-5 { flex-direction: row; }
+    .tb__left {
+      width: 38%;
+      display: flex;
+      flex-direction: column;
+      padding: clamp(24px,3.5vw,52px);
+    }
+    .tb__section-title {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4.5vw, 4.2rem);
+      line-height: 0.9;
+      color: #1a1718;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .tb__subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.7rem, 1.2vw, 1rem);
+      letter-spacing: 0.06em;
+      color: #e4028c;
+      text-transform: uppercase;
+      margin-bottom: clamp(12px,2vw,24px);
+    }
+    .tb__body {
+      font-size: clamp(0.68rem, 0.95vw, 0.88rem);
+      line-height: 1.72;
+      color: #1a1718;
+    }
+    .tb__body p + p { margin-top: 0.9em; }
+    .tb__mag-stack {
+      flex: 1;
+      display: flex;
+      align-items: flex-end;
+    }
+    .tb__mag-stack img {
+      width: 100%;
+      object-fit: contain;
+      object-position: bottom left;
+    }
+    .tb__right {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    .tb__right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* ══════════════════════════════
+       SLIDE 6 — THOT BUBBLES PROCESS
+    ══════════════════════════════ */
+    #slide-6 { flex-direction: column; }
+    .tb2__body {
+      width: 38%;
+      padding: clamp(28px,4vw,60px) clamp(24px,3.5vw,52px) 0;
+      font-size: clamp(0.72rem, 1.02vw, 0.92rem);
+      line-height: 1.75;
+      color: #1a1718;
+    }
+    .tb2__images {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      padding: clamp(12px,2vw,24px) clamp(24px,3.5vw,52px) clamp(12px,2vw,24px);
+    }
+    .tb2__images img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+
+    /* ══════════════════════════════
+       SLIDE 7 — THOT BUBBLES LAUNCH
+    ══════════════════════════════ */
+    #slide-7 { flex-direction: row; }
+    .tb3__image {
+      width: 52%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .tb3__image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .tb3__text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(30px,4vw,60px) clamp(24px,3.5vw,50px);
+    }
+    .tb3__text p {
+      font-size: clamp(0.7rem, 1vw, 0.92rem);
+      line-height: 1.78;
+      color: #1a1718;
+      margin-bottom: 1em;
+    }
+    .tb3__text p:last-child { margin-bottom: 0; }
+
+    /* ══════════════════════════════
+       SLIDES 8–10 — IMAGE GALLERY PAGES
+    ══════════════════════════════ */
+    .slide-image-full {
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+    .slide-image-full img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* ── MOBILE ───────────────────────────────────── */
+    @media (max-width: 700px) {
+      #slide-1 { flex-direction: column; }
+      .about__photo { width: 100%; height: 45%; object-position: center 20%; }
+      .about__text { padding: 20px 24px; }
+      .about__head1 { font-size: clamp(2.2rem, 12vw, 3.5rem); }
+      .about__head2 { font-size: clamp(2.2rem, 12vw, 3.5rem); }
+      .about__body { max-width: 100%; }
+
+      #slide-2 {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto 1fr auto;
+      }
+      .drag__title-block { grid-column: 1 / 3; grid-row: 1; }
+      .drag__zebra { grid-column: 1; grid-row: 2; }
+      .drag__blue  { grid-column: 2; grid-row: 2 / 4; }
+      .drag__body-left { grid-column: 1; grid-row: 3; }
+      .drag__gothic { display: none; }
+
+      #slide-3 { flex-direction: column; }
+      .writing__images { width: 100%; height: 40%; }
+      .writing__right { flex-direction: column; }
+      .writing__title-vert {
+        writing-mode: horizontal-tb;
+        transform: none;
+        font-size: clamp(2rem, 10vw, 3rem);
+        padding: 12px 20px 0;
+      }
+      .writing__body { padding: 12px 20px 20px; }
+
+      #slide-4 { flex-direction: column; }
+      .design__left { width: 100%; padding: 16px 20px 0; }
+      .design__big-title { font-size: clamp(2.5rem, 12vw, 4rem); }
+
+      #slide-5 { flex-direction: column; }
+      .tb__left { width: 100%; }
+      .tb__right { height: 40%; }
+
+      #slide-6 {}
+      .tb2__body { width: 100%; }
+      .tb2__images { grid-template-columns: repeat(2, 1fr); }
+
+      #slide-7 { flex-direction: column; }
+      .tb3__image { width: 100%; height: 45%; }
+
+      .sec-btn { font-size: 0.48rem; padding: 4px 6px; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
-      * { transition: none !important; animation: none !important; }
+      * { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <div class="viewer" id="viewer">
-    <img id="imgMain" alt="" />
+<!-- ══ SLIDES ══════════════════════════════════════════ -->
+<div class="slides" id="slides">
+
+  <!-- 0: COVER / TOC -->
+  <div class="slide active" id="slide-0">
+    <img class="cover__logo" src="assets/images/logo.png" alt="Nico Swenson — Miss Texas 1988" />
+    <div class="cover__links">
+      <button class="cover__link" data-sec="1">About Me</button>
+      <button class="cover__link" data-sec="2">Drag</button>
+      <button class="cover__link" data-sec="3">Writing</button>
+      <button class="cover__link" data-sec="4">Design</button>
+    </div>
   </div>
 
-  <div class="nav-top">
-    <a class="nav-top__back" href="index.html">← Back</a>
-    <img class="nav-top__logo" src="assets/images/logo.png" alt="Nico Swenson" />
-    <span class="nav-top__counter" id="counter"></span>
+  <!-- 1: ABOUT ME -->
+  <div class="slide" id="slide-1">
+    <img class="about__photo" src="assets/images/extracted/img-000.jpg" alt="Nico Swenson" />
+    <div class="about__text">
+      <span class="about__eyebrow">A little</span>
+      <h2 class="about__head1">About</h2>
+      <div class="about__body">
+        <p>Hi, my name is Nico Swenson, a local drag artist, writer, and designer. Most people know me by my alter ego Miss Texas 1988.</p>
+        <p>As Texas you can find me performing, hosting, and producing events around the city. In or out of drag I am a political advocate and community builder. As a writer I cover local arts and culture. As a designer, I strive to use my art to help other people's visions be realized, especially in ways that help promote a creative, functional society for all.</p>
+      </div>
+      <h2 class="about__head2">Me</h2>
+    </div>
   </div>
 
-  <button class="arrow arrow--prev" id="prev">&#8592;</button>
-  <button class="arrow arrow--next" id="next">&#8594;</button>
+  <!-- 2: DRAG -->
+  <div class="slide" id="slide-2">
+    <div class="drag__title-block">
+      <img class="drag__crown" src="assets/images/logo.png" alt="" aria-hidden="true" />
+      <h2 class="drag__section-title">Drag</h2>
+      <div class="drag__title-rule"></div>
+      <span class="drag__subtitle">Miss Texas 1988</span>
+    </div>
+    <div class="drag__zebra">
+      <img src="assets/images/extracted/img-003.jpg" alt="Miss Texas 1988 in zebra costume" />
+    </div>
+    <div class="drag__blue">
+      <img src="assets/images/extracted/img-002.jpg" alt="Miss Texas 1988 in blue dress" />
+    </div>
+    <div class="drag__body-left">
+      <p>Currently you can find me rampaging around town in my Queen form Miss Texas 1988 or my King side JohnJacobJingleHeimerSH!T.</p>
+      <p>My recurring shows include:</p>
+      <p class="show-item">TUSH · Clock-out Lounge · Cast</p>
+      <p class="show-item">The Sunday Sip · Red Star Tacoma · Cast</p>
+      <p class="show-item">Jawbreaker · Unicorn · Collective Member</p>
+      <p class="show-item">Lashes · Unicorn · Cast</p>
+      <p class="show-item">High F@ggotry · Unicorn · Host/Producer</p>
+      <p class="show-item">Glory Hole · Various · Collective Member</p>
+      <p style="margin-top:0.8em">When not at those locations, I've been spotted performing at Lumen Field, The Space Needle, Showbox Downtown and SODO, The Seattle Art Museum, and even as a painting at SeaTac Airport.</p>
+      <p>Oh! I also won a tv show. If you like dirt covered drag, check out Camp Wannakiki Season 5 on OutTV!</p>
+    </div>
+    <div class="drag__gothic">
+      <img src="assets/images/extracted/img-001.jpg" alt="Miss Texas 1988 gothic look" />
+    </div>
+  </div>
 
-  <!-- TOC overlays — positions set by JS -->
-  <button class="toc-overlay" data-sec="1" title="About Me"></button>
-  <button class="toc-overlay" data-sec="2" title="Drag"></button>
-  <button class="toc-overlay" data-sec="3" title="Writing"></button>
-  <button class="toc-overlay" data-sec="4" title="Design"></button>
+  <!-- 3: WRITING -->
+  <div class="slide" id="slide-3">
+    <div class="writing__images">
+      <img src="assets/images/extracted/img-007.jpg" alt="Writing — Drag Kings Ascend the Throne article in The Stranger" />
+    </div>
+    <div class="writing__right">
+      <div class="writing__body">
+        <p>While Texas Bops around in front of the camera as a reporter for The Stranger's social media, Nico covers local art as a regular columnist.</p>
+        <p>Through my recurring column "Spotlit In Seattle" I've had the honor of interviewing local celebs like Dina Martina and covering the successes of our home town champions like <em>RuPaul's Drag Race</em> star Jane Don't. I've highlight the city's extreme talent from dance, to puppetry, visual art, music and more.</p>
+      </div>
+      <div class="writing__title-vert">Writing</div>
+    </div>
+  </div>
 
-  <nav class="page-nav">
-    <button class="sec-btn" data-sec="0">Contents</button>
-    <button class="sec-btn" data-sec="1">About Me</button>
-    <button class="sec-btn" data-sec="2">Drag</button>
-    <button class="sec-btn" data-sec="3">Writing</button>
-    <button class="sec-btn" data-sec="4">Design</button>
-    <button class="sec-btn" data-sec="5">Thot Bubbles</button>
-  </nav>
+  <!-- 4: DESIGN -->
+  <div class="slide" id="slide-4">
+    <div class="design__left">
+      <div class="design__body">
+        <p>My most recent adventure has been tackling a degree in graphic design through Seattle Central Creative Acadamy.</p>
+        <p>Through the program I have gained new skills and interests in print, branding, systems thinking, motion graphics, and really waky photoshopping.</p>
+      </div>
+      <div class="design__skills">
+        <span class="design__skill">Print</span>
+        <span class="design__skill">Branding</span>
+        <span class="design__skill">UX/UI</span>
+        <span class="design__skill">Motion</span>
+      </div>
+    </div>
+    <div class="design__right">
+      <div class="design__big-title">Design</div>
+      <div class="design__images">
+        <img src="assets/images/extracted/img-016.jpg" alt="Rocky Horror Picture Show poster design" style="grid-row:1/3;" />
+        <img src="assets/images/extracted/img-019.jpg" alt="My Brightest Diamond album art" />
+        <img src="assets/images/extracted/img-018.jpg" alt="HIDEOUT Coffee branding" />
+      </div>
+    </div>
+  </div>
 
-  <script>
-    // ── Data ─────────────────────────────────────────────
-    const PAGES = Array.from({length: 11}, (_, i) =>
-      `assets/images/draft-pages/page-${String(i+1).padStart(2,'0')}.jpg`
-    );
+  <!-- 5: THOT BUBBLES INTRO -->
+  <div class="slide" id="slide-5">
+    <div class="tb__left">
+      <h2 class="tb__section-title">Thot Bubbles</h2>
+      <p class="tb__subtitle">Ma(gay)zine</p>
+      <div class="tb__body">
+        <p>One of my proudest achievements in design was creating and producing a 60 page magazine to highlight PNW queer culture past and present. With co-editor D. Smith, Thot Bubbles combines poetry, painting, interviews with Seattle icons, essays on queer landscapes, and interactive twists to put your own self into the pages of PNW Queer culture.</p>
+      </div>
+      <div class="tb__mag-stack">
+        <img src="assets/images/extracted/img-021.jpg" alt="Thot Bubbles magazines" />
+      </div>
+    </div>
+    <div class="tb__right">
+      <img src="assets/images/extracted/img-023.jpg" alt="Thot Bubbles magazine cover" />
+    </div>
+  </div>
 
-    // Page index → section index (adjust once section starts are confirmed)
-    const PAGE_SECTION = [0, 1, 2, 3, 3, 4, 4, 5, 5, 5, 5];
+  <!-- 6: THOT BUBBLES PROCESS -->
+  <div class="slide" id="slide-6">
+    <div class="tb2__body">
+      <p>Over the course of 9 months, my role was to cultivate detailed moodboards, style guides, and well researched content to build an expressive yet cohesive product. With careful precision, many rounds of edits, and funding from Seattle Office of Arts and Culture, Thot Bubbles coalesced into printed form.</p>
+    </div>
+    <div class="tb2__images">
+      <img src="assets/images/draft-pages/page-07.jpg" alt="Thot Bubbles process pages" />
+      <img src="assets/images/extracted/img-021.jpg" alt="Thot Bubbles magazine copies" />
+      <img src="assets/images/extracted/img-027.jpg" alt="Thot Bubbles display installation" />
+      <img src="assets/images/extracted/img-028.jpg" alt="Thot Bubbles display mockup" />
+    </div>
+  </div>
 
-    // Section index → first page index
-    const SECTION_PAGE = [0, 1, 2, 3, 5, 7];
+  <!-- 7: THOT BUBBLES LAUNCH -->
+  <div class="slide" id="slide-7">
+    <div class="tb3__image">
+      <img src="assets/images/extracted/img-028.jpg" alt="Thot Bubbles point of purchase display" />
+    </div>
+    <div class="tb3__text">
+      <p>To supplement its launch, I utilized other assignments to build out the brand. A custom point of purchase was designed and built using collaged images from past queer community events.</p>
+      <p>Mockups of potential parties were built in Photoshop to ideate the gathering of community and the environmental design components that could expand content from page to pop-up.</p>
+      <p>Ultimately, a launch party took place that tangibly manifested the ma(gay)zine's goal: To unite contemporary faggotry with the queer history that originated it.</p>
+    </div>
+  </div>
 
-    // ── State ─────────────────────────────────────────────
-    let curPage  = 0;
-    let turning  = false;
+  <!-- 8: BUBBLE NEST BRANDING -->
+  <div class="slide slide-image-full" id="slide-8">
+    <img src="assets/images/draft-pages/page-09.jpg" alt="Bubble Nest branding project" />
+  </div>
 
-    // ── DOM ───────────────────────────────────────────────
-    const imgMain  = document.getElementById('imgMain');
-    const prevBtn  = document.getElementById('prev');
-    const nextBtn  = document.getElementById('next');
-    const counter  = document.getElementById('counter');
-    const secBtns     = document.querySelectorAll('.sec-btn');
-    const tocOverlays = document.querySelectorAll('.toc-overlay');
+  <!-- 9: EVENT DESIGN -->
+  <div class="slide slide-image-full" id="slide-9">
+    <img src="assets/images/draft-pages/page-10.jpg" alt="Event poster design work" />
+  </div>
 
-    // ── Preload ───────────────────────────────────────────
-    function preload(idx) {
-      [idx - 1, idx + 1].forEach(i => {
-        if (i >= 0 && i < PAGES.length) new Image().src = PAGES[i];
-      });
-    }
+  <!-- 10: UNICORN PRIDE BLOCK PARTY -->
+  <div class="slide slide-image-full" id="slide-10">
+    <img src="assets/images/draft-pages/page-11.jpg" alt="Unicorn Pride Block Party design" />
+  </div>
 
-    // ── Navigate ──────────────────────────────────────────
-    function goTo(targetPage) {
-      if (turning || targetPage === curPage) return;
-      if (targetPage < 0 || targetPage >= PAGES.length) return;
-      turning = true;
-      updateButtons(true);
+</div><!-- /slides -->
 
-      imgMain.classList.add('fade-out');
-      setTimeout(() => {
-        curPage = targetPage;
-        imgMain.src = PAGES[curPage];
-        imgMain.classList.remove('fade-out');
-        turning = false;
-        updateUI();
-        preload(curPage);
-      }, 250);
-    }
+<!-- ══ NAV ══════════════════════════════════════════════ -->
+<div class="nav-top">
+  <a class="nav-top__back" href="index.html">← Back</a>
+  <img class="nav-top__logo" src="assets/images/logo.png" alt="Nico Swenson" />
+  <span class="nav-top__counter" id="counter"></span>
+</div>
 
-    function goNext() { goTo(curPage + 1); }
-    function goPrev() { goTo(curPage - 1); }
+<button class="arrow arrow--prev" id="prev">&#8592;</button>
+<button class="arrow arrow--next" id="next">&#8594;</button>
 
-    function goToSection(secIdx) {
-      goTo(SECTION_PAGE[secIdx]);
-    }
+<nav class="page-nav">
+  <button class="sec-btn" data-sec="0">Contents</button>
+  <button class="sec-btn" data-sec="1">About Me</button>
+  <button class="sec-btn" data-sec="2">Drag</button>
+  <button class="sec-btn" data-sec="3">Writing</button>
+  <button class="sec-btn" data-sec="4">Design</button>
+  <button class="sec-btn" data-sec="5">Thot Bubbles</button>
+</nav>
 
-    // ── UI ────────────────────────────────────────────────
-    function updateButtons(disabled) {
-      prevBtn.disabled = disabled || curPage === 0;
-      nextBtn.disabled = disabled || curPage === PAGES.length - 1;
-    }
+<script>
+  const TOTAL = 11;
+  const PAGE_SECTION = [0, 1, 2, 3, 4, 5, 5, 5, 4, 4, 4];
+  const SECTION_PAGE = [0, 1, 2, 3, 4, 5];
 
-    function updateUI() {
-      counter.textContent = `${curPage + 1} / ${PAGES.length}`;
-      updateButtons(false);
-      secBtns.forEach((b, i) => b.classList.toggle('active', i === PAGE_SECTION[curPage]));
+  let cur     = 0;
+  let turning = false;
 
-      if (curPage === 0) positionTocOverlays();
-      else tocOverlays.forEach(o => o.style.display = 'none');
-    }
+  const slides  = Array.from(document.querySelectorAll('.slide'));
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const counter = document.getElementById('counter');
+  const secBtns = document.querySelectorAll('.sec-btn');
 
-    // ── TOC overlays ──────────────────────────────────────
-    // page-01.jpg is landscape 2139×1540.
-    // Positions to be fine-tuned once rendered — rough estimates for now.
-    const TOC_ROWS = [
-      { top: 0.36, bottom: 0.44 }, // About Me
-      { top: 0.44, bottom: 0.52 }, // Drag
-      { top: 0.52, bottom: 0.60 }, // Writing
-      { top: 0.60, bottom: 0.68 }, // Design
-    ];
+  function goTo(n) {
+    if (turning || n === cur || n < 0 || n >= TOTAL) return;
+    turning = true;
+    const from = slides[cur];
+    const to   = slides[n];
 
-    function positionTocOverlays() {
-      const rect = imgMain.getBoundingClientRect();
-      const nw = imgMain.naturalWidth  || 2139;
-      const nh = imgMain.naturalHeight || 1540;
-      const ratio = nw / nh;
-      const slotRatio = window.innerWidth / window.innerHeight;
+    from.classList.add('fade-out');
+    to.style.display = 'flex';
+    to.classList.add('fade-in');
 
-      let imgW, imgH, imgX, imgY;
-      if (slotRatio > ratio) {
-        imgH = window.innerHeight;
-        imgW = imgH * ratio;
-        imgX = (window.innerWidth - imgW) / 2;
-        imgY = 0;
-      } else {
-        imgW = window.innerWidth;
-        imgH = imgW / ratio;
-        imgX = 0;
-        imgY = (window.innerHeight - imgH) / 2;
+    setTimeout(() => {
+      from.classList.remove('active', 'fade-out');
+      from.style.display = '';
+      to.classList.remove('fade-in');
+      to.classList.add('active');
+      cur = n;
+      turning = false;
+      updateUI();
+    }, 230);
+  }
+
+  function updateUI() {
+    counter.textContent = `${cur + 1} / ${TOTAL}`;
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur === TOTAL - 1;
+    secBtns.forEach((b, i) => b.classList.toggle('active', i === PAGE_SECTION[cur]));
+  }
+
+  // Cover link buttons
+  document.querySelectorAll('.cover__link').forEach(b =>
+    b.addEventListener('click', () => goTo(SECTION_PAGE[+b.dataset.sec]))
+  );
+
+  prevBtn.addEventListener('click', () => goTo(cur - 1));
+  nextBtn.addEventListener('click', () => goTo(cur + 1));
+  secBtns.forEach(b => b.addEventListener('click', () => goTo(SECTION_PAGE[+b.dataset.sec])));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goTo(cur - 1);
+    if (e.key === 'ArrowRight') goTo(cur + 1);
+  });
+
+  let tx = null;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', e => {
+    if (tx === null) return;
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 45) goTo(dx < 0 ? cur + 1 : cur - 1);
+    tx = null;
+  }, {passive:true});
+
+  // Preload adjacent slides
+  function preload(n) {
+    [n-1, n+1].forEach(i => {
+      if (i >= 0 && i < TOTAL) {
+        const s = slides[i];
+        s.querySelectorAll('img[src]').forEach(img => { new Image().src = img.src; });
       }
-
-      tocOverlays.forEach((o, i) => {
-        const row = TOC_ROWS[i];
-        o.style.display  = 'block';
-        o.style.left     = imgX + 'px';
-        o.style.width    = imgW + 'px';
-        o.style.top      = (imgY + row.top  * imgH) + 'px';
-        o.style.height   = ((row.bottom - row.top) * imgH) + 'px';
-      });
-    }
-
-    // ── Events ────────────────────────────────────────────
-    prevBtn.addEventListener('click', goPrev);
-    nextBtn.addEventListener('click', goNext);
-    secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
-    tocOverlays.forEach(o => o.addEventListener('click', () => goToSection(+o.dataset.sec)));
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft')  goPrev();
-      if (e.key === 'ArrowRight') goNext();
     });
+  }
 
-    let tx = null;
-    document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
-    document.addEventListener('touchend', e => {
-      if (tx === null) return;
-      const dx = e.changedTouches[0].clientX - tx;
-      if (Math.abs(dx) > 45) dx < 0 ? goNext() : goPrev();
-      tx = null;
-    }, {passive:true});
-
-    window.addEventListener('resize', () => {
-      if (curPage === 0) positionTocOverlays();
-    });
-
-    // ── Init ──────────────────────────────────────────────
-    imgMain.src = PAGES[0];
-    updateUI();
-    preload(0);
-  </script>
+  updateUI();
+  preload(0);
+</script>
 
 </body>
 </html>
