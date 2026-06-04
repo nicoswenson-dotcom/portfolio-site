@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio Flipbook — Nico Swenson</title>
+  <title>Portfolio — Nico Swenson</title>
   <link rel="icon" href="assets/images/favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
   <style>
@@ -11,38 +11,29 @@
     html, body { height: 100%; overflow: hidden; background: #111; }
 
     /* ══════════════════════════════════════
-       FULL-SCREEN SPREAD
+       FULL-SCREEN VIEWER
     ══════════════════════════════════════ */
-    .spread {
+    .viewer {
       position: fixed;
       inset: 0;
       display: flex;
-      perspective: 4000px;
-      perspective-origin: center center;
+      align-items: center;
+      justify-content: center;
     }
-
-    .page-slot {
-      flex: 1;
-      height: 100%;
-      overflow: hidden;
-      background: #fff;
-      position: relative;
-    }
-    .page-slot img {
+    .viewer img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
       user-select: none;
       -webkit-user-drag: none;
+      transition: opacity 0.25s ease;
     }
-
+    .viewer img.fade-out { opacity: 0; }
 
     /* ══════════════════════════════════════
        OVERLAID NAVIGATION
     ══════════════════════════════════════ */
-
-    /* Top bar */
     .nav-top {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -95,7 +86,7 @@
     .arrow--prev { left: 8px; }
     .arrow--next { right: 8px; }
 
-    /* Page-number-style section nav — sits on the white page */
+    /* Section nav */
     .page-nav {
       position: fixed;
       bottom: 18px;
@@ -115,7 +106,7 @@
       font-size: 0.6rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #bbb;
+      color: rgba(255,255,255,0.5);
       cursor: pointer;
       padding: 4px 10px;
       line-height: 1;
@@ -126,43 +117,13 @@
       content: '·';
       position: absolute;
       left: 0;
-      color: #ccc;
+      color: rgba(255,255,255,0.3);
       font-size: 0.7rem;
     }
-    .sec-btn:hover { color: #111; }
-    .sec-btn.active { color: #111; font-weight: 700; }
+    .sec-btn:hover { color: rgba(255,255,255,0.9); }
+    .sec-btn.active { color: #ffd400; font-weight: 700; }
 
-    /* Hover text card (all sections) */
-    #zoomCard {
-      position: fixed;
-      top: 50%;
-      left: 25%;
-      transform: translate(-50%, -50%);
-      width: min(380px, 42vw);
-      background: #fff;
-      box-shadow: 0 12px 50px rgba(0,0,0,0.45);
-      border: 3px solid #1a1718;
-      z-index: 300;
-      pointer-events: none;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.18s;
-      padding: 28px 30px;
-    }
-    #zoomCard p {
-      font-family: Georgia, serif;
-      font-size: clamp(0.82rem, 1.05vw, 0.97rem);
-      line-height: 1.75;
-      color: #1a1718;
-      margin-bottom: 1.1em;
-    }
-    #zoomCard p:last-child { margin-bottom: 0; }
-    #zoomCard em { font-style: italic; }
-    @media (max-width: 700px) {
-      #zoomCard { left: 50%; width: min(88vw, 360px); }
-    }
-
-    /* TOC clickable overlays — positioned entirely by JS */
+    /* TOC clickable overlays */
     .toc-overlay {
       position: fixed;
       z-index: 150;
@@ -171,19 +132,7 @@
       border: none;
       display: none;
     }
-    .toc-overlay:hover { background: rgba(228,2,140,0.07); }
-
-    /* ══════════════════════════════════════
-       MOBILE: single page fills screen
-    ══════════════════════════════════════ */
-    @media (max-width: 700px) {
-      .page-slot:last-child { display: none; }
-      .arrow { width: 34px; height: 54px; font-size: 1rem; }
-      .arrow--prev { left: 4px; }
-      .arrow--next { right: 4px; }
-      .page-nav { bottom: 12px; }
-      .sec-btn { font-size: 0.5rem; padding: 4px 6px; }
-    }
+    .toc-overlay:hover { background: rgba(228,2,140,0.08); }
 
     @media (prefers-reduced-motion: reduce) {
       * { transition: none !important; animation: none !important; }
@@ -192,33 +141,25 @@
 </head>
 <body>
 
-  <!-- Full-screen spread -->
-  <div class="spread" id="spread">
-    <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
-    <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
+  <div class="viewer" id="viewer">
+    <img id="imgMain" alt="" />
   </div>
 
-  <!-- Top overlay -->
   <div class="nav-top">
     <a class="nav-top__back" href="index.html">← Back</a>
     <img class="nav-top__logo" src="assets/images/logo.png" alt="Nico Swenson" />
     <span class="nav-top__counter" id="counter"></span>
   </div>
 
-  <!-- Side arrows -->
   <button class="arrow arrow--prev" id="prev">&#8592;</button>
   <button class="arrow arrow--next" id="next">&#8594;</button>
 
-  <!-- Hover text card (content set dynamically by JS) -->
-  <div id="zoomCard"></div>
-
-  <!-- TOC clickable overlays — positions calculated by JS from image bounds -->
+  <!-- TOC overlays — positions set by JS -->
   <button class="toc-overlay" data-sec="1" title="About Me"></button>
   <button class="toc-overlay" data-sec="2" title="Drag"></button>
   <button class="toc-overlay" data-sec="3" title="Writing"></button>
   <button class="toc-overlay" data-sec="4" title="Design"></button>
 
-  <!-- Page-number-style section nav -->
   <nav class="page-nav">
     <button class="sec-btn" data-sec="0">Contents</button>
     <button class="sec-btn" data-sec="1">About Me</button>
@@ -230,301 +171,113 @@
 
   <script>
     // ── Data ─────────────────────────────────────────────
-    const PAGES = Array.from({length: 16}, (_, i) =>
-      `assets/images/flipbook-pages/page-${String(i+1).padStart(2,'0')}.jpg`
+    const PAGES = Array.from({length: 11}, (_, i) =>
+      `assets/images/draft-pages/page-${String(i+1).padStart(2,'0')}.jpg`
     );
 
-    // Desktop: 8 spreads of 2 pages each
-    const SPREADS = [
-      [0,1],[2,3],[4,5],[6,7],[8,9],[10,11],[12,13],[14,15]
-    ];
+    // Page index → section index (adjust once section starts are confirmed)
+    const PAGE_SECTION = [0, 1, 2, 3, 3, 4, 4, 5, 5, 5, 5];
 
-    // Spread → section index
-    const SPREAD_SECTION = [0, 1, 2, 3, 4, 5, 5, 5];
-
-    // Section → first spread (desktop) and first page (mobile)
-    const SECTION_SPREAD = [0, 1, 2, 3, 4, 5];
-    const SECTION_PAGE   = [0, 2, 4, 6, 8, 10];
-
-    // Page → section (for mobile active state)
-    const PAGE_SECTION = [0,0, 1,1, 2,2, 3,3, 4,4, 5,5,5,5,5,5];
-
-    const TURN_MS = 680;
+    // Section index → first page index
+    const SECTION_PAGE = [0, 1, 2, 3, 5, 7];
 
     // ── State ─────────────────────────────────────────────
-    let curSpread = 0;   // desktop
-    let curPage   = 0;   // mobile
-    let turning   = false;
+    let curPage  = 0;
+    let turning  = false;
 
-    // ── DOM refs ──────────────────────────────────────────
-    const spreadEl = document.getElementById('spread');
-    const imgL     = document.getElementById('imgL');
-    const imgR     = document.getElementById('imgR');
+    // ── DOM ───────────────────────────────────────────────
+    const imgMain  = document.getElementById('imgMain');
     const prevBtn  = document.getElementById('prev');
     const nextBtn  = document.getElementById('next');
     const counter  = document.getElementById('counter');
     const secBtns     = document.querySelectorAll('.sec-btn');
     const tocOverlays = document.querySelectorAll('.toc-overlay');
 
-    function isMobile() { return window.innerWidth <= 700; }
-
     // ── Preload ───────────────────────────────────────────
     function preload(idx) {
-      if (isMobile()) {
-        [idx - 1, idx + 1].forEach(i => {
-          if (i >= 0 && i < PAGES.length) { new Image().src = PAGES[i]; }
-        });
-      } else {
-        [idx - 1, idx + 1].forEach(si => {
-          if (si >= 0 && si < SPREADS.length) {
-            SPREADS[si].forEach(pi => { new Image().src = PAGES[pi]; });
-          }
-        });
-      }
+      [idx - 1, idx + 1].forEach(i => {
+        if (i >= 0 && i < PAGES.length) new Image().src = PAGES[i];
+      });
     }
 
-    // ── Render & UI ───────────────────────────────────────
-    function renderStatic() {
-      if (isMobile()) {
-        imgL.src = PAGES[curPage];
-        imgR.src = '';
-      } else {
-        const [l, r] = SPREADS[curSpread];
-        imgL.src = PAGES[l];
-        imgR.src = PAGES[r];
-      }
-      updateUI();
-      preload(isMobile() ? curPage : curSpread);
+    // ── Navigate ──────────────────────────────────────────
+    function goTo(targetPage) {
+      if (turning || targetPage === curPage) return;
+      if (targetPage < 0 || targetPage >= PAGES.length) return;
+      turning = true;
+      updateButtons(true);
+
+      imgMain.classList.add('fade-out');
+      setTimeout(() => {
+        curPage = targetPage;
+        imgMain.src = PAGES[curPage];
+        imgMain.classList.remove('fade-out');
+        turning = false;
+        updateUI();
+        preload(curPage);
+      }, 250);
+    }
+
+    function goNext() { goTo(curPage + 1); }
+    function goPrev() { goTo(curPage - 1); }
+
+    function goToSection(secIdx) {
+      goTo(SECTION_PAGE[secIdx]);
+    }
+
+    // ── UI ────────────────────────────────────────────────
+    function updateButtons(disabled) {
+      prevBtn.disabled = disabled || curPage === 0;
+      nextBtn.disabled = disabled || curPage === PAGES.length - 1;
     }
 
     function updateUI() {
-      if (isMobile()) {
-        counter.textContent = `${curPage + 1} / ${PAGES.length}`;
-        prevBtn.disabled = curPage === 0 || turning;
-        nextBtn.disabled = curPage === PAGES.length - 1 || turning;
-        secBtns.forEach((b, i) => b.classList.toggle('active', i === PAGE_SECTION[curPage]));
-      } else {
-        const [l, r] = SPREADS[curSpread];
-        counter.textContent = `${l+1}–${r+1} / ${PAGES.length}`;
-        prevBtn.disabled = curSpread === 0 || turning;
-        nextBtn.disabled = curSpread === SPREADS.length - 1 || turning;
-        secBtns.forEach((b, i) => b.classList.toggle('active', i === SPREAD_SECTION[curSpread]));
-      }
-      // Show/position TOC overlays only on the TOC list page
-      const showToc = isMobile() ? curPage === 1 : curSpread === 0;
-      if (showToc) positionTocOverlays();
-      else tocOverlays.forEach(o => o.style.display = 'none');
+      counter.textContent = `${curPage + 1} / ${PAGES.length}`;
+      updateButtons(false);
+      secBtns.forEach((b, i) => b.classList.toggle('active', i === PAGE_SECTION[curPage]));
 
-      // Hide hover card on spread change
-      const _z = document.getElementById('zoomCard');
-      if (_z) { _z.style.opacity = '0'; _z.style.display = 'none'; }
+      if (curPage === 0) positionTocOverlays();
+      else tocOverlays.forEach(o => o.style.display = 'none');
     }
 
-    // ── Position TOC overlays ────────────────────────────
-    // page-02.jpg is 1090×1540. Pixel-measured text row positions:
-    // About Me: 584-626px  Drag: 692-734px  Writing: 801-843px  Design: 909-951px
+    // ── TOC overlays ──────────────────────────────────────
+    // page-01.jpg is landscape 2139×1540.
+    // Positions to be fine-tuned once rendered — rough estimates for now.
     const TOC_ROWS = [
       { top: 0.36, bottom: 0.44 }, // About Me
-      { top: 0.44, bottom: 0.51 }, // Drag
-      { top: 0.51, bottom: 0.58 }, // Writing
-      { top: 0.58, bottom: 0.65 }, // Design
+      { top: 0.44, bottom: 0.52 }, // Drag
+      { top: 0.52, bottom: 0.60 }, // Writing
+      { top: 0.60, bottom: 0.68 }, // Design
     ];
 
     function positionTocOverlays() {
-      const slot = isMobile()
-        ? document.getElementById('slotL')
-        : document.getElementById('slotR');
-      const imgEl = slot.querySelector('img');
-      const rect  = slot.getBoundingClientRect();
-
-      // Use natural image dimensions for exact ratio; fall back to measured 1090/1540
-      const nw = imgEl.naturalWidth  || 1090;
-      const nh = imgEl.naturalHeight || 1540;
+      const rect = imgMain.getBoundingClientRect();
+      const nw = imgMain.naturalWidth  || 2139;
+      const nh = imgMain.naturalHeight || 1540;
       const ratio = nw / nh;
+      const slotRatio = window.innerWidth / window.innerHeight;
 
-      const slotRatio = rect.width / rect.height;
       let imgW, imgH, imgX, imgY;
       if (slotRatio > ratio) {
-        imgH = rect.height;
+        imgH = window.innerHeight;
         imgW = imgH * ratio;
-        imgX = rect.left + (rect.width - imgW) / 2;
-        imgY = rect.top;
+        imgX = (window.innerWidth - imgW) / 2;
+        imgY = 0;
       } else {
-        imgW = rect.width;
+        imgW = window.innerWidth;
         imgH = imgW / ratio;
-        imgX = rect.left;
-        imgY = rect.top + (rect.height - imgH) / 2;
+        imgX = 0;
+        imgY = (window.innerHeight - imgH) / 2;
       }
 
       tocOverlays.forEach((o, i) => {
         const row = TOC_ROWS[i];
-        o.style.display = 'block';
-        o.style.left   = imgX + 'px';
-        o.style.width  = imgW + 'px';
-        o.style.top    = (imgY + row.top  * imgH) + 'px';
-        o.style.height = ((row.bottom - row.top) * imgH) + 'px';
+        o.style.display  = 'block';
+        o.style.left     = imgX + 'px';
+        o.style.width    = imgW + 'px';
+        o.style.top      = (imgY + row.top  * imgH) + 'px';
+        o.style.height   = ((row.bottom - row.top) * imgH) + 'px';
       });
-    }
-
-    // ── Navigation ────────────────────────────────────────
-    function goNext() {
-      if (turning) return;
-      if (isMobile()) {
-        if (curPage >= PAGES.length - 1) return;
-        mobileFade(curPage + 1);
-      } else {
-        if (curSpread >= SPREADS.length - 1) return;
-        turning = true;
-        prevBtn.disabled = true;
-        nextBtn.disabled = true;
-        doTurnForward(curSpread + 1);
-      }
-    }
-
-    function goPrev() {
-      if (turning) return;
-      if (isMobile()) {
-        if (curPage <= 0) return;
-        mobileFade(curPage - 1);
-      } else {
-        if (curSpread <= 0) return;
-        turning = true;
-        prevBtn.disabled = true;
-        nextBtn.disabled = true;
-        doTurnBackward(curSpread - 1);
-      }
-    }
-
-    function goToSection(secIdx) {
-      if (turning) return;
-      if (isMobile()) {
-        mobileFade(SECTION_PAGE[secIdx]);
-      } else {
-        const target = SECTION_SPREAD[secIdx];
-        if (target === curSpread) return;
-        curSpread = target;
-        renderStatic();
-      }
-    }
-
-    // ── Mobile: simple fade ───────────────────────────────
-    function mobileFade(targetPage) {
-      turning = true;
-      imgL.style.transition = 'opacity 0.2s';
-      imgL.style.opacity = '0';
-      setTimeout(() => {
-        curPage = targetPage;
-        renderStatic();
-        imgL.style.opacity = '1';
-        setTimeout(() => {
-          imgL.style.transition = '';
-          turning = false;
-        }, 200);
-      }, 200);
-    }
-
-    // ── Desktop: 3D page turn ─────────────────────────────
-    // FORWARD: right page (curR) lifts and rotates -180° around the spine.
-    // slotR is pre-loaded with nxtR. After turn, slotL updated to nxtL.
-    function doTurnForward(nextIdx) {
-      const [curL, curR] = SPREADS[curSpread];
-      const [nxtL, nxtR] = SPREADS[nextIdx];
-
-      imgR.src = PAGES[nxtR]; // pre-load destination right page under leaf
-
-      const leaf = makeLeaf(PAGES[curR], PAGES[nxtL], true);
-      spreadEl.appendChild(leaf);
-
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        leaf.style.transform = 'rotateY(-180deg)';
-      }));
-
-      leaf.addEventListener('transitionend', () => {
-        spreadEl.removeChild(leaf);
-        imgL.src = PAGES[nxtL];
-        curSpread = nextIdx;
-        turning = false;
-        updateUI();
-        preload(curSpread + 1);
-      }, { once: true });
-    }
-
-    // BACKWARD: left page (curL) lifts and rotates +180° around the spine.
-    // slotL is pre-loaded with prvL. After turn, slotR updated to prvR.
-    function doTurnBackward(prevIdx) {
-      const [curL, curR] = SPREADS[curSpread];
-      const [prvL, prvR] = SPREADS[prevIdx];
-
-      imgL.src = PAGES[prvL]; // pre-load destination left page under leaf
-
-      const leaf = makeLeaf(PAGES[curL], PAGES[prvR], false);
-      spreadEl.appendChild(leaf);
-
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        leaf.style.transform = 'rotateY(180deg)';
-      }));
-
-      leaf.addEventListener('transitionend', () => {
-        spreadEl.removeChild(leaf);
-        imgR.src = PAGES[prvR];
-        curSpread = prevIdx;
-        turning = false;
-        updateUI();
-        preload(curSpread - 1);
-      }, { once: true });
-    }
-
-    // ── Build the turning leaf ────────────────────────────
-    function makeLeaf(frontSrc, backSrc, isForward) {
-      const leaf = document.createElement('div');
-      leaf.style.cssText = `
-        position: absolute;
-        top: 0;
-        left: ${isForward ? '50%' : '0'};
-        width: 50%;
-        height: 100%;
-        transform-style: preserve-3d;
-        transform-origin: ${isForward ? 'left' : 'right'} center;
-        transform: rotateY(0deg);
-        transition: transform ${TURN_MS}ms cubic-bezier(0.645,0.045,0.355,1.000);
-        z-index: 50;
-        pointer-events: none;
-      `;
-      leaf.appendChild(makeFace(frontSrc, false, isForward));
-      leaf.appendChild(makeFace(backSrc,  true,  isForward));
-      return leaf;
-    }
-
-    function makeFace(src, isBack, isForward) {
-      const face = document.createElement('div');
-      face.style.cssText = `
-        position: absolute; inset: 0;
-        background: #fff;
-        overflow: hidden;
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-        ${isBack ? 'transform: rotateY(180deg);' : ''}
-      `;
-      const img = document.createElement('img');
-      img.src = src;
-      img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;user-select:none;';
-      face.appendChild(img);
-
-      // Fold-crease shadow
-      const shadow = document.createElement('div');
-      let g;
-      if (!isBack) {
-        g = isForward
-          ? 'linear-gradient(to left,  rgba(0,0,0,0.20) 0%, transparent 40%)'
-          : 'linear-gradient(to right, rgba(0,0,0,0.20) 0%, transparent 40%)';
-      } else {
-        g = isForward
-          ? 'linear-gradient(to right, rgba(0,0,0,0.28) 0%, transparent 40%)'
-          : 'linear-gradient(to left,  rgba(0,0,0,0.28) 0%, transparent 40%)';
-      }
-      shadow.style.cssText = `position:absolute;inset:0;background:${g};pointer-events:none;`;
-      face.appendChild(shadow);
-      return face;
     }
 
     // ── Events ────────────────────────────────────────────
@@ -533,60 +286,14 @@
     secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
     tocOverlays.forEach(o => o.addEventListener('click', () => goToSection(+o.dataset.sec)));
 
-    // ── Hover text cards ─────────────────────────────────
-    // Key format: `${spreadIndex}_${'L'|'R'}`
-    const HOVER_CARDS = {
-      '1_L': `<p>Hi, my name is Nico Swenson, a local drag artist, writer, and designer. Most people know me by my alter ego Miss Texas 1988.</p><p>As Texas you can find me performing, hosting, and producing events around the city. In or out of drag I am a political advocate and community builder. As a writer I cover local arts and culture. As a designer, I strive to use my art to help other people's visions be realized, especially in ways that help promote a creative, functional society for all.</p>`,
-      '2_L': `<p>Currently you can find me rampaging around town in my Queen form Miss Texas 1988 or my King side JohnJacobJingleHeimerSH!T.</p><p>My recurring shows include TUSH · The Sunday Sip · Jawbreaker · Lashes · High F@ggotry · Glory Hole.</p><p>When not at those locations, I've been spotted performing at Lumen Field, The Space Needle, Showbox Downtown and SODO, The Seattle Art Museum, and even as a painting at SeaTac Airport.</p><p>Oh! I also won a tv show... Check out Camp Wannakiki Season 5 on OutTV!</p>`,
-      '3_L': `<p>While Texas Bops around in front of the camera as a reporter for The Stranger's social media, Nico covers local art as a regular columnist.</p><p>Through my recurring column "Spotlit In Seattle" I've had the honor of interviewing local celebs like Dina Martina and covering the successes of our home town champions like <em>RuPaul's Drag Race</em> star Jane Don't. I've highlight the city's extreme talent from dance, to puppetry, visual art, music and more.</p>`,
-      '4_R': `<p>My most recent adventure has been tackling a degree in graphic design through Seattle Central Creative Acadamy.</p><p>Through the program I have gained new skills and interests in print, branding, systems thinking, motion graphics, and really waky photoshopping.</p>`,
-      '5_L': `<p>One of my proudest achievements in design was creating and producing a 60 page magazine to highlight PNW queer culture past and present. With co-editor D. Smith, Thot Bubbles combines poetry, painting, interviews with Seattle icons, essays on queer landscapes, and interactive twists to put your own self into the pages of PNW Queer culture.</p>`,
-      '6_L': `<p>Over the course of 9 months, my role was to cultivate detailed moodboards, style guides, and well researched content to build an expressive yet cohesive product. With careful precision, many rounds of edits, and funding from Seattle Office of Arts and Culture, Thot Bubbles coalesced into printed form.</p>`,
-      '6_R': `<p>To supplement its launch, I utilized other assignments to build out the brand. A custom point of purchase was designed and built using collaged images from past queer community events.</p><p>Mockups of potential parties were built in Photoshop to ideate the gathering of community and the environmental design components that could expand content from page to pop-up.</p>`,
-      '7_L': `<p>Ultimately, a launch party took place that tangibly manifested the ma(gay)zine's goal: To unite contemporary faggotry with the queer history that originated it.</p>`,
-    };
-
-    const zoomEl  = document.getElementById('zoomCard');
-    const slotLEl = document.getElementById('slotL');
-    const slotREl = document.getElementById('slotR');
-
-    function showZoom(slot) {
-      const key = `${curSpread}_${slot}`;
-      const html = HOVER_CARDS[key];
-      if (!html) return;
-      zoomEl.innerHTML = html;
-      // Position card over the appropriate half
-      zoomEl.style.left = slot === 'L' ? '25%' : '75%';
-      zoomEl.style.display = 'block';
-      requestAnimationFrame(() => { zoomEl.style.opacity = '1'; });
-    }
-
-    function hideZoom() {
-      zoomEl.style.opacity = '0';
-      setTimeout(() => { if (zoomEl.style.opacity === '0') zoomEl.style.display = 'none'; }, 180);
-    }
-
-    slotLEl.addEventListener('mouseenter', () => showZoom('L'));
-    slotLEl.addEventListener('mouseleave', hideZoom);
-    slotREl.addEventListener('mouseenter', () => showZoom('R'));
-    slotREl.addEventListener('mouseleave', hideZoom);
-
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowLeft')  goPrev();
       if (e.key === 'ArrowRight') goNext();
     });
 
-    // Click left/right halves of spread to navigate (desktop)
-    spreadEl.addEventListener('click', e => {
-      if (isMobile()) return;
-      const half = e.clientX / window.innerWidth;
-      if (half < 0.15) goPrev();
-      else if (half > 0.85) goNext();
-    });
-
     let tx = null;
-    spreadEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
-    spreadEl.addEventListener('touchend', e => {
+    document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+    document.addEventListener('touchend', e => {
       if (tx === null) return;
       const dx = e.changedTouches[0].clientX - tx;
       if (Math.abs(dx) > 45) dx < 0 ? goNext() : goPrev();
@@ -594,13 +301,13 @@
     }, {passive:true});
 
     window.addEventListener('resize', () => {
-      renderStatic();
-      const showToc = isMobile() ? curPage === 1 : curSpread === 0;
-      if (showToc) positionTocOverlays();
+      if (curPage === 0) positionTocOverlays();
     });
 
     // ── Init ──────────────────────────────────────────────
-    renderStatic();
+    imgMain.src = PAGES[0];
+    updateUI();
+    preload(0);
   </script>
 
 </body>
