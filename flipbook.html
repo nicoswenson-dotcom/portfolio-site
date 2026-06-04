@@ -10,30 +10,79 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; overflow: hidden; background: #fff; }
 
-    /* ══════════════════════════════════════
-       FULL-SCREEN VIEWER
-    ══════════════════════════════════════ */
-    .viewer {
+    /* ══ SPREAD ════════════════════════════════ */
+    .spread {
       position: fixed;
       inset: 0;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      perspective: 4000px;
+      perspective-origin: center center;
     }
-    .viewer img {
+    .page-slot {
+      flex: 1;
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+      position: relative;
+    }
+    .page-slot img {
       width: 100%;
       height: 100%;
       object-fit: contain;
       display: block;
       user-select: none;
       -webkit-user-drag: none;
-      transition: opacity 0.25s ease;
     }
-    .viewer img.fade-out { opacity: 0; }
 
-    /* ══════════════════════════════════════
-       OVERLAID NAVIGATION
-    ══════════════════════════════════════ */
+    /* ══ TB CAROUSEL SLOT ══════════════════════ */
+    .tb-carousel {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      background: #f0e8c8;
+    }
+    .tb-carousel__slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .tb-carousel__slide.active { opacity: 1; }
+    .tb-carousel__slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .tb-carousel__label {
+      position: absolute;
+      bottom: 14px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.35);
+    }
+    .tb-carousel__dots {
+      position: absolute;
+      bottom: 28px;
+      left: 0; right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+    .tb-carousel__dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.2);
+      transition: background 0.3s;
+    }
+    .tb-carousel__dot.active { background: #e4028c; }
+
+    /* ══ OVERLAID NAV ══════════════════════════ */
     .nav-top {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -46,50 +95,48 @@
       pointer-events: none;
     }
     .nav-top > * { pointer-events: auto; }
-    .nav-top__logo { height: 30px; opacity: 0.92; }
+    .nav-top__logo { height: 28px; opacity: 0.9; }
     .nav-top__counter {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       letter-spacing: 0.16em;
-      color: rgba(0,0,0,0.45);
+      color: rgba(0,0,0,0.35);
     }
     .nav-top__back {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(0,0,0,0.5);
+      color: rgba(0,0,0,0.45);
       text-decoration: none;
       transition: color 0.15s;
     }
-    .nav-top__back:hover { color: #e0002a; }
+    .nav-top__back:hover { color: #e4028c; }
 
-    /* Side arrows */
     .arrow {
       position: fixed;
       top: 50%;
       transform: translateY(-50%);
       z-index: 200;
-      background: rgba(255, 212, 0, 0.85);
-      color: #111;
+      background: #e4028c;
+      color: #fff;
       border: none;
-      width: 40px; height: 64px;
-      font-size: 1.2rem; font-weight: 900;
+      width: 38px; height: 62px;
+      font-size: 1.15rem; font-weight: 900;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 2px 2px 12px rgba(0,0,0,0.5);
+      box-shadow: 2px 2px 12px rgba(0,0,0,0.18);
       transition: background 0.15s, transform 0.15s, opacity 0.2s;
     }
-    .arrow:hover { background: #111; color: #ffd400; transform: translateY(-50%) scale(1.07); }
+    .arrow:hover { background: #1a1718; transform: translateY(-50%) scale(1.07); }
     .arrow:disabled { opacity: 0; pointer-events: none; }
-    .arrow--prev { left: 8px; }
-    .arrow--next { right: 8px; }
+    .arrow--prev { left: 6px; }
+    .arrow--next { right: 6px; }
 
-    /* Section nav */
     .page-nav {
       position: fixed;
-      bottom: 18px;
+      bottom: 16px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 200;
@@ -103,10 +150,10 @@
       border: none;
       font-family: 'Oswald', sans-serif;
       font-weight: 600;
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(0,0,0,0.4);
+      color: rgba(0,0,0,0.35);
       cursor: pointer;
       padding: 4px 10px;
       line-height: 1;
@@ -117,22 +164,21 @@
       content: '·';
       position: absolute;
       left: 0;
-      color: rgba(0,0,0,0.25);
+      color: rgba(0,0,0,0.2);
       font-size: 0.7rem;
     }
-    .sec-btn:hover { color: rgba(0,0,0,0.85); }
-    .sec-btn.active { color: #111; font-weight: 700; }
+    .sec-btn:hover { color: #e4028c; }
+    .sec-btn.active { color: #1a1718; font-weight: 700; }
 
-    /* TOC clickable overlays */
-    .toc-overlay {
-      position: fixed;
-      z-index: 150;
-      cursor: pointer;
-      background: transparent;
-      border: none;
-      display: none;
+    /* ══ MOBILE ════════════════════════════════ */
+    @media (max-width: 700px) {
+      .page-slot:last-child { display: none; }
+      .arrow { width: 32px; height: 52px; font-size: 1rem; }
+      .arrow--prev { left: 4px; }
+      .arrow--next { right: 4px; }
+      .sec-btn { font-size: 0.48rem; padding: 3px 6px; }
+      .page-nav { bottom: 10px; }
     }
-    .toc-overlay:hover { background: rgba(228,2,140,0.08); }
 
     @media (prefers-reduced-motion: reduce) {
       * { transition: none !important; animation: none !important; }
@@ -141,174 +187,336 @@
 </head>
 <body>
 
-  <div class="viewer" id="viewer">
-    <img id="imgMain" alt="" />
+<div class="spread" id="spread">
+  <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
+  <div class="page-slot" id="slotR" id="slotR">
+    <img id="imgR" alt="" />
+    <!-- TB carousel, shown only on spread 5 -->
+    <div class="tb-carousel" id="tbCarousel" style="display:none;">
+      <div class="tb-carousel__slide active"><img src="assets/images/tb-pages/tb-01.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-04.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-08.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-14.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-20.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-28.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-36.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-44.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-52.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__slide"><img src="assets/images/tb-pages/tb-58.jpg" alt="Thot Bubbles page" /></div>
+      <div class="tb-carousel__dots" id="tbDots"></div>
+      <div class="tb-carousel__label">Thot Bubbles Ma(gay)zine — Interior Pages</div>
+    </div>
   </div>
+</div>
 
-  <div class="nav-top">
-    <a class="nav-top__back" href="index.html">← Back</a>
-    <img class="nav-top__logo" src="assets/images/logo.png" alt="Nico Swenson" />
-    <span class="nav-top__counter" id="counter"></span>
-  </div>
+<div class="nav-top">
+  <a class="nav-top__back" href="index.html">← Back</a>
+  <img class="nav-top__logo" src="assets/images/logo.png" alt="Nico Swenson" />
+  <span class="nav-top__counter" id="counter"></span>
+</div>
 
-  <button class="arrow arrow--prev" id="prev">&#8592;</button>
-  <button class="arrow arrow--next" id="next">&#8594;</button>
+<button class="arrow arrow--prev" id="prev">&#8592;</button>
+<button class="arrow arrow--next" id="next">&#8594;</button>
 
-  <!-- TOC overlays — positions set by JS -->
-  <button class="toc-overlay" data-sec="1" title="About Me"></button>
-  <button class="toc-overlay" data-sec="2" title="Drag"></button>
-  <button class="toc-overlay" data-sec="3" title="Writing"></button>
-  <button class="toc-overlay" data-sec="4" title="Design"></button>
+<nav class="page-nav">
+  <button class="sec-btn" data-sec="0">Contents</button>
+  <button class="sec-btn" data-sec="1">About Me</button>
+  <button class="sec-btn" data-sec="2">Drag</button>
+  <button class="sec-btn" data-sec="3">Writing</button>
+  <button class="sec-btn" data-sec="4">Design</button>
+  <button class="sec-btn" data-sec="5">Thot Bubbles</button>
+</nav>
 
-  <nav class="page-nav">
-    <button class="sec-btn" data-sec="0">Contents</button>
-    <button class="sec-btn" data-sec="1">About Me</button>
-    <button class="sec-btn" data-sec="2">Drag</button>
-    <button class="sec-btn" data-sec="3">Writing</button>
-    <button class="sec-btn" data-sec="4">Design</button>
-    <button class="sec-btn" data-sec="5">Thot Bubbles</button>
-  </nav>
+<script>
+  // 11 real pages + 1 carousel slot = 12 virtual pages
+  // Pages 0-10 are images; page 11 is the TB carousel
+  const PAGES = [
+    'assets/images/v3-pages/page-01.jpg',  // 0  cover/TOC
+    'assets/images/v3-pages/page-02.jpg',  // 1  portrait
+    'assets/images/v3-pages/page-03.jpg',  // 2  about me text
+    'assets/images/v3-pages/page-04.jpg',  // 3  drag
+    'assets/images/v3-pages/page-05.jpg',  // 4  drag photos
+    'assets/images/v3-pages/page-06.jpg',  // 5  writing
+    'assets/images/v3-pages/page-07.jpg',  // 6  writing collage
+    'assets/images/v3-pages/page-08.jpg',  // 7  design images
+    'assets/images/v3-pages/page-09.jpg',  // 8  design text
+    'assets/images/v3-pages/page-10.jpg',  // 9  thot bubbles intro
+    'assets/images/v3-pages/page-11.jpg',  // 10 thot bubbles cover
+    'CAROUSEL',                             // 11 TB interior rotation
+  ];
 
-  <script>
-    // ── Data ─────────────────────────────────────────────
-    const PAGES = Array.from({length: 11}, (_, i) =>
-      `assets/images/draft-pages/page-${String(i+1).padStart(2,'0')}.jpg`
-    );
+  const SPREADS = [
+    [0,1],[2,3],[4,5],[6,7],[8,9],[10,11]
+  ];
 
-    // Page index → section index (adjust once section starts are confirmed)
-    const PAGE_SECTION = [0, 1, 2, 3, 3, 4, 4, 5, 5, 5, 5];
+  const SPREAD_SECTION = [0, 1, 2, 3, 4, 5];
+  const SECTION_SPREAD = [0, 1, 2, 3, 4, 5];
 
-    // Section index → first page index
-    const SECTION_PAGE = [0, 1, 2, 3, 5, 7];
+  const TURN_MS = 650;
+  let curSpread = 0;
+  let turning   = false;
 
-    // ── State ─────────────────────────────────────────────
-    let curPage  = 0;
-    let turning  = false;
+  const spreadEl   = document.getElementById('spread');
+  const imgL       = document.getElementById('imgL');
+  const imgR       = document.getElementById('imgR');
+  const tbCarousel = document.getElementById('tbCarousel');
+  const prevBtn    = document.getElementById('prev');
+  const nextBtn    = document.getElementById('next');
+  const counter    = document.getElementById('counter');
+  const secBtns    = document.querySelectorAll('.sec-btn');
 
-    // ── DOM ───────────────────────────────────────────────
-    const imgMain  = document.getElementById('imgMain');
-    const prevBtn  = document.getElementById('prev');
-    const nextBtn  = document.getElementById('next');
-    const counter  = document.getElementById('counter');
-    const secBtns     = document.querySelectorAll('.sec-btn');
-    const tocOverlays = document.querySelectorAll('.toc-overlay');
+  function isMobile() { return window.innerWidth <= 700; }
 
-    // ── Preload ───────────────────────────────────────────
-    function preload(idx) {
-      [idx - 1, idx + 1].forEach(i => {
-        if (i >= 0 && i < PAGES.length) new Image().src = PAGES[i];
-      });
+  // ── Carousel ─────────────────────────────────────
+  const tbSlides = tbCarousel.querySelectorAll('.tb-carousel__slide');
+  const tbDotsEl = document.getElementById('tbDots');
+  let tbIdx = 0, tbTimer = null;
+
+  // Build dots
+  tbSlides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'tb-carousel__dot' + (i === 0 ? ' active' : '');
+    tbDotsEl.appendChild(d);
+  });
+  const tbDots = tbDotsEl.querySelectorAll('.tb-carousel__dot');
+
+  function tbGoTo(n) {
+    tbSlides[tbIdx].classList.remove('active');
+    tbDots[tbIdx].classList.remove('active');
+    tbIdx = (n + tbSlides.length) % tbSlides.length;
+    tbSlides[tbIdx].classList.add('active');
+    tbDots[tbIdx].classList.add('active');
+  }
+
+  function tbStartAuto() {
+    tbTimer = setInterval(() => tbGoTo(tbIdx + 1), 2800);
+  }
+
+  function tbStopAuto() {
+    clearInterval(tbTimer);
+    tbTimer = null;
+  }
+
+  // ── Render ────────────────────────────────────────
+  function setSlot(imgEl, pageIdx, show) {
+    if (!show) { imgEl.style.display = 'none'; return; }
+    if (pageIdx === 11) {
+      imgEl.style.display = 'none';
+    } else {
+      imgEl.style.display = '';
+      imgEl.src = PAGES[pageIdx];
     }
+  }
 
-    // ── Navigate ──────────────────────────────────────────
-    function goTo(targetPage) {
-      if (turning || targetPage === curPage) return;
-      if (targetPage < 0 || targetPage >= PAGES.length) return;
-      turning = true;
-      updateButtons(true);
-
-      imgMain.classList.add('fade-out');
-      setTimeout(() => {
-        curPage = targetPage;
-        imgMain.src = PAGES[curPage];
-        imgMain.classList.remove('fade-out');
-        turning = false;
-        updateUI();
-        preload(curPage);
-      }, 250);
+  function showCarousel(show) {
+    if (show) {
+      tbCarousel.style.display = '';
+      tbGoTo(0);
+      tbStartAuto();
+    } else {
+      tbCarousel.style.display = 'none';
+      tbStopAuto();
     }
+  }
 
-    function goNext() { goTo(curPage + 1); }
-    function goPrev() { goTo(curPage - 1); }
-
-    function goToSection(secIdx) {
-      goTo(SECTION_PAGE[secIdx]);
+  function renderStatic() {
+    const [l, r] = SPREADS[curSpread];
+    if (isMobile()) {
+      // Mobile: determine which single page to show
+      const mobileIdx = isMobile() ? SPREADS[curSpread][0] : null;
+      setSlot(imgL, l, true);
+      showCarousel(false);
+    } else {
+      setSlot(imgL, l, true);
+      setSlot(imgR, r, r !== 11);
+      showCarousel(r === 11);
     }
-
-    // ── UI ────────────────────────────────────────────────
-    function updateButtons(disabled) {
-      prevBtn.disabled = disabled || curPage === 0;
-      nextBtn.disabled = disabled || curPage === PAGES.length - 1;
-    }
-
-    function updateUI() {
-      counter.textContent = `${curPage + 1} / ${PAGES.length}`;
-      updateButtons(false);
-      secBtns.forEach((b, i) => b.classList.toggle('active', i === PAGE_SECTION[curPage]));
-
-      if (curPage === 0) positionTocOverlays();
-      else tocOverlays.forEach(o => o.style.display = 'none');
-    }
-
-    // ── TOC overlays ──────────────────────────────────────
-    // page-01.jpg is landscape 2139×1540.
-    // Positions to be fine-tuned once rendered — rough estimates for now.
-    const TOC_ROWS = [
-      { top: 0.36, bottom: 0.44 }, // About Me
-      { top: 0.44, bottom: 0.52 }, // Drag
-      { top: 0.52, bottom: 0.60 }, // Writing
-      { top: 0.60, bottom: 0.68 }, // Design
-    ];
-
-    function positionTocOverlays() {
-      const rect = imgMain.getBoundingClientRect();
-      const nw = imgMain.naturalWidth  || 2139;
-      const nh = imgMain.naturalHeight || 1540;
-      const ratio = nw / nh;
-      const slotRatio = window.innerWidth / window.innerHeight;
-
-      let imgW, imgH, imgX, imgY;
-      if (slotRatio > ratio) {
-        imgH = window.innerHeight;
-        imgW = imgH * ratio;
-        imgX = (window.innerWidth - imgW) / 2;
-        imgY = 0;
-      } else {
-        imgW = window.innerWidth;
-        imgH = imgW / ratio;
-        imgX = 0;
-        imgY = (window.innerHeight - imgH) / 2;
-      }
-
-      tocOverlays.forEach((o, i) => {
-        const row = TOC_ROWS[i];
-        o.style.display  = 'block';
-        o.style.left     = imgX + 'px';
-        o.style.width    = imgW + 'px';
-        o.style.top      = (imgY + row.top  * imgH) + 'px';
-        o.style.height   = ((row.bottom - row.top) * imgH) + 'px';
-      });
-    }
-
-    // ── Events ────────────────────────────────────────────
-    prevBtn.addEventListener('click', goPrev);
-    nextBtn.addEventListener('click', goNext);
-    secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
-    tocOverlays.forEach(o => o.addEventListener('click', () => goToSection(+o.dataset.sec)));
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft')  goPrev();
-      if (e.key === 'ArrowRight') goNext();
-    });
-
-    let tx = null;
-    document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
-    document.addEventListener('touchend', e => {
-      if (tx === null) return;
-      const dx = e.changedTouches[0].clientX - tx;
-      if (Math.abs(dx) > 45) dx < 0 ? goNext() : goPrev();
-      tx = null;
-    }, {passive:true});
-
-    window.addEventListener('resize', () => {
-      if (curPage === 0) positionTocOverlays();
-    });
-
-    // ── Init ──────────────────────────────────────────────
-    imgMain.src = PAGES[0];
     updateUI();
-    preload(0);
-  </script>
+    preload(curSpread);
+  }
 
+  function updateUI() {
+    const [l, r] = SPREADS[curSpread];
+    if (isMobile()) {
+      counter.textContent = `${l + 1} / ${PAGES.length - 1}`;
+    } else {
+      const rLabel = r === 11 ? '★' : r + 1;
+      counter.textContent = `${l + 1}–${rLabel} / ${PAGES.length - 1}`;
+    }
+    prevBtn.disabled = curSpread === 0 || turning;
+    nextBtn.disabled = curSpread === SPREADS.length - 1 || turning;
+    secBtns.forEach((b, i) => b.classList.toggle('active', i === SPREAD_SECTION[curSpread]));
+  }
+
+  // ── Preload ───────────────────────────────────────
+  function preload(si) {
+    [si - 1, si + 1].forEach(s => {
+      if (s >= 0 && s < SPREADS.length) {
+        SPREADS[s].forEach(pi => {
+          if (pi !== 11) new Image().src = PAGES[pi];
+        });
+      }
+    });
+  }
+
+  // ── Navigation ────────────────────────────────────
+  function goNext() {
+    if (turning || curSpread >= SPREADS.length - 1) return;
+    if (isMobile()) { mobileFade(curSpread + 1); return; }
+    turning = true; prevBtn.disabled = true; nextBtn.disabled = true;
+    doTurnForward(curSpread + 1);
+  }
+
+  function goPrev() {
+    if (turning || curSpread <= 0) return;
+    if (isMobile()) { mobileFade(curSpread - 1); return; }
+    turning = true; prevBtn.disabled = true; nextBtn.disabled = true;
+    doTurnBackward(curSpread - 1);
+  }
+
+  function goToSection(sec) {
+    if (turning) return;
+    const target = SECTION_SPREAD[sec];
+    if (target === curSpread) return;
+    if (isMobile()) { mobileFade(target); return; }
+    curSpread = target;
+    renderStatic();
+  }
+
+  // ── Mobile fade ───────────────────────────────────
+  function mobileFade(target) {
+    turning = true;
+    imgL.style.transition = 'opacity 0.2s';
+    imgL.style.opacity = '0';
+    setTimeout(() => {
+      curSpread = target;
+      renderStatic();
+      imgL.style.opacity = '1';
+      setTimeout(() => { imgL.style.transition = ''; turning = false; }, 200);
+    }, 200);
+  }
+
+  // ── 3D page turn ──────────────────────────────────
+  function doTurnForward(nextIdx) {
+    const [curL, curR] = SPREADS[curSpread];
+    const [nxtL, nxtR] = SPREADS[nextIdx];
+
+    // Pre-load next right behind
+    setSlot(imgR, nxtR, nxtR !== 11);
+    showCarousel(nxtR === 11);
+
+    const leaf = makeLeaf(PAGES[curR] || null, nxtL !== 11 ? PAGES[nxtL] : null, true, curR, nxtL);
+    spreadEl.appendChild(leaf);
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      leaf.style.transform = 'rotateY(-180deg)';
+    }));
+
+    leaf.addEventListener('transitionend', () => {
+      spreadEl.removeChild(leaf);
+      setSlot(imgL, nxtL, true);
+      curSpread = nextIdx;
+      turning = false;
+      updateUI();
+      preload(curSpread);
+    }, { once: true });
+  }
+
+  function doTurnBackward(prevIdx) {
+    const [curL, curR] = SPREADS[curSpread];
+    const [prvL, prvR] = SPREADS[prevIdx];
+
+    setSlot(imgL, prvL, true);
+    showCarousel(false);
+
+    const leaf = makeLeaf(PAGES[curL], prvR !== 11 ? PAGES[prvR] : null, false, curL, prvR);
+    spreadEl.appendChild(leaf);
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      leaf.style.transform = 'rotateY(180deg)';
+    }));
+
+    leaf.addEventListener('transitionend', () => {
+      spreadEl.removeChild(leaf);
+      setSlot(imgR, prvR, prvR !== 11);
+      showCarousel(prvR === 11);
+      curSpread = prevIdx;
+      turning = false;
+      updateUI();
+      preload(curSpread);
+    }, { once: true });
+  }
+
+  function makeLeaf(frontSrc, backSrc, isForward) {
+    const leaf = document.createElement('div');
+    leaf.style.cssText = `
+      position:absolute; top:0;
+      left:${isForward ? '50%' : '0'}; width:50%; height:100%;
+      transform-style:preserve-3d;
+      transform-origin:${isForward ? 'left' : 'right'} center;
+      transform:rotateY(0deg);
+      transition:transform ${TURN_MS}ms cubic-bezier(0.645,0.045,0.355,1.000);
+      z-index:50; pointer-events:none;
+    `;
+    leaf.appendChild(makeFace(frontSrc, false, isForward));
+    leaf.appendChild(makeFace(backSrc,  true,  isForward));
+    return leaf;
+  }
+
+  function makeFace(src, isBack, isForward) {
+    const face = document.createElement('div');
+    face.style.cssText = `
+      position:absolute; inset:0; background:#fff; overflow:hidden;
+      backface-visibility:hidden; -webkit-backface-visibility:hidden;
+      ${isBack ? 'transform:rotateY(180deg);' : ''}
+    `;
+    if (src) {
+      const img = document.createElement('img');
+      img.src = src;
+      img.style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
+      face.appendChild(img);
+    }
+    const shadow = document.createElement('div');
+    const g = !isBack
+      ? (isForward ? 'linear-gradient(to left,rgba(0,0,0,0.18) 0%,transparent 40%)'
+                   : 'linear-gradient(to right,rgba(0,0,0,0.18) 0%,transparent 40%)')
+      : (isForward ? 'linear-gradient(to right,rgba(0,0,0,0.25) 0%,transparent 40%)'
+                   : 'linear-gradient(to left,rgba(0,0,0,0.25) 0%,transparent 40%)');
+    shadow.style.cssText = `position:absolute;inset:0;background:${g};pointer-events:none;`;
+    face.appendChild(shadow);
+    return face;
+  }
+
+  // ── Events ────────────────────────────────────────
+  prevBtn.addEventListener('click', goPrev);
+  nextBtn.addEventListener('click', goNext);
+  secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  goPrev();
+    if (e.key === 'ArrowRight') goNext();
+  });
+
+  spreadEl.addEventListener('click', e => {
+    if (isMobile()) return;
+    const half = e.clientX / window.innerWidth;
+    if (half < 0.12) goPrev();
+    else if (half > 0.88) goNext();
+  });
+
+  let tx = null;
+  spreadEl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  spreadEl.addEventListener('touchend', e => {
+    if (tx === null) return;
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 45) dx < 0 ? goNext() : goPrev();
+    tx = null;
+  }, {passive:true});
+
+  window.addEventListener('resize', renderStatic);
+
+  // ── Init ──────────────────────────────────────────
+  renderStatic();
+</script>
 </body>
 </html>
