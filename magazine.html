@@ -3,184 +3,100 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thot Bubbles Ma(gay)zine — Read Online</title>
+  <title>Thot Bubbles Ma(gay)zine</title>
   <link rel="icon" href="assets/images/favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
-    body {
-      background: #1a1718;
-      color: #fff;
-      font-family: 'Jost', sans-serif;
+    html, body { height: 100%; overflow: hidden; background: #111; }
+
+    .spread {
+      position: fixed;
+      inset: 0;
       display: flex;
-      flex-direction: column;
+      perspective: 4000px;
+    }
+    .page-slot {
+      flex: 1;
+      height: 100%;
       overflow: hidden;
+      background: #111;
+      position: relative;
+    }
+    .page-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
-    /* ── Top bar ── */
-    .topbar {
-      background: #111;
-      border-bottom: 2px solid #ffd400;
-      padding: 10px 24px;
+    /* Top nav */
+    .nav-top {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      flex-shrink: 0;
-      z-index: 10;
+      padding: 10px 18px;
+      background: linear-gradient(to bottom, rgba(17,17,17,0.92) 0%, transparent 100%);
+      pointer-events: none;
     }
-    .topbar__brand {
+    .nav-top > * { pointer-events: auto; }
+    .nav-top__back {
       font-family: 'Oswald', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.6rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #ffd400;
-      white-space: nowrap;
-    }
-    .topbar__brand span {
-      color: #e4028c;
-    }
-    .topbar__back {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 600;
-      font-size: 0.7rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #aaa;
+      color: rgba(255,255,255,0.5);
       text-decoration: none;
       transition: color 0.15s;
     }
-    .topbar__back:hover { color: #ffd400; }
-    .topbar__counter {
-      font-family: 'Jost', sans-serif;
-      font-weight: 300;
-      font-size: 0.78rem;
-      color: #888;
-      white-space: nowrap;
+    .nav-top__back:hover { color: #e4028c; }
+    .nav-top__title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+    }
+    .nav-top__counter {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.38);
     }
 
-    /* ── Viewer area ── */
-    .viewer {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-      padding: 16px 70px;
-    }
-
-    /* ── Spread (two pages side by side) ── */
-    .spread {
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-      gap: 0;
-      height: 100%;
-      max-height: 100%;
-    }
-    .spread__page {
-      position: relative;
-      display: none;
-      height: 100%;
-    }
-    .spread__page.active {
-      display: flex;
-      align-items: center;
-    }
-    .spread__page img {
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: contain;
-      display: block;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.7);
-    }
-    /* seam shadow between pages */
-    .spread__page:first-child img {
-      box-shadow: -2px 0 0 #111, 0 8px 40px rgba(0,0,0,0.7);
-    }
-    .spread__page:last-child img {
-      box-shadow: 2px 0 0 #111, 0 8px 40px rgba(0,0,0,0.7);
-    }
-
-    /* ── Nav arrows ── */
-    .nav-btn {
-      position: absolute;
+    /* Arrows */
+    .arrow {
+      position: fixed;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(255,212,0,0.9);
-      color: #111;
+      z-index: 200;
+      background: #e4028c;
+      color: #fff;
       border: none;
-      width: 48px;
-      height: 64px;
-      font-size: 1.4rem;
-      font-weight: 700;
+      width: 38px; height: 62px;
+      font-size: 1.1rem;
       cursor: pointer;
-      border-radius: 6px;
-      transition: background 0.15s, transform 0.15s;
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+      transition: background 0.15s, transform 0.15s, opacity 0.2s;
     }
-    .nav-btn:hover { background: #ffd400; transform: translateY(-50%) scale(1.05); }
-    .nav-btn:active { transform: translateY(-50%) scale(0.97); }
-    .nav-btn:disabled { opacity: 0.2; cursor: default; }
-    .nav-btn--prev { left: 12px; }
-    .nav-btn--next { right: 12px; }
+    .arrow:hover { background: #fff; color: #111; transform: translateY(-50%) scale(1.06); }
+    .arrow:disabled { opacity: 0; pointer-events: none; }
+    .arrow--prev { left: 6px; }
+    .arrow--next { right: 6px; }
 
-    /* ── Bottom strip ── */
-    .strip-wrap {
-      background: #111;
-      border-top: 2px solid #333;
-      padding: 8px 16px;
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-    .strip {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      padding-bottom: 4px;
-      scrollbar-width: thin;
-      scrollbar-color: #ffd400 #222;
-    }
-    .strip::-webkit-scrollbar { height: 4px; }
-    .strip::-webkit-scrollbar-thumb { background: #ffd400; border-radius: 2px; }
-    .strip__thumb {
-      flex-shrink: 0;
-      width: 44px;
-      height: 60px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      border-radius: 3px;
-      overflow: hidden;
-      opacity: 0.5;
-      transition: opacity 0.15s, border-color 0.15s;
-    }
-    .strip__thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .strip__thumb:hover { opacity: 0.85; }
-    .strip__thumb.active {
-      border-color: #ffd400;
-      opacity: 1;
-    }
-
-    /* ── Mobile: single page ── */
-    @media (max-width: 600px) {
-      .viewer { padding: 12px 52px; }
-      .spread { gap: 0; }
-      .spread__page.active.hide-mobile { display: none; }
-      .nav-btn { width: 38px; height: 52px; font-size: 1.1rem; }
-      .nav-btn--prev { left: 4px; }
-      .nav-btn--next { right: 4px; }
+    /* Mobile: single page */
+    @media (max-width: 700px) {
+      .page-slot:last-child { display: none; }
+      .page-slot:first-child { flex: 2; }
+      .arrow { width: 32px; height: 52px; font-size: 0.95rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -190,138 +106,179 @@
 </head>
 <body>
 
-  <div class="topbar">
-    <a class="topbar__back" href="index.html">← Back</a>
-    <div class="topbar__brand">Thot Bubbles <span>Ma(gay)zine</span></div>
-    <div class="topbar__counter" id="counter">Page 1 of 66</div>
-  </div>
+<div class="spread" id="spread">
+  <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
+  <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
+</div>
 
-  <div class="viewer">
-    <button class="nav-btn nav-btn--prev" id="prevBtn" aria-label="Previous page">&#8592;</button>
+<div class="nav-top">
+  <a class="nav-top__back" href="flipbook.html">← Portfolio</a>
+  <span class="nav-top__title">Thot Bubbles Ma(gay)zine</span>
+  <span class="nav-top__counter" id="counter"></span>
+</div>
 
-    <div class="spread" id="spread">
-      <div class="spread__page" id="pageLeft">
-        <img id="imgLeft" src="" alt="Left page" />
-      </div>
-      <div class="spread__page" id="pageRight">
-        <img id="imgRight" src="" alt="Right page" />
-      </div>
-    </div>
+<button class="arrow arrow--prev" id="prev">&#8592;</button>
+<button class="arrow arrow--next" id="next">&#8594;</button>
 
-    <button class="nav-btn nav-btn--next" id="nextBtn" aria-label="Next page">&#8594;</button>
-  </div>
+<script>
+  const TOTAL = 62;
+  const PAGES = Array.from({length: TOTAL}, (_, i) =>
+    `assets/images/magazine/page-${String(i+1).padStart(2,'0')}.jpg`
+  );
+  // 31 spreads: [0,1],[2,3],...[60,61]
+  const SPREADS = Array.from({length: 31}, (_, i) => [i*2, i*2+1]);
 
-  <div class="strip-wrap">
-    <div class="strip" id="strip"></div>
-  </div>
+  const TURN_MS = 380;
+  let cur    = 0;
+  let curMob = 0;
+  let turning = false;
 
-  <script>
-    // All pages in reading order
-    const pages = [
-      'assets/images/magazine/cover-1.jpg',
-      'assets/images/magazine/cover-2.jpg',
-      'assets/images/magazine/cover-3.jpg',
-      'assets/images/magazine/cover-4.jpg',
-      'assets/images/magazine/cover-5.jpg',
-      'assets/images/magazine/cover-6.jpg',
-      ...Array.from({length: 60}, (_, i) => {
-        const n = String(i + 1).padStart(2, '0');
-        return `assets/images/magazine/page-${n}.jpg`;
-      })
-    ];
+  const spreadEl = document.getElementById('spread');
+  const imgL  = document.getElementById('imgL');
+  const imgR  = document.getElementById('imgR');
+  const prev  = document.getElementById('prev');
+  const next  = document.getElementById('next');
+  const ctr   = document.getElementById('counter');
 
-    const total = pages.length;
-    let current = 0; // index of left-page in spread (even = left, odd = right only)
-    let twoUp = window.innerWidth > 600;
+  function isMobile() { return window.innerWidth <= 700; }
 
-    const imgLeft  = document.getElementById('imgLeft');
-    const imgRight = document.getElementById('imgRight');
-    const pageLeft  = document.getElementById('pageLeft');
-    const pageRight = document.getElementById('pageRight');
-    const prevBtn  = document.getElementById('prevBtn');
-    const nextBtn  = document.getElementById('nextBtn');
-    const counter  = document.getElementById('counter');
-    const strip    = document.getElementById('strip');
-
-    // Build thumbnail strip
-    pages.forEach((src, i) => {
-      const thumb = document.createElement('div');
-      thumb.className = 'strip__thumb';
-      thumb.innerHTML = `<img src="${src}" alt="Page ${i+1}" loading="lazy" />`;
-      thumb.addEventListener('click', () => goTo(i));
-      strip.appendChild(thumb);
-    });
-
-    function goTo(idx) {
-      if (idx < 0) idx = 0;
-      if (idx >= total) idx = total - 1;
-
-      // Snap to even index for two-up (always show pairs)
-      if (twoUp && idx % 2 !== 0) idx = idx - 1;
-
-      current = idx;
-      render();
+  function render() {
+    if (isMobile()) {
+      imgL.src = PAGES[curMob];
+      ctr.textContent = `${curMob+1} / ${TOTAL}`;
+      prev.disabled = curMob === 0 || turning;
+      next.disabled = curMob === TOTAL-1 || turning;
+    } else {
+      const [l,r] = SPREADS[cur];
+      imgL.src = PAGES[l];
+      imgR.src = r < TOTAL ? PAGES[r] : '';
+      ctr.textContent = r < TOTAL ? `${l+1}–${r+1} / ${TOTAL}` : `${l+1} / ${TOTAL}`;
+      prev.disabled = cur === 0 || turning;
+      next.disabled = cur === SPREADS.length-1 || turning;
     }
+    preload();
+  }
 
-    function render() {
-      twoUp = window.innerWidth > 600;
-
-      const l = current;
-      const r = current + 1;
-
-      // Left page
-      imgLeft.src = pages[l] || '';
-      pageLeft.classList.toggle('active', true);
-
-      // Right page — only in two-up and if page exists
-      if (twoUp && r < total) {
-        imgRight.src = pages[r] || '';
-        pageRight.classList.toggle('active', true);
-      } else {
-        pageRight.classList.remove('active');
-      }
-
-      // Counter
-      if (twoUp && r < total) {
-        counter.textContent = `Pages ${l + 1}–${r + 1} of ${total}`;
-      } else {
-        counter.textContent = `Page ${l + 1} of ${total}`;
-      }
-
-      // Buttons
-      prevBtn.disabled = current === 0;
-      nextBtn.disabled = twoUp ? (current + 2 >= total) : (current + 1 >= total);
-
-      // Strip highlight + scroll into view
-      const thumbs = strip.querySelectorAll('.strip__thumb');
-      thumbs.forEach((t, i) => {
-        const isActive = twoUp ? (i === l || i === r) : i === l;
-        t.classList.toggle('active', isActive);
+  function preload() {
+    if (isMobile()) {
+      [curMob-1,curMob+1].forEach(i => { if(i>=0&&i<TOTAL) new Image().src=PAGES[i]; });
+    } else {
+      [cur-1,cur+1].forEach(si => {
+        if(si>=0&&si<SPREADS.length) SPREADS[si].forEach(pi => { if(pi<TOTAL) new Image().src=PAGES[pi]; });
       });
-      if (thumbs[l]) {
-        thumbs[l].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
     }
+  }
 
-    prevBtn.addEventListener('click', () => {
-      goTo(current - (twoUp ? 2 : 1));
-    });
-    nextBtn.addEventListener('click', () => {
-      goTo(current + (twoUp ? 2 : 1));
-    });
+  function goNext() {
+    if (turning) return;
+    if (isMobile()) {
+      if (curMob >= TOTAL-1) return;
+      fade(curMob+1);
+    } else {
+      if (cur >= SPREADS.length-1) return;
+      turning = true; prev.disabled=true; next.disabled=true;
+      turnForward(cur+1);
+    }
+  }
 
-    // Keyboard navigation
-    document.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft')  goTo(current - (twoUp ? 2 : 1));
-      if (e.key === 'ArrowRight') goTo(current + (twoUp ? 2 : 1));
-    });
+  function goPrev() {
+    if (turning) return;
+    if (isMobile()) {
+      if (curMob <= 0) return;
+      fade(curMob-1);
+    } else {
+      if (cur <= 0) return;
+      turning = true; prev.disabled=true; next.disabled=true;
+      turnBackward(cur-1);
+    }
+  }
 
-    // Resize handler
-    window.addEventListener('resize', () => { twoUp = window.innerWidth > 600; render(); });
+  function fade(n) {
+    turning = true;
+    imgL.style.transition = 'opacity 0.18s';
+    imgL.style.opacity = '0';
+    setTimeout(() => {
+      curMob = n; render();
+      imgL.style.opacity = '1';
+      setTimeout(() => { imgL.style.transition=''; turning=false; }, 180);
+    }, 180);
+  }
 
-    // Init
-    goTo(0);
-  </script>
+  function turnForward(ni) {
+    const [,curR] = SPREADS[cur];
+    const [nL,nR] = SPREADS[ni];
+    if (nR < TOTAL) imgR.src = PAGES[nR];
+    const leaf = makeLeaf(PAGES[curR], PAGES[nL], true);
+    spreadEl.appendChild(leaf);
+    requestAnimationFrame(() => requestAnimationFrame(() => { leaf.style.transform='rotateY(-180deg)'; }));
+    leaf.addEventListener('transitionend', () => {
+      spreadEl.removeChild(leaf);
+      imgL.src = PAGES[nL];
+      cur = ni; turning = false; render();
+    }, {once:true});
+  }
 
+  function turnBackward(pi) {
+    const [curL] = SPREADS[cur];
+    const [pL,pR] = SPREADS[pi];
+    imgL.src = PAGES[pL];
+    const leaf = makeLeaf(PAGES[curL], pR<TOTAL?PAGES[pR]:null, false);
+    spreadEl.appendChild(leaf);
+    requestAnimationFrame(() => requestAnimationFrame(() => { leaf.style.transform='rotateY(180deg)'; }));
+    leaf.addEventListener('transitionend', () => {
+      spreadEl.removeChild(leaf);
+      imgR.src = pR<TOTAL ? PAGES[pR] : '';
+      cur = pi; turning = false; render();
+    }, {once:true});
+  }
+
+  function makeLeaf(front, back, fwd) {
+    const d = document.createElement('div');
+    d.style.cssText = `position:absolute;top:0;left:${fwd?'50%':'0'};width:50%;height:100%;
+      transform-style:preserve-3d;transform-origin:${fwd?'left':'right'} center;
+      transform:rotateY(0deg);transition:transform ${TURN_MS}ms cubic-bezier(.645,.045,.355,1);
+      z-index:50;pointer-events:none;`;
+    d.appendChild(face(front,false,fwd));
+    d.appendChild(face(back,true,fwd));
+    return d;
+  }
+
+  function face(src, back, fwd) {
+    const f = document.createElement('div');
+    f.style.cssText = `position:absolute;inset:0;background:#111;overflow:hidden;
+      backface-visibility:hidden;-webkit-backface-visibility:hidden;
+      ${back?'transform:rotateY(180deg);':''}`;
+    if (src) {
+      const i = document.createElement('img');
+      i.src=src; i.style.cssText='width:100%;height:100%;object-fit:contain;display:block;';
+      f.appendChild(i);
+    }
+    const g = !back
+      ? (fwd?'linear-gradient(to left,rgba(0,0,0,.25) 0%,transparent 40%)':'linear-gradient(to right,rgba(0,0,0,.25) 0%,transparent 40%)')
+      : (fwd?'linear-gradient(to right,rgba(0,0,0,.32) 0%,transparent 40%)':'linear-gradient(to left,rgba(0,0,0,.32) 0%,transparent 40%)');
+    const s = document.createElement('div');
+    s.style.cssText=`position:absolute;inset:0;background:${g};pointer-events:none;`;
+    f.appendChild(s);
+    return f;
+  }
+
+  prev.addEventListener('click', goPrev);
+  next.addEventListener('click', goNext);
+  document.addEventListener('keydown', e => {
+    if (e.key==='ArrowLeft') goPrev();
+    if (e.key==='ArrowRight') goNext();
+  });
+  let tx=null;
+  document.addEventListener('touchstart', e=>{tx=e.touches[0].clientX;},{passive:true});
+  document.addEventListener('touchend', e=>{
+    if(tx===null)return;
+    const dx=e.changedTouches[0].clientX-tx;
+    if(Math.abs(dx)>45) dx<0?goNext():goPrev();
+    tx=null;
+  },{passive:true});
+  window.addEventListener('resize', render);
+
+  render();
+</script>
 </body>
 </html>
