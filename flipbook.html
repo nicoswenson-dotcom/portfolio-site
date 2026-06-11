@@ -244,28 +244,28 @@
 </nav>
 
 <script>
-  // ── Pages: v4 (page-12 = carousel, pages 18-20 = blank/skip) ──
+  // ── Pages: v5 6.11 — use pages 1-22, skip blanks 9,19-21, replace 13 with button
   const IMG = [
-    'assets/images/v4-pages/page-01.jpg',  // 0  cover
-    'assets/images/v4-pages/page-02.jpg',  // 1  portrait
-    'assets/images/v4-pages/page-03.jpg',  // 2  about me
-    'assets/images/v4-pages/page-04.jpg',  // 3  drag
-    'assets/images/v4-pages/page-05.jpg',  // 4  drag
-    'assets/images/v4-pages/page-06.jpg',  // 5  writing
-    'assets/images/v4-pages/page-07.jpg',  // 6  writing collage
-    'assets/images/v4-pages/page-08.jpg',  // 7  design
-    'assets/images/v4-pages/page-09.jpg',  // 8  design
-    'assets/images/v4-pages/page-10.jpg',  // 9  thot bubbles intro
-    'assets/images/v4-pages/page-11.jpg',  // 10 thot bubbles cover
-    // 11 = CAROUSEL (handled separately)
-    'assets/images/v4-pages/page-13.jpg',  // 11 TB launch
-    'assets/images/v4-pages/page-14.jpg',  // 12 bubble nest branding
-    'assets/images/v4-pages/page-15.jpg',  // 13 event posters
-    'assets/images/v4-pages/page-16.jpg',  // 14 unicorn
-    'assets/images/v4-pages/page-17.jpg',  // 15 unicorn assets
-    'assets/images/v4-pages/page-21.jpg',  // 16 closing photo
+    'assets/images/v5-pages/page-01.jpg',  // 0  cover
+    'assets/images/v5-pages/page-02.jpg',  // 1  portrait
+    'assets/images/v5-pages/page-03.jpg',  // 2  about me
+    'assets/images/v5-pages/page-04.jpg',  // 3  drag
+    'assets/images/v5-pages/page-05.jpg',  // 4  drag
+    'assets/images/v5-pages/page-06.jpg',  // 5  writing
+    'assets/images/v5-pages/page-07.jpg',  // 6  writing collage
+    'assets/images/v5-pages/page-08.jpg',  // 7  design
+    'assets/images/v5-pages/page-10.jpg',  // 8  TB intro (skip blank p09)
+    'assets/images/v5-pages/page-11.jpg',  // 9  TB cover
+    'assets/images/v5-pages/page-12.jpg',  // 10 TB launch text
+    // 11 = BUTTON (handled separately)
+    'assets/images/v5-pages/page-14.jpg',  // 11 POP display
+    'assets/images/v5-pages/page-15.jpg',  // 12 bubble nest
+    'assets/images/v5-pages/page-16.jpg',  // 13 event posters
+    'assets/images/v5-pages/page-17.jpg',  // 14 unicorn
+    'assets/images/v5-pages/page-18.jpg',  // 15 unicorn assets
+    'assets/images/v5-pages/page-22.jpg',  // 16 closing photo
   ];
-  const CAROUSEL_IDX = 11; // virtual index for carousel
+  const CAROUSEL_IDX = 11;
 
   // ── Desktop: 10 states ───────────────────────────
   const STATES = [
@@ -273,10 +273,10 @@
     { type: 'spread', L: 1,  R: 2  },           // 1 about me
     { type: 'spread', L: 3,  R: 4  },           // 2 drag
     { type: 'spread', L: 5,  R: 6  },           // 3 writing
-    { type: 'spread', L: 7,  R: 8  },           // 4 design
-    { type: 'spread', L: 9,  R: 10 },           // 5 thot bubbles
-    { type: 'carousel' },                        // 6 TB interior
-    { type: 'spread', L: 11, R: 12 },           // 7 TB launch + bubble nest
+    { type: 'spread', L: 7,  R: 8  },           // 4 design + TB intro
+    { type: 'spread', L: 9,  R: 10 },           // 5 TB cover + launch
+    { type: 'carousel' },                        // 6 TB magazine button
+    { type: 'spread', L: 11, R: 12 },           // 7 POP + bubble nest
     { type: 'spread', L: 13, R: 14 },           // 8 event posters + unicorn
     { type: 'spread', L: 15, R: 16 },           // 9 unicorn assets + closing
   ];
@@ -284,8 +284,7 @@
   const SECTION_STATE = [0, 1, 2, 3, 4, 5];
 
   // ── Mobile: 18 individual pages ──────────────────
-  // indices: 0=cover, 1-10=IMG[1-10], 11=carousel, 12-17=IMG[11-16]
-  const MOB_SECTION = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5, 4, 4, 4, 4, 4];
+  const MOB_SECTION = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5, 5, 4, 4, 4, 4];
   const SECTION_MOB = [0, 1, 3, 5, 7, 9];
   const MOB_TOTAL   = 18;
 
