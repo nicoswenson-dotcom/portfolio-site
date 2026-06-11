@@ -50,52 +50,61 @@
     body.fullscreen-right #slotL { display: none; }
     body.fullscreen-right #slotR { flex: 2; }
 
-    /* ══ TB CAROUSEL ═══════════════════════════════ */
-    #tbCarousel {
-      position: absolute;
+    /* ══ TB MAGAZINE PAGE ══════════════════════════ */
+    #tbPage {
+      position: fixed;
       inset: 0;
-      background: #f5eedc;
-      display: none;
-    }
-    .tbc-slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.9s ease;
-    }
-    .tbc-slide.active { opacity: 1; }
-    .tbc-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-    .tbc-dots {
-      position: absolute;
-      bottom: 48px;
-      left: 0; right: 0;
-      display: flex;
-      justify-content: center;
-      gap: 6px;
       z-index: 10;
-    }
-    .tbc-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.18);
-      transition: background 0.3s;
-    }
-    .tbc-dot.active { background: #e4028c; }
-    .tbc-label {
-      position: absolute;
-      bottom: 28px;
-      left: 0; right: 0;
+      background: #fff;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 40px 40px;
       text-align: center;
+    }
+    .tbp__title {
       font-family: 'Oswald', sans-serif;
-      font-size: 0.5rem;
-      letter-spacing: 0.22em;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      line-height: 0.9;
+      color: #1a1718;
       text-transform: uppercase;
-      color: rgba(0,0,0,0.3);
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+    .tbp__sub {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 400;
+      font-size: clamp(0.9rem, 1.8vw, 1.4rem);
+      letter-spacing: 0.1em;
+      color: #e4028c;
+      text-transform: uppercase;
+      margin-bottom: clamp(28px, 4vw, 48px);
+    }
+    .tbp__rule {
+      width: clamp(60px, 12vw, 120px);
+      height: 3px;
+      background: #f7a800;
+      margin: 0 auto clamp(28px, 4vw, 48px);
+    }
+    .tbp__btn {
+      display: inline-block;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.85rem, 1.5vw, 1.2rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      background: #e4028c;
+      padding: clamp(14px, 2vw, 20px) clamp(28px, 4vw, 48px);
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .tbp__btn:hover {
+      background: #1a1718;
+      transform: scale(1.03);
     }
 
     /* ══ OVERLAID NAV ══════════════════════════════ */
@@ -206,10 +215,14 @@
   <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
 </div>
 
-<!-- TB Carousel: full-screen overlay, shown on last page -->
-<div id="tbCarousel" style="display:none;position:fixed;inset:0;z-index:10;background:#f5eedc;">
-  <div class="tbc-dots" id="tbcDots"></div>
-  <div class="tbc-label">Thot Bubbles Ma(gay)zine — Interior Pages</div>
+<!-- TB Magazine button page -->
+<div id="tbPage">
+  <div class="tbp__title">Thot Bubbles</div>
+  <div class="tbp__sub">Ma(gay)zine</div>
+  <div class="tbp__rule"></div>
+  <a class="tbp__btn" href="assets/full-tb-magazine.pdf" target="_blank" rel="noopener">
+    See the Whole Ma(gay)zine Here &rarr;
+  </a>
 </div>
 
 <div class="nav-top">
@@ -284,7 +297,7 @@
   const spreadEl = document.getElementById('spread');
   const imgL     = document.getElementById('imgL');
   const imgR     = document.getElementById('imgR');
-  const carousel = document.getElementById('tbCarousel');
+  const tbPage   = document.getElementById('tbPage');
   const prevBtn  = document.getElementById('prev');
   const nextBtn  = document.getElementById('next');
   const counter  = document.getElementById('counter');
@@ -292,51 +305,8 @@
 
   function isMobile() { return window.innerWidth <= 700; }
 
-  // ── Carousel setup ───────────────────────────────
-  const TB_IMGS = [
-    'assets/images/tb-pages/tb-01.jpg',
-    'assets/images/tb-pages/tb-04.jpg',
-    'assets/images/tb-pages/tb-08.jpg',
-    'assets/images/tb-pages/tb-14.jpg',
-    'assets/images/tb-pages/tb-20.jpg',
-    'assets/images/tb-pages/tb-28.jpg',
-    'assets/images/tb-pages/tb-36.jpg',
-    'assets/images/tb-pages/tb-44.jpg',
-    'assets/images/tb-pages/tb-52.jpg',
-    'assets/images/tb-pages/tb-58.jpg',
-  ];
-  const dotsEl  = document.getElementById('tbcDots');
-  let tbIdx = 0, tbTimer = null;
-  const tbSlides = [];
-
-  TB_IMGS.forEach((src, i) => {
-    const div = document.createElement('div');
-    div.className = 'tbc-slide' + (i === 0 ? ' active' : '');
-    const img = document.createElement('img');
-    img.src = src; img.alt = 'Thot Bubbles interior page';
-    div.appendChild(img);
-    carousel.insertBefore(div, dotsEl);
-    tbSlides.push(div);
-    const dot = document.createElement('div');
-    dot.className = 'tbc-dot' + (i === 0 ? ' active' : '');
-    dotsEl.appendChild(dot);
-  });
-  const tbDots = dotsEl.querySelectorAll('.tbc-dot');
-
-  function tbGoTo(n) {
-    tbSlides[tbIdx].classList.remove('active'); tbDots[tbIdx].classList.remove('active');
-    tbIdx = (n + tbSlides.length) % tbSlides.length;
-    tbSlides[tbIdx].classList.add('active'); tbDots[tbIdx].classList.add('active');
-  }
-  function tbShow() {
-    carousel.style.display = 'block';
-    tbGoTo(0);
-    tbTimer = setInterval(() => tbGoTo(tbIdx + 1), 2800);
-  }
-  function tbHide() {
-    carousel.style.display = 'none';
-    clearInterval(tbTimer); tbTimer = null;
-  }
+  function tbShow() { tbPage.style.display = 'flex'; }
+  function tbHide() { tbPage.style.display = 'none'; }
 
   // ── Render ───────────────────────────────────────
   function render() {
