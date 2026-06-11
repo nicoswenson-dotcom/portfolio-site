@@ -231,40 +231,50 @@
 </nav>
 
 <script>
-  // ── Pages (0=cover … 10=TB cover, 11=carousel) ──
+  // ── Pages: v4 (page-12 = carousel, pages 18-20 = blank/skip) ──
   const IMG = [
-    'assets/images/v3-pages/page-01.jpg',  // 0  cover (standalone)
-    'assets/images/v3-pages/page-02.jpg',  // 1  portrait
-    'assets/images/v3-pages/page-03.jpg',  // 2  about me
-    'assets/images/v3-pages/page-04.jpg',  // 3  drag
-    'assets/images/v3-pages/page-05.jpg',  // 4  drag
-    'assets/images/v3-pages/page-06.jpg',  // 5  writing
-    'assets/images/v3-pages/page-07.jpg',  // 6  writing collage
-    'assets/images/v3-pages/page-08.jpg',  // 7  design
-    'assets/images/v3-pages/page-09.jpg',  // 8  design
-    'assets/images/v3-pages/page-10.jpg',  // 9  thot bubbles
-    'assets/images/v3-pages/page-11.jpg',  // 10 thot bubbles cover
-    'CAROUSEL',                             // 11 TB interior rotation
+    'assets/images/v4-pages/page-01.jpg',  // 0  cover
+    'assets/images/v4-pages/page-02.jpg',  // 1  portrait
+    'assets/images/v4-pages/page-03.jpg',  // 2  about me
+    'assets/images/v4-pages/page-04.jpg',  // 3  drag
+    'assets/images/v4-pages/page-05.jpg',  // 4  drag
+    'assets/images/v4-pages/page-06.jpg',  // 5  writing
+    'assets/images/v4-pages/page-07.jpg',  // 6  writing collage
+    'assets/images/v4-pages/page-08.jpg',  // 7  design
+    'assets/images/v4-pages/page-09.jpg',  // 8  design
+    'assets/images/v4-pages/page-10.jpg',  // 9  thot bubbles intro
+    'assets/images/v4-pages/page-11.jpg',  // 10 thot bubbles cover
+    // 11 = CAROUSEL (handled separately)
+    'assets/images/v4-pages/page-13.jpg',  // 11 TB launch
+    'assets/images/v4-pages/page-14.jpg',  // 12 bubble nest branding
+    'assets/images/v4-pages/page-15.jpg',  // 13 event posters
+    'assets/images/v4-pages/page-16.jpg',  // 14 unicorn
+    'assets/images/v4-pages/page-17.jpg',  // 15 unicorn assets
+    'assets/images/v4-pages/page-21.jpg',  // 16 closing photo
   ];
+  const CAROUSEL_IDX = 11; // virtual index for carousel
 
-  // ── Desktop: 7 states (cover, 5 spreads, carousel) ──
+  // ── Desktop: 10 states ───────────────────────────
   const STATES = [
-    { type: 'cover'  },
-    { type: 'spread', L: 1,  R: 2  },
-    { type: 'spread', L: 3,  R: 4  },
-    { type: 'spread', L: 5,  R: 6  },
-    { type: 'spread', L: 7,  R: 8  },
-    { type: 'spread', L: 9,  R: 10 },
-    { type: 'carousel' },
+    { type: 'cover'   },                        // 0
+    { type: 'spread', L: 1,  R: 2  },           // 1 about me
+    { type: 'spread', L: 3,  R: 4  },           // 2 drag
+    { type: 'spread', L: 5,  R: 6  },           // 3 writing
+    { type: 'spread', L: 7,  R: 8  },           // 4 design
+    { type: 'spread', L: 9,  R: 10 },           // 5 thot bubbles
+    { type: 'carousel' },                        // 6 TB interior
+    { type: 'spread', L: 11, R: 12 },           // 7 TB launch + bubble nest
+    { type: 'spread', L: 13, R: 14 },           // 8 event posters + unicorn
+    { type: 'spread', L: 15, R: 16 },           // 9 unicorn assets + closing
   ];
-  const STATE_SECTION = [0, 1, 2, 3, 4, 5, 5];
+  const STATE_SECTION = [0, 1, 2, 3, 4, 5, 5, 5, 4, 4];
   const SECTION_STATE = [0, 1, 2, 3, 4, 5];
 
-  // ── Mobile: 12 individual pages ──────────────────
-  // pages 0-10 = IMG indices, page 11 = carousel
-  const MOB_SECTION  = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5];
-  const SECTION_MOB  = [0, 1, 3, 5, 7, 9];
-  const MOB_TOTAL    = 12;
+  // ── Mobile: 18 individual pages ──────────────────
+  // indices: 0=cover, 1-10=IMG[1-10], 11=carousel, 12-17=IMG[11-16]
+  const MOB_SECTION = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5, 4, 4, 4, 4, 4];
+  const SECTION_MOB = [0, 1, 3, 5, 7, 9];
+  const MOB_TOTAL   = 18;
 
   const TURN_MS = 380;
   let cur    = 0;   // desktop state index
@@ -354,10 +364,12 @@
   function renderMobile() {
     tbHide();
     document.body.classList.remove('fullscreen-right');
-    if (curMob === 11) {
+    if (curMob === CAROUSEL_IDX) {
       tbShow();
     } else {
-      imgL.src = IMG[curMob];
+      // Mobile indices 0-10 map to IMG[0-10], 11=carousel, 12-17 map to IMG[11-16]
+      const imgIdx = curMob <= 10 ? curMob : curMob - 1;
+      imgL.src = IMG[imgIdx];
     }
     updateUI();
   }
