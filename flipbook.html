@@ -199,35 +199,28 @@
     .arrow--prev { left: 8px; }
     .arrow--next { right: 8px; }
 
-    /* ══ PROGRESS DOTS ═════════════════════════════ */
-    .progress-track {
-      position: fixed; bottom: 34px; left: 50%; transform: translateX(-50%);
-      z-index: 200; display: flex; align-items: center; gap: 7px;
-    }
-    .pdot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: rgba(0,0,0,0.15); border: none; cursor: pointer; padding: 0;
-      transition: background 0.2s, transform 0.2s;
-      flex-shrink: 0;
-    }
-    .pdot:hover { background: rgba(228,2,140,0.5); }
-    .pdot.active { background: #e4028c; transform: scale(1.55); }
-
+    /* ══ SECTION NAV ═══════════════════════════════ */
     .page-nav {
       position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
-      z-index: 200; display: flex; align-items: baseline;
-      flex-wrap: wrap; justify-content: center; white-space: nowrap;
+      z-index: 200; display: flex; align-items: center;
+      flex-wrap: wrap; justify-content: center;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-radius: 100px; padding: 4px 10px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.09);
+      max-width: calc(100vw - 120px);
     }
     .sec-btn {
       background: none; border: none;
       font-family: 'Oswald', sans-serif; font-weight: 600;
-      font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(0,0,0,0.3); cursor: pointer;
-      padding: 6px 9px; line-height: 1; transition: color 0.15s;
-      position: relative;
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(0,0,0,0.35); cursor: pointer;
+      padding: 8px 10px; line-height: 1; transition: color 0.15s;
+      position: relative; white-space: nowrap;
+      min-height: 40px; display: flex; align-items: center;
     }
     .sec-btn + .sec-btn::before {
-      content: '·'; position: absolute; left: 0; color: rgba(0,0,0,0.18);
+      content: '·'; position: absolute; left: 0; color: rgba(0,0,0,0.2);
     }
     .sec-btn:hover { color: #e4028c; }
     .sec-btn.active { color: #1a1718; font-weight: 700; }
@@ -239,10 +232,8 @@
       .arrow { width: 42px; height: 66px; font-size: 1.1rem; }
       .arrow--prev { left: 5px; }
       .arrow--next { right: 5px; }
-      .progress-track { bottom: 30px; gap: 5px; }
-      .pdot { width: 6px; height: 6px; }
-      .page-nav { bottom: 8px; }
-      .sec-btn { font-size: 0.38rem; padding: 5px 5px; }
+      .page-nav { bottom: 6px; padding: 3px 6px; max-width: calc(100vw - 100px); }
+      .sec-btn { font-size: 0.52rem; padding: 7px 6px; min-height: 36px; }
 
       #contactPage { padding: 56px 20px 32px; }
       .contact__form-side { max-width: 100%; }
@@ -327,7 +318,6 @@
 <button class="arrow arrow--prev" id="prev">&#8592;</button>
 <button class="arrow arrow--next" id="next">&#8594;</button>
 
-<div class="progress-track" id="progressTrack"></div>
 <nav class="page-nav">
   <button class="sec-btn" data-sec="0">About</button>
   <button class="sec-btn" data-sec="1">Drag</button>
@@ -421,7 +411,7 @@
   const backBtn       = document.getElementById('backBtn');
   const counter       = document.getElementById('counter');
   const secBtns       = document.querySelectorAll('.sec-btn');
-  const progressTrack = document.getElementById('progressTrack');
+  const SECTION_LABELS = ['About','Drag','Writing','Design','Thot Bubbles','Logo','Posters','Branding','Motion','Contact'];
 
   function isMobile() { return window.innerWidth <= 700; }
 
@@ -527,7 +517,6 @@
       activeSec = STATE_SECTION[cur];
     }
     secBtns.forEach((b, i) => b.classList.toggle('active', i === activeSec));
-    document.querySelectorAll('.pdot').forEach((d, i) => d.classList.toggle('active', i === activeSec));
     // Back button: go back one page
     const atStart = isMobile() ? curMob === 0 : cur === 0;
     backBtn.disabled = atStart || turning;
@@ -672,18 +661,6 @@
     return face;
   }
 
-  // ── Build progress dots ──────────────────────────
-  const SECTION_LABELS = ['About','Drag','Writing','Design','Thot Bubbles','Logo','Posters','Branding','Motion','Contact'];
-  SECTION_LABELS.forEach((label, i) => {
-    const dot = document.createElement('button');
-    dot.className = 'pdot';
-    dot.title = label;
-    dot.setAttribute('aria-label', label);
-    dot.dataset.sec = i;
-    dot.addEventListener('click', () => goToSection(i));
-    progressTrack.appendChild(dot);
-  });
-
   // ── Events ───────────────────────────────────────
   prevBtn.addEventListener('click', () => goTo(isMobile() ? curMob - 1 : cur - 1));
   nextBtn.addEventListener('click', () => goTo(isMobile() ? curMob + 1 : cur + 1));
@@ -704,8 +681,16 @@
     tx = null;
   }, {passive:true});
 
-  // Reposition video overlay on resize
+  // Reposition video overlay on resize + sync position when crossing mobile breakpoint
+  let wasMobile = isMobile();
   window.addEventListener('resize', () => {
+    const nowMobile = isMobile();
+    if (nowMobile !== wasMobile) {
+      // Crossed the breakpoint — sync whichever counter is stale
+      if (nowMobile) curMob = SECTION_MOB[STATE_SECTION[cur]];
+      else           cur    = SECTION_STATE[MOB_SECTION[curMob]];
+      wasMobile = nowMobile;
+    }
     render();
     if (glennOverlay.style.display !== 'none' && glennOverlay.parentNode) {
       positionGlenn(glennOverlay.parentNode);
