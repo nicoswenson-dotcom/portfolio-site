@@ -15,33 +15,8 @@
       position: fixed;
       inset: 0;
       display: flex;
-      perspective: 1800px;
+      perspective: 4000px;
       perspective-origin: center center;
-    }
-    /* Spine shadow */
-    .spread::after {
-      content: '';
-      position: absolute; top: 0; bottom: 0;
-      left: calc(50% - 8px); width: 16px;
-      background: linear-gradient(to right,
-        rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.09) 40%,
-        rgba(0,0,0,0.09) 60%, rgba(0,0,0,0.04) 100%);
-      pointer-events: none; z-index: 5;
-    }
-
-    /* ══ PAGE TURN KEYFRAMES ═══════════════════════ */
-    @keyframes leaf-fwd {
-      0%   { transform: rotateY(0deg); }
-      100% { transform: rotateY(-180deg); }
-    }
-    @keyframes leaf-bwd {
-      0%   { transform: rotateY(0deg); }
-      100% { transform: rotateY(180deg); }
-    }
-    @keyframes shadow-mid {
-      0%   { opacity: 0; }
-      45%  { opacity: 1; }
-      100% { opacity: 0; }
     }
     #slotL {
       flex: 1; height: 100%; overflow: hidden; background: #fff; position: relative;
@@ -224,36 +199,38 @@
     .arrow--prev { left: 8px; }
     .arrow--next { right: 8px; }
 
-    /* ══ SECTION NAV (pill bar) ════════════════════ */
-    .sec-nav {
-      position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
-      z-index: 200; display: flex; align-items: center; gap: 0;
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      border-radius: 100px; padding: 4px 6px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.10);
-      max-width: calc(100vw - 120px);
+    /* ══ PROGRESS DOTS ═════════════════════════════ */
+    .progress-track {
+      position: fixed; bottom: 34px; left: 50%; transform: translateX(-50%);
+      z-index: 200; display: flex; align-items: center; gap: 7px;
     }
-    .sec-pill {
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-      padding: 8px 11px; border: none; background: none; cursor: pointer;
-      border-radius: 100px; transition: background 0.15s; position: relative;
-      min-width: 44px; min-height: 44px; justify-content: center;
-    }
-    .sec-pill:hover { background: rgba(228,2,140,0.07); }
-    .sec-pill.active { background: rgba(228,2,140,0.1); }
-    .sec-pill__dot {
+    .pdot {
       width: 7px; height: 7px; border-radius: 50%;
-      background: rgba(0,0,0,0.18); flex-shrink: 0;
+      background: rgba(0,0,0,0.15); border: none; cursor: pointer; padding: 0;
       transition: background 0.2s, transform 0.2s;
+      flex-shrink: 0;
     }
-    .sec-pill.active .sec-pill__dot { background: #e4028c; transform: scale(1.5); }
-    .sec-pill__label {
+    .pdot:hover { background: rgba(228,2,140,0.5); }
+    .pdot.active { background: #e4028c; transform: scale(1.55); }
+
+    .page-nav {
+      position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
+      z-index: 200; display: flex; align-items: baseline;
+      flex-wrap: wrap; justify-content: center; white-space: nowrap;
+    }
+    .sec-btn {
+      background: none; border: none;
       font-family: 'Oswald', sans-serif; font-weight: 600;
-      font-size: 0.48rem; letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(0,0,0,0.3); transition: color 0.15s; white-space: nowrap;
+      font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(0,0,0,0.3); cursor: pointer;
+      padding: 6px 9px; line-height: 1; transition: color 0.15s;
+      position: relative;
     }
-    .sec-pill.active .sec-pill__label { color: #1a1718; }
+    .sec-btn + .sec-btn::before {
+      content: '·'; position: absolute; left: 0; color: rgba(0,0,0,0.18);
+    }
+    .sec-btn:hover { color: #e4028c; }
+    .sec-btn.active { color: #1a1718; font-weight: 700; }
 
     /* ══ MOBILE ════════════════════════════════════ */
     @media (max-width: 700px) {
@@ -262,10 +239,10 @@
       .arrow { width: 42px; height: 66px; font-size: 1.1rem; }
       .arrow--prev { left: 5px; }
       .arrow--next { right: 5px; }
-      .sec-nav { bottom: 6px; padding: 3px 4px; }
-      .sec-pill { padding: 7px 7px; min-width: 32px; min-height: 38px; gap: 0; }
-      .sec-pill__label { display: none; }
-      .sec-pill__dot { width: 6px; height: 6px; }
+      .progress-track { bottom: 30px; gap: 5px; }
+      .pdot { width: 6px; height: 6px; }
+      .page-nav { bottom: 8px; }
+      .sec-btn { font-size: 0.38rem; padding: 5px 5px; }
 
       #contactPage {
         flex-direction: column;
@@ -346,7 +323,19 @@
 <button class="arrow arrow--prev" id="prev">&#8592;</button>
 <button class="arrow arrow--next" id="next">&#8594;</button>
 
-<nav class="sec-nav" id="secNav"></nav>
+<div class="progress-track" id="progressTrack"></div>
+<nav class="page-nav">
+  <button class="sec-btn" data-sec="0">About</button>
+  <button class="sec-btn" data-sec="1">Drag</button>
+  <button class="sec-btn" data-sec="2">Writing</button>
+  <button class="sec-btn" data-sec="3">Design</button>
+  <button class="sec-btn" data-sec="4">Thot Bubbles</button>
+  <button class="sec-btn" data-sec="5">Logo</button>
+  <button class="sec-btn" data-sec="6">Posters</button>
+  <button class="sec-btn" data-sec="7">Branding</button>
+  <button class="sec-btn" data-sec="8">Motion</button>
+  <button class="sec-btn" data-sec="9">Contact</button>
+</nav>
 
 <script>
   // ── Pages: v6 June 16 — all 22 pages, page-22 handled as contact state
@@ -425,9 +414,10 @@
   const glennVideo    = document.getElementById('glennVideo');
   const prevBtn       = document.getElementById('prev');
   const nextBtn       = document.getElementById('next');
-  const backBtn   = document.getElementById('backBtn');
-  const counter   = document.getElementById('counter');
-  const secNav    = document.getElementById('secNav');
+  const backBtn       = document.getElementById('backBtn');
+  const counter       = document.getElementById('counter');
+  const secBtns       = document.querySelectorAll('.sec-btn');
+  const progressTrack = document.getElementById('progressTrack');
 
   function isMobile() { return window.innerWidth <= 700; }
 
@@ -516,20 +506,22 @@
   function updateUI() {
     let activeSec;
     if (isMobile()) {
+      counter.textContent = `${curMob + 1} / ${MOB_TOTAL}`;
       prevBtn.disabled = curMob === 0 || turning;
       nextBtn.disabled = curMob === MOB_TOTAL - 1 || turning;
       activeSec = MOB_SECTION[curMob];
-      counter.textContent = `${SECTION_LABELS[activeSec]}`;
     } else {
       const s = STATES[cur];
+      counter.textContent = s.type === 'carousel'  ? '★'
+        : s.type === 'contact'   ? 'Contact'
+        : `${s.L}–${s.R}`;
       prevBtn.disabled = cur === 0 || turning;
       nextBtn.disabled = cur === STATES.length - 1 || turning;
       activeSec = STATE_SECTION[cur];
-      counter.textContent = s.type === 'carousel' ? `${SECTION_LABELS[activeSec]} ★`
-        : s.type === 'contact'  ? 'Contact'
-        : `${SECTION_LABELS[activeSec]} · ${s.L}–${s.R}`;
     }
-    document.querySelectorAll('.sec-pill').forEach((p, i) => p.classList.toggle('active', i === activeSec));
+    secBtns.forEach((b, i) => b.classList.toggle('active', i === activeSec));
+    document.querySelectorAll('.pdot').forEach((d, i) => d.classList.toggle('active', i === activeSec));
+    // Back button: go back one page
     const atStart = isMobile() ? curMob === 0 : cur === 0;
     backBtn.disabled = atStart || turning;
   }
@@ -588,9 +580,11 @@
     const leaf = makeLeaf(frontSrc, backSrc, forward, isFullscr);
     spreadEl.appendChild(leaf);
 
-    function onFlipDone(e) {
-      if (e.target !== leaf) return; // ignore child animations bubbling up
-      leaf.removeEventListener('animationend', onFlipDone);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      leaf.style.transform = forward ? 'rotateY(-180deg)' : 'rotateY(180deg)';
+    }));
+
+    leaf.addEventListener('transitionend', () => {
       spreadEl.removeChild(leaf);
       cur = next;
       if (toState.type === 'spread' || toState.type === 'video') {
@@ -603,8 +597,7 @@
       turning = false;
       updateUI();
       preloadDesktop(cur);
-    }
-    leaf.addEventListener('animationend', onFlipDone);
+    }, { once: true });
   }
 
   // ── Mobile navigation (fade) ─────────────────────
@@ -633,27 +626,18 @@
   // ── Leaf builder ─────────────────────────────────
   function makeLeaf(frontSrc, backSrc, isForward, isFullscreen) {
     const leaf = document.createElement('div');
-    const anim = isForward ? 'leaf-fwd' : 'leaf-bwd';
     leaf.style.cssText = `
       position:absolute; top:0;
       left:${isForward ? (isFullscreen ? '0' : '50%') : '0'};
       width:${isFullscreen ? '100%' : '50%'}; height:100%;
       transform-style:preserve-3d;
       transform-origin:${isForward ? 'left' : 'right'} center;
-      animation:${anim} ${TURN_MS}ms cubic-bezier(0.55,0,0.45,1) forwards;
+      transform:rotateY(0deg);
+      transition:transform ${TURN_MS}ms cubic-bezier(0.42, 0, 0.16, 1.0);
       z-index:50; pointer-events:none;
     `;
     leaf.appendChild(makeFace(frontSrc, false, isForward));
     leaf.appendChild(makeFace(backSrc,  true,  isForward));
-    // Animated shadow sweep to simulate depth at the midpoint
-    const sweep = document.createElement('div');
-    sweep.style.cssText = `
-      position:absolute; inset:0; pointer-events:none; z-index:2;
-      background:rgba(0,0,0,0.28);
-      animation:shadow-mid ${TURN_MS}ms linear forwards;
-      backface-visibility:hidden; -webkit-backface-visibility:hidden;
-    `;
-    leaf.appendChild(sweep);
     return leaf;
   }
 
@@ -681,21 +665,23 @@
     return face;
   }
 
-  // ── Build section pill nav ───────────────────────
+  // ── Build progress dots ──────────────────────────
   const SECTION_LABELS = ['About','Drag','Writing','Design','Thot Bubbles','Logo','Posters','Branding','Motion','Contact'];
   SECTION_LABELS.forEach((label, i) => {
-    const pill = document.createElement('button');
-    pill.className = 'sec-pill';
-    pill.setAttribute('aria-label', label);
-    pill.innerHTML = `<span class="sec-pill__dot"></span><span class="sec-pill__label">${label}</span>`;
-    pill.addEventListener('click', () => goToSection(i));
-    secNav.appendChild(pill);
+    const dot = document.createElement('button');
+    dot.className = 'pdot';
+    dot.title = label;
+    dot.setAttribute('aria-label', label);
+    dot.dataset.sec = i;
+    dot.addEventListener('click', () => goToSection(i));
+    progressTrack.appendChild(dot);
   });
 
   // ── Events ───────────────────────────────────────
   prevBtn.addEventListener('click', () => goTo(isMobile() ? curMob - 1 : cur - 1));
   nextBtn.addEventListener('click', () => goTo(isMobile() ? curMob + 1 : cur + 1));
   backBtn.addEventListener('click', () => goTo(isMobile() ? curMob - 1 : cur - 1));
+  secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
 
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft')  goTo(isMobile() ? curMob - 1 : cur - 1);
@@ -733,23 +719,17 @@
   });
 
   // ── Init ─────────────────────────────────────────
-  const urlParams = new URLSearchParams(location.search);
-  const urlPage   = urlParams.get('page');
-  if (urlPage === 'carousel') {
-    // Return from magazine — land on the TB carousel state
-    cur    = STATES.findIndex(s => s.type === 'carousel'); // state 6
-    curMob = CAROUSEL_IDX;                                  // slot 12
-  } else {
-    const urlSec = urlParams.get('sec');
-    if (urlSec !== null) {
-      const sec = parseInt(urlSec, 10);
-      if (sec >= 0 && sec < SECTION_STATE.length) {
-        cur    = SECTION_STATE[sec];
-        curMob = SECTION_MOB[sec];
-      }
+  render();
+  // Jump to section if coming back from an external page (e.g., ?sec=4 from magazine)
+  const urlSec = new URLSearchParams(location.search).get('sec');
+  if (urlSec !== null) {
+    const sec = parseInt(urlSec, 10);
+    if (sec >= 0 && sec < SECTION_STATE.length) {
+      cur    = SECTION_STATE[sec];
+      curMob = SECTION_MOB[sec];
+      render();
     }
   }
-  render();
 </script>
 </body>
 </html>
