@@ -18,103 +18,147 @@
       perspective: 4000px;
       perspective-origin: center center;
     }
-
-    /* Left slot — hidden on cover / carousel states */
     #slotL {
-      flex: 1;
-      height: 100%;
-      overflow: hidden;
-      background: #fff;
-      position: relative;
-      transition: flex 0s;
+      flex: 1; height: 100%; overflow: hidden; background: #fff; position: relative;
     }
-    /* Right slot */
     #slotR {
-      flex: 1;
-      height: 100%;
-      overflow: hidden;
-      background: #fff;
-      position: relative;
+      flex: 1; height: 100%; overflow: hidden; background: #fff; position: relative;
     }
-
     .page-slot img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      user-select: none;
-      -webkit-user-drag: none;
+      width: 100%; height: 100%; object-fit: contain;
+      display: block; user-select: none; -webkit-user-drag: none;
     }
-
-    /* Full-screen mode: hide left slot, right takes full width */
     body.fullscreen-right #slotL { display: none; }
     body.fullscreen-right #slotR { flex: 2; }
 
     /* ══ TB MAGAZINE PAGE ══════════════════════════ */
     #tbPage {
-      position: fixed;
-      inset: 0;
-      z-index: 10;
-      background: #fff;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 40px 40px;
-      text-align: center;
+      position: fixed; inset: 0; z-index: 10;
+      background: #fff; display: none;
+      flex-direction: column; align-items: center; justify-content: center;
+      padding: 80px 40px 40px; text-align: center;
     }
     .tbp__title {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 700;
-      font-size: clamp(2.8rem, 7vw, 6rem);
-      line-height: 0.9;
-      color: #1a1718;
-      text-transform: uppercase;
-      letter-spacing: -0.01em;
-      margin-bottom: 6px;
+      font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-size: clamp(2.8rem, 7vw, 6rem); line-height: 0.9;
+      color: #1a1718; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 6px;
     }
     .tbp__sub {
-      font-family: 'Oswald', sans-serif;
-      font-weight: 400;
-      font-size: clamp(0.9rem, 1.8vw, 1.4rem);
-      letter-spacing: 0.1em;
-      color: #e4028c;
-      text-transform: uppercase;
-      margin-bottom: clamp(28px, 4vw, 48px);
+      font-family: 'Oswald', sans-serif; font-weight: 400;
+      font-size: clamp(0.9rem, 1.8vw, 1.4rem); letter-spacing: 0.1em;
+      color: #e4028c; text-transform: uppercase; margin-bottom: clamp(28px, 4vw, 48px);
     }
     .tbp__rule {
-      width: clamp(60px, 12vw, 120px);
-      height: 3px;
-      background: #f7a800;
-      margin: 0 auto clamp(28px, 4vw, 48px);
+      width: clamp(60px, 12vw, 120px); height: 3px;
+      background: #f7a800; margin: 0 auto clamp(28px, 4vw, 48px);
     }
     .tbp__btn {
-      display: inline-block;
-      font-family: 'Oswald', sans-serif;
-      font-weight: 700;
-      font-size: clamp(0.85rem, 1.5vw, 1.2rem);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #fff;
-      background: #e4028c;
+      display: inline-block; font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-size: clamp(0.85rem, 1.5vw, 1.2rem); letter-spacing: 0.12em;
+      text-transform: uppercase; color: #fff; background: #e4028c;
       padding: clamp(14px, 2vw, 20px) clamp(28px, 4vw, 48px);
-      text-decoration: none;
-      border-radius: 2px;
+      text-decoration: none; border-radius: 2px; transition: background 0.15s, transform 0.15s;
+    }
+    .tbp__btn:hover { background: #1a1718; transform: scale(1.03); }
+
+    /* ══ CONTACT PAGE ══════════════════════════════ */
+    #contactPage {
+      position: fixed; inset: 0; z-index: 10;
+      background: #fff; display: none;
+      flex-direction: row; overflow: hidden;
+      padding-top: 48px;
+    }
+    .contact__img-side {
+      flex: 1; height: 100%; overflow: hidden; display: flex; align-items: flex-end;
+    }
+    .contact__img-side img {
+      width: 100%; height: 100%; object-fit: contain; object-position: bottom;
+    }
+    .contact__form-side {
+      flex: 1; height: 100%; overflow-y: auto;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: clamp(24px, 4vw, 64px) clamp(24px, 5vw, 72px);
+    }
+    .contact__eyebrow {
+      font-family: 'Oswald', sans-serif; font-weight: 600;
+      font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #e4028c; margin-bottom: 10px;
+    }
+    .contact__title {
+      font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-size: clamp(2.4rem, 5vw, 4.5rem); line-height: 0.88;
+      color: #1a1718; text-transform: uppercase; margin-bottom: 18px;
+    }
+    .contact__rule {
+      width: clamp(40px, 8vw, 80px); height: 3px;
+      background: #f7a800; margin-bottom: clamp(24px, 3.5vw, 40px);
+    }
+    .contact__form { display: flex; flex-direction: column; gap: 12px; }
+    .contact__form input,
+    .contact__form textarea {
+      width: 100%; padding: 12px 14px;
+      font-family: 'Jost', sans-serif; font-size: 0.88rem;
+      border: 1.5px solid rgba(0,0,0,0.15); border-radius: 2px;
+      background: #fafafa; color: #1a1718; outline: none;
+      transition: border-color 0.15s;
+      resize: vertical;
+    }
+    .contact__form input:focus,
+    .contact__form textarea:focus { border-color: #e4028c; }
+    .contact__form input::placeholder,
+    .contact__form textarea::placeholder { color: rgba(0,0,0,0.35); }
+    .contact__submit {
+      display: inline-block; align-self: flex-start;
+      font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-size: clamp(0.8rem, 1.3vw, 1rem); letter-spacing: 0.14em;
+      text-transform: uppercase; color: #fff; background: #e4028c;
+      padding: 14px 32px; border: none; border-radius: 2px;
+      cursor: pointer; transition: background 0.15s, transform 0.15s; margin-top: 4px;
+    }
+    .contact__submit:hover { background: #1a1718; transform: scale(1.03); }
+    .contact__divider {
+      font-family: 'Oswald', sans-serif; font-size: 0.6rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: rgba(0,0,0,0.3);
+      margin: 20px 0 0; text-align: left;
+    }
+    .contact__ig {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 10px; align-self: flex-start;
+      font-family: 'Oswald', sans-serif; font-weight: 700;
+      font-size: clamp(0.78rem, 1.2vw, 0.95rem); letter-spacing: 0.12em;
+      text-transform: uppercase; color: #fff; background: #1a1718;
+      padding: 12px 24px; text-decoration: none; border-radius: 2px;
       transition: background 0.15s, transform 0.15s;
     }
-    .tbp__btn:hover {
-      background: #1a1718;
-      transform: scale(1.03);
+    .contact__ig:hover { background: #e4028c; transform: scale(1.03); }
+    .contact__ig::before {
+      content: '';
+      display: inline-block; width: 16px; height: 16px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z'/%3E%3C/svg%3E") no-repeat center/contain;
+    }
+    /* Contact success message */
+    .contact__success {
+      display: none; padding: 16px 20px; background: #f0fff4;
+      border: 1.5px solid #34d399; border-radius: 2px;
+      font-family: 'Jost', sans-serif; font-size: 0.9rem; color: #065f46;
     }
 
-    /* ══ OVERLAID NAV ══════════════════════════════ */
+    /* ══ GLENN BURKE VIDEO OVERLAY ════════════════ */
+    #glennOverlay {
+      position: absolute;
+      z-index: 30;
+      background: #000;
+      display: none;
+    }
+    #glennVideo {
+      width: 100%; height: 100%;
+      object-fit: contain; display: block;
+    }
+
+    /* ══ NAV ═══════════════════════════════════════ */
     .nav-top {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
       padding: 10px 18px;
       background: linear-gradient(to bottom, rgba(255,255,255,0.94) 0%, transparent 100%);
       pointer-events: none;
@@ -122,34 +166,21 @@
     .nav-top > * { pointer-events: auto; }
     .nav-top__logo { height: 28px; opacity: 0.9; }
     .nav-top__counter {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.62rem;
-      letter-spacing: 0.16em;
-      color: rgba(0,0,0,0.35);
+      font-family: 'Oswald', sans-serif; font-size: 0.62rem;
+      letter-spacing: 0.16em; color: rgba(0,0,0,0.35);
     }
     .nav-top__back {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.45);
-      text-decoration: none;
-      transition: color 0.15s;
+      font-family: 'Oswald', sans-serif; font-size: 0.6rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(0,0,0,0.45); text-decoration: none; transition: color 0.15s;
     }
     .nav-top__back:hover { color: #e4028c; }
 
     .arrow {
-      position: fixed;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 200;
-      background: #e4028c;
-      color: #fff;
-      border: none;
-      width: 38px; height: 62px;
-      font-size: 1.1rem; font-weight: 900;
-      cursor: pointer;
-      border-radius: 4px;
+      position: fixed; top: 50%; transform: translateY(-50%);
+      z-index: 200; background: #e4028c; color: #fff; border: none;
+      width: 38px; height: 62px; font-size: 1.1rem; font-weight: 900;
+      cursor: pointer; border-radius: 4px;
       display: flex; align-items: center; justify-content: center;
       box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
       transition: background 0.15s, transform 0.15s, opacity 0.2s;
@@ -160,35 +191,20 @@
     .arrow--next { right: 6px; }
 
     .page-nav {
-      position: fixed;
-      bottom: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 200;
-      display: flex;
-      align-items: baseline;
-      white-space: nowrap;
+      position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+      z-index: 200; display: flex; align-items: baseline;
+      flex-wrap: wrap; justify-content: center; white-space: nowrap;
     }
     .sec-btn {
-      background: none;
-      border: none;
-      font-family: 'Oswald', sans-serif;
-      font-weight: 600;
-      font-size: 0.58rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.35);
-      cursor: pointer;
-      padding: 4px 10px;
-      line-height: 1;
-      transition: color 0.15s;
+      background: none; border: none;
+      font-family: 'Oswald', sans-serif; font-weight: 600;
+      font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(0,0,0,0.35); cursor: pointer;
+      padding: 4px 8px; line-height: 1; transition: color 0.15s;
       position: relative;
     }
     .sec-btn + .sec-btn::before {
-      content: '·';
-      position: absolute;
-      left: 0;
-      color: rgba(0,0,0,0.2);
+      content: '·'; position: absolute; left: 0; color: rgba(0,0,0,0.2);
     }
     .sec-btn:hover { color: #e4028c; }
     .sec-btn.active { color: #1a1718; font-weight: 700; }
@@ -200,7 +216,22 @@
       .arrow { width: 32px; height: 52px; font-size: 0.95rem; }
       .arrow--prev { left: 4px; }
       .arrow--next { right: 4px; }
-      .sec-btn { font-size: 0.46rem; padding: 3px 5px; }
+      .sec-btn { font-size: 0.42rem; padding: 3px 5px; }
+
+      #contactPage {
+        flex-direction: column;
+        overflow-y: auto;
+        padding-top: 56px;
+      }
+      .contact__img-side {
+        flex: none; height: 40vh; min-height: 180px;
+      }
+      .contact__img-side img { object-position: center top; }
+      .contact__form-side {
+        flex: none; padding: 24px 20px 40px;
+        justify-content: flex-start;
+      }
+      .contact__title { font-size: 2.2rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -215,14 +246,45 @@
   <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
 </div>
 
+<!-- Glenn Burke video overlay (appended to slotL or slotR dynamically) -->
+<div id="glennOverlay">
+  <video id="glennVideo" controls preload="none">
+    <source src="assets/videos/glenn-burke.mp4" type="video/mp4" />
+  </video>
+</div>
+
 <!-- TB Magazine button page -->
 <div id="tbPage">
   <div class="tbp__title">Thot Bubbles</div>
   <div class="tbp__sub">Ma(gay)zine</div>
   <div class="tbp__rule"></div>
-  <a class="tbp__btn" href="magazine.html">
-    See the Whole Ma(gay)zine Here &rarr;
-  </a>
+  <a class="tbp__btn" href="magazine.html">See the Whole Ma(gay)zine Here &rarr;</a>
+</div>
+
+<!-- Contact page -->
+<div id="contactPage">
+  <div class="contact__img-side">
+    <img src="assets/images/v6-pages/page-22.jpg" alt="Thank You" />
+  </div>
+  <div class="contact__form-side">
+    <div class="contact__eyebrow">Contact</div>
+    <div class="contact__title">Thank<br>You</div>
+    <div class="contact__rule"></div>
+    <div class="contact__success" id="contactSuccess">
+      Message sent! I'll be in touch soon.
+    </div>
+    <form name="contact" method="POST" data-netlify="true" class="contact__form" id="contactForm">
+      <input type="hidden" name="form-name" value="contact" />
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+      <button type="submit" class="contact__submit">Send Message &rarr;</button>
+    </form>
+    <p class="contact__divider">or find me on Instagram</p>
+    <a class="contact__ig" href="https://www.instagram.com/misstexas1988/" target="_blank" rel="noopener">
+      @misstexas1988
+    </a>
+  </div>
 </div>
 
 <div class="nav-top">
@@ -236,85 +298,145 @@
 
 <nav class="page-nav">
   <button class="sec-btn" data-sec="0">Contents</button>
-  <button class="sec-btn" data-sec="1">About Me</button>
+  <button class="sec-btn" data-sec="1">About</button>
   <button class="sec-btn" data-sec="2">Drag</button>
   <button class="sec-btn" data-sec="3">Writing</button>
   <button class="sec-btn" data-sec="4">Design</button>
   <button class="sec-btn" data-sec="5">Thot Bubbles</button>
+  <button class="sec-btn" data-sec="6">Logo</button>
+  <button class="sec-btn" data-sec="7">Posters</button>
+  <button class="sec-btn" data-sec="8">Branding</button>
+  <button class="sec-btn" data-sec="9">Motion</button>
+  <button class="sec-btn" data-sec="10">Contact</button>
 </nav>
 
 <script>
-  // ── Pages: v5 6.11 — use pages 1-22, skip blanks 9,19-21, replace 13 with button
+  // ── Pages: v6 June 16 — all 22 pages, page-22 handled as contact state
   const IMG = [
-    'assets/images/v5-pages/page-01.jpg',  // 0  cover
-    'assets/images/v5-pages/page-02.jpg',  // 1  portrait
-    'assets/images/v5-pages/page-03.jpg',  // 2  about me
-    'assets/images/v5-pages/page-04.jpg',  // 3  drag
-    'assets/images/v5-pages/page-05.jpg',  // 4  drag
-    'assets/images/v5-pages/page-06.jpg',  // 5  writing
-    'assets/images/v5-pages/page-07.jpg',  // 6  writing collage
-    'assets/images/v5-pages/page-08.jpg',  // 7  design
-    'assets/images/v5-pages/page-10.jpg',  // 8  TB intro (skip blank p09)
-    'assets/images/v5-pages/page-11.jpg',  // 9  TB cover
-    'assets/images/v5-pages/page-12.jpg',  // 10 TB launch text
-    // 11 = BUTTON (handled separately)
-    'assets/images/v5-pages/page-14.jpg',  // 11 POP display
-    'assets/images/v5-pages/page-15.jpg',  // 12 bubble nest
-    'assets/images/v5-pages/page-16.jpg',  // 13 event posters
-    'assets/images/v5-pages/page-17.jpg',  // 14 unicorn
-    'assets/images/v5-pages/page-18.jpg',  // 15 unicorn assets
-    'assets/images/v5-pages/page-22.jpg',  // 16 closing photo
+    'assets/images/v6-pages/page-01.jpg',  // 0  cover
+    'assets/images/v6-pages/page-02.jpg',  // 1  portrait
+    'assets/images/v6-pages/page-03.jpg',  // 2  about me
+    'assets/images/v6-pages/page-04.jpg',  // 3  drag
+    'assets/images/v6-pages/page-05.jpg',  // 4  drag cont
+    'assets/images/v6-pages/page-06.jpg',  // 5  writing
+    'assets/images/v6-pages/page-07.jpg',  // 6  writing visual
+    'assets/images/v6-pages/page-08.jpg',  // 7  design
+    'assets/images/v6-pages/page-09.jpg',  // 8  design skills
+    'assets/images/v6-pages/page-10.jpg',  // 9  TB intro
+    'assets/images/v6-pages/page-11.jpg',  // 10 TB magazine
+    'assets/images/v6-pages/page-12.jpg',  // 11 TB production
+    'assets/images/v6-pages/page-13.jpg',  // 12 TB POP display
+    'assets/images/v6-pages/page-14.jpg',  // 13 logo intro
+    'assets/images/v6-pages/page-15.jpg',  // 14 logo cont
+    'assets/images/v6-pages/page-16.jpg',  // 15 posters
+    'assets/images/v6-pages/page-17.jpg',  // 16 posters cont
+    'assets/images/v6-pages/page-18.jpg',  // 17 branding
+    'assets/images/v6-pages/page-19.jpg',  // 18 branding cont
+    'assets/images/v6-pages/page-20.jpg',  // 19 motion
+    'assets/images/v6-pages/page-21.jpg',  // 20 motion + Glenn Burke VIDEO
+    // page-22 is the contact page — rendered as #contactPage overlay
   ];
-  const CAROUSEL_IDX = 11;
 
-  // ── Desktop: 10 states ───────────────────────────
+  // ── Desktop: 13 states ───────────────────────────
   const STATES = [
-    { type: 'cover'   },                        // 0
-    { type: 'spread', L: 1,  R: 2  },           // 1 about me
-    { type: 'spread', L: 3,  R: 4  },           // 2 drag
-    { type: 'spread', L: 5,  R: 6  },           // 3 writing
-    { type: 'spread', L: 7,  R: 8  },           // 4 design + TB intro
-    { type: 'spread', L: 9,  R: 10 },           // 5 TB cover + launch
-    { type: 'carousel' },                        // 6 TB magazine button
-    { type: 'spread', L: 11, R: 12 },           // 7 POP + bubble nest
-    { type: 'spread', L: 13, R: 14 },           // 8 event posters + unicorn
-    { type: 'spread', L: 15, R: 16 },           // 9 unicorn assets + closing
+    { type: 'cover'   },                        // 0  cover
+    { type: 'spread', L: 1,  R: 2  },           // 1  portrait + about me
+    { type: 'spread', L: 3,  R: 4  },           // 2  drag
+    { type: 'spread', L: 5,  R: 6  },           // 3  writing
+    { type: 'spread', L: 7,  R: 8  },           // 4  design
+    { type: 'spread', L: 9,  R: 10 },           // 5  TB intro + mag
+    { type: 'spread', L: 11, R: 12 },           // 6  TB production + POP
+    { type: 'carousel' },                        // 7  TB magazine button
+    { type: 'spread', L: 13, R: 14 },           // 8  logo
+    { type: 'spread', L: 15, R: 16 },           // 9  posters
+    { type: 'spread', L: 17, R: 18 },           // 10 branding
+    { type: 'video',  L: 19, R: 20 },           // 11 motion + Glenn Burke video
+    { type: 'contact' },                         // 12 contact
   ];
-  const STATE_SECTION = [0, 1, 2, 3, 4, 5, 5, 5, 4, 4];
-  const SECTION_STATE = [0, 1, 2, 3, 4, 5];
+  // state → section
+  const STATE_SECTION = [0, 1, 2, 3, 4, 5, 5, 5, 6, 7, 8, 9, 10];
+  // section → first state
+  const SECTION_STATE = [0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12];
 
-  // ── Mobile: 18 individual pages ──────────────────
-  const MOB_SECTION = [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 5, 5, 4, 4, 4, 4];
-  const SECTION_MOB = [0, 1, 3, 5, 7, 9];
-  const MOB_TOTAL   = 18;
+  // ── Mobile: 23 individual slots (0-22) ───────────
+  // 13 = TB carousel, 21 = Glenn Burke video, 22 = contact
+  const CAROUSEL_IDX  = 13;
+  const VIDEO_MOB_IDX = 21;
+  const CONTACT_IDX   = 22;
+  const MOB_TOTAL     = 23;
+  // slot → section
+  const MOB_SECTION = [0, 1,1, 2,2, 3,3, 4,4, 5,5,5,5,5, 6,6, 7,7, 8,8, 9,9, 10];
+  // section → first mobile slot
+  const SECTION_MOB = [0, 1, 3, 5, 7, 9, 14, 16, 18, 20, 22];
+
+  // Black rectangle pixel bounds in page-21.jpg (1050×1500px)
+  const GB_T = 510, GB_B = 1387, GB_L = 273, GB_R = 761;
 
   const TURN_MS = 380;
   let cur    = 0;   // desktop state index
-  let curMob = 0;   // mobile page index
+  let curMob = 0;   // mobile slot index
   let turning = false;
 
-  const spreadEl = document.getElementById('spread');
-  const imgL     = document.getElementById('imgL');
-  const imgR     = document.getElementById('imgR');
-  const tbPage   = document.getElementById('tbPage');
-  const prevBtn  = document.getElementById('prev');
-  const nextBtn  = document.getElementById('next');
-  const counter  = document.getElementById('counter');
-  const secBtns  = document.querySelectorAll('.sec-btn');
+  const spreadEl    = document.getElementById('spread');
+  const imgL        = document.getElementById('imgL');
+  const imgR        = document.getElementById('imgR');
+  const slotL       = document.getElementById('slotL');
+  const slotR       = document.getElementById('slotR');
+  const tbPage      = document.getElementById('tbPage');
+  const contactPage = document.getElementById('contactPage');
+  const glennOverlay= document.getElementById('glennOverlay');
+  const glennVideo  = document.getElementById('glennVideo');
+  const prevBtn     = document.getElementById('prev');
+  const nextBtn     = document.getElementById('next');
+  const counter     = document.getElementById('counter');
+  const secBtns     = document.querySelectorAll('.sec-btn');
 
   function isMobile() { return window.innerWidth <= 700; }
 
-  function tbShow() { tbPage.style.display = 'flex'; }
-  function tbHide() { tbPage.style.display = 'none'; }
+  // ── Overlay show/hide ────────────────────────────
+  function tbShow()      { tbPage.style.display = 'flex'; }
+  function tbHide()      { tbPage.style.display = 'none'; }
+  function contactShow() { contactPage.style.display = 'flex'; }
+  function contactHide() { contactPage.style.display = 'none'; }
+
+  function glennShow() {
+    const container = isMobile() ? slotL : slotR;
+    if (glennOverlay.parentNode !== container) container.appendChild(glennOverlay);
+    glennOverlay.style.display = 'block';
+    positionGlenn(container);
+  }
+  function glennHide() {
+    glennOverlay.style.display = 'none';
+    glennVideo.pause();
+  }
+
+  function positionGlenn(container) {
+    const cw = container.offsetWidth;
+    const ch = container.offsetHeight;
+    const imgNW = 1050, imgNH = 1500;
+    const cAspect = cw / ch;
+    const iAspect = imgNW / imgNH;
+    let rw, rh, ox, oy;
+    if (iAspect < cAspect) {
+      rh = ch; rw = ch * iAspect; ox = (cw - rw) / 2; oy = 0;
+    } else {
+      rw = cw; rh = cw / iAspect; ox = 0; oy = (ch - rh) / 2;
+    }
+    const sx = rw / imgNW, sy = rh / imgNH;
+    glennOverlay.style.top    = (oy + GB_T * sy) + 'px';
+    glennOverlay.style.left   = (ox + GB_L * sx) + 'px';
+    glennOverlay.style.width  = ((GB_R - GB_L) * sx) + 'px';
+    glennOverlay.style.height = ((GB_B - GB_T) * sy) + 'px';
+  }
 
   // ── Render ───────────────────────────────────────
   function render() {
-    if (isMobile()) { renderMobile(); } else { renderDesktop(); }
+    if (isMobile()) renderMobile(); else renderDesktop();
   }
 
   function renderDesktop() {
     const s = STATES[cur];
-    tbHide();
+    tbHide(); glennHide(); contactHide();
     document.body.classList.remove('fullscreen-right');
 
     if (s.type === 'cover') {
@@ -322,6 +444,12 @@
       imgR.src = IMG[0];
     } else if (s.type === 'carousel') {
       tbShow();
+    } else if (s.type === 'contact') {
+      contactShow();
+    } else if (s.type === 'video') {
+      imgL.src = IMG[s.L];
+      imgR.src = IMG[s.R];
+      glennShow();
     } else {
       imgL.src = IMG[s.L];
       imgR.src = IMG[s.R];
@@ -331,13 +459,18 @@
   }
 
   function renderMobile() {
-    tbHide();
+    tbHide(); glennHide(); contactHide();
     document.body.classList.remove('fullscreen-right');
+
     if (curMob === CAROUSEL_IDX) {
       tbShow();
+    } else if (curMob === CONTACT_IDX) {
+      contactShow();
+    } else if (curMob === VIDEO_MOB_IDX) {
+      imgL.src = IMG[curMob - 1]; // IMG[20] = page-21
+      glennShow();
     } else {
-      // Mobile indices 0-10 map to IMG[0-10], 11=carousel, 12-17 map to IMG[11-16]
-      const imgIdx = curMob <= 10 ? curMob : curMob - 1;
+      const imgIdx = curMob < CAROUSEL_IDX ? curMob : curMob - 1;
       imgL.src = IMG[imgIdx];
     }
     updateUI();
@@ -345,15 +478,17 @@
 
   function updateUI() {
     if (isMobile()) {
-      counter.textContent = curMob === 11 ? '★' : `${curMob + 1} / ${MOB_TOTAL - 1}`;
+      counter.textContent = `${curMob + 1} / ${MOB_TOTAL}`;
       prevBtn.disabled = curMob === 0 || turning;
       nextBtn.disabled = curMob === MOB_TOTAL - 1 || turning;
       secBtns.forEach((b, i) => b.classList.toggle('active', i === MOB_SECTION[curMob]));
     } else {
       const s = STATES[cur];
-      counter.textContent = s.type === 'cover' ? 'Cover'
-        : s.type === 'carousel' ? '★'
-        : `${s.L}–${s.R} / ${IMG.length - 2}`;
+      counter.textContent = s.type === 'cover'    ? 'Cover'
+        : s.type === 'carousel'  ? '★'
+        : s.type === 'contact'   ? 'Contact'
+        : s.type === 'video'     ? `${s.L}–${s.R}`
+        : `${s.L}–${s.R}`;
       prevBtn.disabled = cur === 0 || turning;
       nextBtn.disabled = cur === STATES.length - 1 || turning;
       secBtns.forEach((b, i) => b.classList.toggle('active', i === STATE_SECTION[cur]));
@@ -364,9 +499,17 @@
     [si - 1, si + 1].forEach(s => {
       if (s < 0 || s >= STATES.length) return;
       const st = STATES[s];
-      if (st.type === 'spread') { new Image().src = IMG[st.L]; new Image().src = IMG[st.R]; }
-      else if (st.type === 'cover') new Image().src = IMG[0];
+      if (st.type === 'spread' || st.type === 'video') {
+        new Image().src = IMG[st.L]; new Image().src = IMG[st.R];
+      } else if (st.type === 'cover') new Image().src = IMG[0];
     });
+  }
+
+  // ── Helper: image src for a state/side ───────────
+  function pageImg(st, side) {
+    if (st.type === 'cover')    return IMG[0];
+    if (st.type === 'carousel' || st.type === 'contact') return null;
+    return IMG[side === 'L' ? st.L : st.R];
   }
 
   // ── Desktop navigation (3D page turn) ────────────
@@ -378,23 +521,19 @@
     const fromState = STATES[cur];
     const toState   = STATES[next];
 
-    function pageImg(st, side) {
-      if (st.type === 'cover')    return IMG[0];
-      if (st.type === 'carousel') return null;
-      return IMG[side === 'L' ? st.L : st.R];
-    }
+    // Hide all overlays; set destination behind the leaf
+    tbHide(); glennHide(); contactHide();
+    document.body.classList.remove('fullscreen-right');
 
-    // Pre-set the destination behind the leaf
-    tbHide();
     if (forward) {
-      if (toState.type === 'carousel') {
-        document.body.classList.remove('fullscreen-right');
-        tbShow();
-      } else if (toState.type === 'cover') {
+      if (toState.type === 'cover') {
         document.body.classList.add('fullscreen-right');
         imgR.src = IMG[0];
-      } else {
-        document.body.classList.remove('fullscreen-right');
+      } else if (toState.type === 'carousel') {
+        tbShow();
+      } else if (toState.type === 'contact') {
+        // contact shows after animation
+      } else { // spread or video
         imgR.src = IMG[toState.R];
       }
     } else {
@@ -402,17 +541,19 @@
         document.body.classList.add('fullscreen-right');
         imgR.src = IMG[0];
       } else if (toState.type === 'carousel') {
-        document.body.classList.remove('fullscreen-right');
         tbShow();
-      } else {
-        document.body.classList.remove('fullscreen-right');
+      } else if (toState.type === 'contact') {
+        // contact shows after animation
+      } else { // spread or video
         imgL.src = IMG[toState.L];
       }
     }
 
-    const frontSrc   = forward ? pageImg(fromState, 'R') : pageImg(fromState, 'L');
-    const backSrc    = forward ? pageImg(toState,   'L') : pageImg(toState,   'R');
-    const isFullscr  = fromState.type === 'cover' || fromState.type === 'carousel';
+    const frontSrc  = forward ? pageImg(fromState, 'R') : pageImg(fromState, 'L');
+    const backSrc   = forward ? pageImg(toState,   'L') : pageImg(toState,   'R');
+    const isFullscr = fromState.type === 'cover'
+                   || fromState.type === 'carousel'
+                   || fromState.type === 'contact';
     const leaf = makeLeaf(frontSrc, backSrc, forward, isFullscr);
     spreadEl.appendChild(leaf);
 
@@ -423,9 +564,12 @@
     leaf.addEventListener('transitionend', () => {
       spreadEl.removeChild(leaf);
       cur = next;
-      if (toState.type === 'spread') {
+      if (toState.type === 'spread' || toState.type === 'video') {
         if (forward) imgL.src = IMG[toState.L];
         else         imgR.src = IMG[toState.R];
+        if (toState.type === 'video') glennShow();
+      } else if (toState.type === 'contact') {
+        contactShow();
       }
       turning = false;
       updateUI();
@@ -447,7 +591,6 @@
     }, 200);
   }
 
-  // ── Unified goTo ─────────────────────────────────
   function goTo(n) {
     if (isMobile()) goToMobile(n); else goToDesktop(n);
   }
@@ -518,7 +661,26 @@
     tx = null;
   }, {passive:true});
 
-  window.addEventListener('resize', render);
+  // Reposition video overlay on resize
+  window.addEventListener('resize', () => {
+    render();
+    if (glennOverlay.style.display !== 'none' && glennOverlay.parentNode) {
+      positionGlenn(glennOverlay.parentNode);
+    }
+  });
+
+  // Netlify form — prevent default, show success message
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    const data = new FormData(form);
+    fetch('/', { method: 'POST', body: data })
+      .then(() => {
+        form.style.display = 'none';
+        document.getElementById('contactSuccess').style.display = 'block';
+      })
+      .catch(() => form.submit()); // fallback: native submit
+  });
 
   // ── Init ─────────────────────────────────────────
   render();
