@@ -28,6 +28,8 @@
       width: 100%; height: 100%; object-fit: contain;
       display: block; user-select: none; -webkit-user-drag: none;
     }
+    #slotL img { object-position: right center; }
+    #slotR img { object-position: left center; }
     body.fullscreen-right #slotL { display: none; }
     body.fullscreen-right #slotR { flex: 2; }
 
@@ -90,12 +92,12 @@
       width: clamp(40px, 8vw, 80px); height: 3px;
       background: #f7a800; margin-bottom: clamp(24px, 3.5vw, 40px);
     }
-    .contact__form { display: flex; flex-direction: column; gap: 12px; }
+    .contact__form { display: flex; flex-direction: column; gap: 16px; }
     .contact__form input,
     .contact__form textarea {
-      width: 100%; padding: 12px 14px;
-      font-family: 'Jost', sans-serif; font-size: 0.88rem;
-      border: 1.5px solid rgba(0,0,0,0.15); border-radius: 2px;
+      width: 100%; padding: 14px 16px;
+      font-family: 'Jost', sans-serif; font-size: 0.9rem;
+      border: 1.5px solid rgba(0,0,0,0.15); border-radius: 3px;
       background: #fafafa; color: #1a1718; outline: none;
       transition: border-color 0.15s;
       resize: vertical;
@@ -107,16 +109,16 @@
     .contact__submit {
       display: inline-block; align-self: flex-start;
       font-family: 'Oswald', sans-serif; font-weight: 700;
-      font-size: clamp(0.8rem, 1.3vw, 1rem); letter-spacing: 0.14em;
+      font-size: clamp(0.82rem, 1.3vw, 1rem); letter-spacing: 0.14em;
       text-transform: uppercase; color: #fff; background: #e4028c;
-      padding: 14px 32px; border: none; border-radius: 2px;
-      cursor: pointer; transition: background 0.15s, transform 0.15s; margin-top: 4px;
+      padding: 16px 38px; border: none; border-radius: 3px;
+      cursor: pointer; transition: background 0.15s, transform 0.15s; margin-top: 8px;
     }
     .contact__submit:hover { background: #1a1718; transform: scale(1.03); }
     .contact__divider {
       font-family: 'Oswald', sans-serif; font-size: 0.6rem; letter-spacing: 0.18em;
       text-transform: uppercase; color: rgba(0,0,0,0.3);
-      margin: 20px 0 0; text-align: left;
+      margin: 28px 0 0; text-align: left;
     }
     .contact__ig {
       display: inline-flex; align-items: center; gap: 8px;
@@ -166,42 +168,66 @@
       font-family: 'Oswald', sans-serif; font-size: 0.62rem;
       letter-spacing: 0.16em; color: rgba(0,0,0,0.35);
     }
+    .nav-top__left {
+      display: flex; align-items: center; gap: 10px;
+    }
     .nav-top__back {
-      font-family: 'Oswald', sans-serif; font-size: 0.6rem;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: rgba(0,0,0,0.45); text-decoration: none; transition: color 0.15s;
+      font-family: 'Oswald', sans-serif; font-size: 0.72rem;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: rgba(0,0,0,0.45); background: none; border: none;
+      cursor: pointer; padding: 6px 2px; transition: color 0.15s; line-height: 1;
     }
     .nav-top__back:hover { color: #e4028c; }
+    .nav-top__back:disabled { opacity: 0.2; pointer-events: none; }
+    .nav-top__home {
+      font-size: 1rem; color: rgba(0,0,0,0.3); text-decoration: none;
+      line-height: 1; padding: 4px 2px; transition: color 0.15s;
+    }
+    .nav-top__home:hover { color: #e4028c; }
 
     .arrow {
       position: fixed; top: 50%; transform: translateY(-50%);
       z-index: 200; background: #e4028c; color: #fff; border: none;
-      width: 38px; height: 62px; font-size: 1.1rem; font-weight: 900;
-      cursor: pointer; border-radius: 4px;
+      width: 52px; height: 82px; font-size: 1.35rem; font-weight: 900;
+      cursor: pointer; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 2px 2px 10px rgba(0,0,0,0.15);
-      transition: background 0.15s, transform 0.15s, opacity 0.2s;
+      box-shadow: 2px 4px 14px rgba(0,0,0,0.18);
+      transition: background 0.15s, transform 0.15s, opacity 0.25s;
     }
-    .arrow:hover { background: #1a1718; transform: translateY(-50%) scale(1.06); }
+    .arrow:hover { background: #1a1718; transform: translateY(-50%) scale(1.05); }
     .arrow:disabled { opacity: 0; pointer-events: none; }
-    .arrow--prev { left: 6px; }
-    .arrow--next { right: 6px; }
+    .arrow--prev { left: 8px; }
+    .arrow--next { right: 8px; }
+
+    /* ══ PROGRESS DOTS ═════════════════════════════ */
+    .progress-track {
+      position: fixed; bottom: 34px; left: 50%; transform: translateX(-50%);
+      z-index: 200; display: flex; align-items: center; gap: 7px;
+    }
+    .pdot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(0,0,0,0.15); border: none; cursor: pointer; padding: 0;
+      transition: background 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .pdot:hover { background: rgba(228,2,140,0.5); }
+    .pdot.active { background: #e4028c; transform: scale(1.55); }
 
     .page-nav {
-      position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+      position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
       z-index: 200; display: flex; align-items: baseline;
       flex-wrap: wrap; justify-content: center; white-space: nowrap;
     }
     .sec-btn {
       background: none; border: none;
       font-family: 'Oswald', sans-serif; font-weight: 600;
-      font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(0,0,0,0.35); cursor: pointer;
-      padding: 4px 8px; line-height: 1; transition: color 0.15s;
+      font-size: 0.52rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(0,0,0,0.3); cursor: pointer;
+      padding: 6px 9px; line-height: 1; transition: color 0.15s;
       position: relative;
     }
     .sec-btn + .sec-btn::before {
-      content: '·'; position: absolute; left: 0; color: rgba(0,0,0,0.2);
+      content: '·'; position: absolute; left: 0; color: rgba(0,0,0,0.18);
     }
     .sec-btn:hover { color: #e4028c; }
     .sec-btn.active { color: #1a1718; font-weight: 700; }
@@ -210,10 +236,13 @@
     @media (max-width: 700px) {
       #slotR { display: none !important; }
       #slotL { flex: 2 !important; display: block !important; }
-      .arrow { width: 32px; height: 52px; font-size: 0.95rem; }
-      .arrow--prev { left: 4px; }
-      .arrow--next { right: 4px; }
-      .sec-btn { font-size: 0.42rem; padding: 3px 5px; }
+      .arrow { width: 42px; height: 66px; font-size: 1.1rem; }
+      .arrow--prev { left: 5px; }
+      .arrow--next { right: 5px; }
+      .progress-track { bottom: 30px; gap: 5px; }
+      .pdot { width: 6px; height: 6px; }
+      .page-nav { bottom: 8px; }
+      .sec-btn { font-size: 0.38rem; padding: 5px 5px; }
 
       #contactPage {
         flex-direction: column;
@@ -283,7 +312,10 @@
 </div>
 
 <div class="nav-top">
-  <a class="nav-top__back" href="index.html">← Back</a>
+  <div class="nav-top__left">
+    <button class="nav-top__back" id="backBtn" aria-label="Previous page">&#8592; Back</button>
+    <a class="nav-top__home" href="index.html" aria-label="Home" title="Home">&#8962;</a>
+  </div>
   <img class="nav-top__logo" src="assets/images/logo.png" alt="Nico Swenson" />
   <span class="nav-top__counter" id="counter"></span>
 </div>
@@ -291,6 +323,7 @@
 <button class="arrow arrow--prev" id="prev">&#8592;</button>
 <button class="arrow arrow--next" id="next">&#8594;</button>
 
+<div class="progress-track" id="progressTrack"></div>
 <nav class="page-nav">
   <button class="sec-btn" data-sec="0">About</button>
   <button class="sec-btn" data-sec="1">Drag</button>
@@ -365,24 +398,26 @@
   // Black rectangle pixel bounds in page-21.jpg (1050×1500px)
   const GB_T = 510, GB_B = 1387, GB_L = 273, GB_R = 761;
 
-  const TURN_MS = 380;
+  const TURN_MS = 520;
   let cur    = 0;   // desktop state index
   let curMob = 0;   // mobile slot index
   let turning = false;
 
-  const spreadEl    = document.getElementById('spread');
-  const imgL        = document.getElementById('imgL');
-  const imgR        = document.getElementById('imgR');
-  const slotL       = document.getElementById('slotL');
-  const slotR       = document.getElementById('slotR');
-  const tbPage      = document.getElementById('tbPage');
-  const contactPage = document.getElementById('contactPage');
-  const glennOverlay= document.getElementById('glennOverlay');
-  const glennVideo  = document.getElementById('glennVideo');
-  const prevBtn     = document.getElementById('prev');
-  const nextBtn     = document.getElementById('next');
-  const counter     = document.getElementById('counter');
-  const secBtns     = document.querySelectorAll('.sec-btn');
+  const spreadEl      = document.getElementById('spread');
+  const imgL          = document.getElementById('imgL');
+  const imgR          = document.getElementById('imgR');
+  const slotL         = document.getElementById('slotL');
+  const slotR         = document.getElementById('slotR');
+  const tbPage        = document.getElementById('tbPage');
+  const contactPage   = document.getElementById('contactPage');
+  const glennOverlay  = document.getElementById('glennOverlay');
+  const glennVideo    = document.getElementById('glennVideo');
+  const prevBtn       = document.getElementById('prev');
+  const nextBtn       = document.getElementById('next');
+  const backBtn       = document.getElementById('backBtn');
+  const counter       = document.getElementById('counter');
+  const secBtns       = document.querySelectorAll('.sec-btn');
+  const progressTrack = document.getElementById('progressTrack');
 
   function isMobile() { return window.innerWidth <= 700; }
 
@@ -469,11 +504,12 @@
   }
 
   function updateUI() {
+    let activeSec;
     if (isMobile()) {
       counter.textContent = `${curMob + 1} / ${MOB_TOTAL}`;
       prevBtn.disabled = curMob === 0 || turning;
       nextBtn.disabled = curMob === MOB_TOTAL - 1 || turning;
-      secBtns.forEach((b, i) => b.classList.toggle('active', i === MOB_SECTION[curMob]));
+      activeSec = MOB_SECTION[curMob];
     } else {
       const s = STATES[cur];
       counter.textContent = s.type === 'carousel'  ? '★'
@@ -481,8 +517,13 @@
         : `${s.L}–${s.R}`;
       prevBtn.disabled = cur === 0 || turning;
       nextBtn.disabled = cur === STATES.length - 1 || turning;
-      secBtns.forEach((b, i) => b.classList.toggle('active', i === STATE_SECTION[cur]));
+      activeSec = STATE_SECTION[cur];
     }
+    secBtns.forEach((b, i) => b.classList.toggle('active', i === activeSec));
+    document.querySelectorAll('.pdot').forEach((d, i) => d.classList.toggle('active', i === activeSec));
+    // Back button: go back one page
+    const atStart = isMobile() ? curMob === 0 : cur === 0;
+    backBtn.disabled = atStart || turning;
   }
 
   function preloadDesktop(si) {
@@ -592,7 +633,7 @@
       transform-style:preserve-3d;
       transform-origin:${isForward ? 'left' : 'right'} center;
       transform:rotateY(0deg);
-      transition:transform ${TURN_MS}ms cubic-bezier(0.645,0.045,0.355,1.000);
+      transition:transform ${TURN_MS}ms cubic-bezier(0.42, 0, 0.16, 1.0);
       z-index:50; pointer-events:none;
     `;
     leaf.appendChild(makeFace(frontSrc, false, isForward));
@@ -624,9 +665,22 @@
     return face;
   }
 
+  // ── Build progress dots ──────────────────────────
+  const SECTION_LABELS = ['About','Drag','Writing','Design','Thot Bubbles','Logo','Posters','Branding','Motion','Contact'];
+  SECTION_LABELS.forEach((label, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'pdot';
+    dot.title = label;
+    dot.setAttribute('aria-label', label);
+    dot.dataset.sec = i;
+    dot.addEventListener('click', () => goToSection(i));
+    progressTrack.appendChild(dot);
+  });
+
   // ── Events ───────────────────────────────────────
   prevBtn.addEventListener('click', () => goTo(isMobile() ? curMob - 1 : cur - 1));
   nextBtn.addEventListener('click', () => goTo(isMobile() ? curMob + 1 : cur + 1));
+  backBtn.addEventListener('click', () => goTo(isMobile() ? curMob - 1 : cur - 1));
   secBtns.forEach(b => b.addEventListener('click', () => goToSection(+b.dataset.sec)));
 
   document.addEventListener('keydown', e => {
@@ -666,6 +720,16 @@
 
   // ── Init ─────────────────────────────────────────
   render();
+  // Jump to section if coming back from an external page (e.g., ?sec=4 from magazine)
+  const urlSec = new URLSearchParams(location.search).get('sec');
+  if (urlSec !== null) {
+    const sec = parseInt(urlSec, 10);
+    if (sec >= 0 && sec < SECTION_STATE.length) {
+      cur    = SECTION_STATE[sec];
+      curMob = SECTION_MOB[sec];
+      render();
+    }
+  }
 </script>
 </body>
 </html>
