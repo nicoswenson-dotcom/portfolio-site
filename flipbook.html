@@ -234,7 +234,7 @@
     }
   </style>
 </head>
-<body class="fullscreen-right">
+<body>
 
 <div class="spread" id="spread">
   <div class="page-slot" id="slotL"><img id="imgL" alt="" /></div>
@@ -292,17 +292,16 @@
 <button class="arrow arrow--next" id="next">&#8594;</button>
 
 <nav class="page-nav">
-  <button class="sec-btn" data-sec="0">Contents</button>
-  <button class="sec-btn" data-sec="1">About</button>
-  <button class="sec-btn" data-sec="2">Drag</button>
-  <button class="sec-btn" data-sec="3">Writing</button>
-  <button class="sec-btn" data-sec="4">Design</button>
-  <button class="sec-btn" data-sec="5">Thot Bubbles</button>
-  <button class="sec-btn" data-sec="6">Logo</button>
-  <button class="sec-btn" data-sec="7">Posters</button>
-  <button class="sec-btn" data-sec="8">Branding</button>
-  <button class="sec-btn" data-sec="9">Motion</button>
-  <button class="sec-btn" data-sec="10">Contact</button>
+  <button class="sec-btn" data-sec="0">About</button>
+  <button class="sec-btn" data-sec="1">Drag</button>
+  <button class="sec-btn" data-sec="2">Writing</button>
+  <button class="sec-btn" data-sec="3">Design</button>
+  <button class="sec-btn" data-sec="4">Thot Bubbles</button>
+  <button class="sec-btn" data-sec="5">Logo</button>
+  <button class="sec-btn" data-sec="6">Posters</button>
+  <button class="sec-btn" data-sec="7">Branding</button>
+  <button class="sec-btn" data-sec="8">Motion</button>
+  <button class="sec-btn" data-sec="9">Contact</button>
 </nav>
 
 <script>
@@ -332,37 +331,36 @@
     // page-22 is the contact page — rendered as #contactPage overlay
   ];
 
-  // ── Desktop: 13 states ───────────────────────────
+  // ── Desktop: 12 states (cover removed — flipbook opens at About Me) ──
   const STATES = [
-    { type: 'cover'   },                        // 0  cover
-    { type: 'spread', L: 1,  R: 2  },           // 1  portrait + about me
-    { type: 'spread', L: 3,  R: 4  },           // 2  drag
-    { type: 'spread', L: 5,  R: 6  },           // 3  writing
-    { type: 'spread', L: 7,  R: 8  },           // 4  design
-    { type: 'spread', L: 9,  R: 10 },           // 5  TB intro + mag
-    { type: 'spread', L: 11, R: 12 },           // 6  TB production + POP
-    { type: 'carousel' },                        // 7  TB magazine button
-    { type: 'spread', L: 13, R: 14 },           // 8  logo
-    { type: 'spread', L: 15, R: 16 },           // 9  posters
-    { type: 'spread', L: 17, R: 18 },           // 10 branding
-    { type: 'video',  L: 19, R: 20 },           // 11 motion + Glenn Burke video
-    { type: 'contact' },                         // 12 contact
+    { type: 'spread', L: 1,  R: 2  },           // 0  portrait + about me
+    { type: 'spread', L: 3,  R: 4  },           // 1  drag
+    { type: 'spread', L: 5,  R: 6  },           // 2  writing
+    { type: 'spread', L: 7,  R: 8  },           // 3  design
+    { type: 'spread', L: 9,  R: 10 },           // 4  TB intro + mag
+    { type: 'spread', L: 11, R: 12 },           // 5  TB production + POP
+    { type: 'carousel' },                        // 6  TB magazine button
+    { type: 'spread', L: 13, R: 14 },           // 7  logo
+    { type: 'spread', L: 15, R: 16 },           // 8  posters
+    { type: 'spread', L: 17, R: 18 },           // 9  branding
+    { type: 'video',  L: 19, R: 20 },           // 10 motion + Glenn Burke video
+    { type: 'contact' },                         // 11 contact
   ];
-  // state → section
-  const STATE_SECTION = [0, 1, 2, 3, 4, 5, 5, 5, 6, 7, 8, 9, 10];
+  // state → section (10 sections: 0=About…9=Contact)
+  const STATE_SECTION = [0, 1, 2, 3, 4, 4, 4, 5, 6, 7, 8, 9];
   // section → first state
-  const SECTION_STATE = [0, 1, 2, 3, 4, 5, 8, 9, 10, 11, 12];
+  const SECTION_STATE = [0, 1, 2, 3, 4, 7, 8, 9, 10, 11];
 
-  // ── Mobile: 23 individual slots (0-22) ───────────
-  // 13 = TB carousel, 21 = Glenn Burke video, 22 = contact
-  const CAROUSEL_IDX  = 13;
-  const VIDEO_MOB_IDX = 21;
-  const CONTACT_IDX   = 22;
-  const MOB_TOTAL     = 23;
+  // ── Mobile: 22 individual slots (0-21) ───────────
+  // 12 = TB carousel, 20 = Glenn Burke video, 21 = contact
+  const CAROUSEL_IDX  = 12;
+  const VIDEO_MOB_IDX = 20;
+  const CONTACT_IDX   = 21;
+  const MOB_TOTAL     = 22;
   // slot → section
-  const MOB_SECTION = [0, 1,1, 2,2, 3,3, 4,4, 5,5,5,5,5, 6,6, 7,7, 8,8, 9,9, 10];
+  const MOB_SECTION = [0,0, 1,1, 2,2, 3,3, 4,4,4,4,4, 5,5, 6,6, 7,7, 8,8, 9];
   // section → first mobile slot
-  const SECTION_MOB = [0, 1, 3, 5, 7, 9, 14, 16, 18, 20, 22];
+  const SECTION_MOB = [0, 2, 4, 6, 8, 13, 15, 17, 19, 21];
 
   // Black rectangle pixel bounds in page-21.jpg (1050×1500px)
   const GB_T = 510, GB_B = 1387, GB_L = 273, GB_R = 761;
@@ -434,10 +432,7 @@
     tbHide(); glennHide(); contactHide();
     document.body.classList.remove('fullscreen-right');
 
-    if (s.type === 'cover') {
-      document.body.classList.add('fullscreen-right');
-      imgR.src = IMG[0];
-    } else if (s.type === 'carousel') {
+    if (s.type === 'carousel') {
       tbShow();
     } else if (s.type === 'contact') {
       contactShow();
@@ -462,10 +457,12 @@
     } else if (curMob === CONTACT_IDX) {
       contactShow();
     } else if (curMob === VIDEO_MOB_IDX) {
-      imgL.src = IMG[curMob - 1]; // IMG[20] = page-21
+      imgL.src = IMG[curMob]; // IMG[20] = page-21
       glennShow();
     } else {
-      const imgIdx = curMob < CAROUSEL_IDX ? curMob : curMob - 1;
+      // curMob 0–11 map to IMG[1–12] (skip IMG[0], the old cover)
+      // curMob 13–19 map to IMG[13–19] directly
+      const imgIdx = curMob < CAROUSEL_IDX ? curMob + 1 : curMob;
       imgL.src = IMG[imgIdx];
     }
     updateUI();
@@ -479,10 +476,8 @@
       secBtns.forEach((b, i) => b.classList.toggle('active', i === MOB_SECTION[curMob]));
     } else {
       const s = STATES[cur];
-      counter.textContent = s.type === 'cover'    ? 'Cover'
-        : s.type === 'carousel'  ? '★'
+      counter.textContent = s.type === 'carousel'  ? '★'
         : s.type === 'contact'   ? 'Contact'
-        : s.type === 'video'     ? `${s.L}–${s.R}`
         : `${s.L}–${s.R}`;
       prevBtn.disabled = cur === 0 || turning;
       nextBtn.disabled = cur === STATES.length - 1 || turning;
@@ -496,13 +491,12 @@
       const st = STATES[s];
       if (st.type === 'spread' || st.type === 'video') {
         new Image().src = IMG[st.L]; new Image().src = IMG[st.R];
-      } else if (st.type === 'cover') new Image().src = IMG[0];
+      }
     });
   }
 
   // ── Helper: image src for a state/side ───────────
   function pageImg(st, side) {
-    if (st.type === 'cover')    return IMG[0];
     if (st.type === 'carousel' || st.type === 'contact') return null;
     return IMG[side === 'L' ? st.L : st.R];
   }
@@ -521,10 +515,7 @@
     document.body.classList.remove('fullscreen-right');
 
     if (forward) {
-      if (toState.type === 'cover') {
-        document.body.classList.add('fullscreen-right');
-        imgR.src = IMG[0];
-      } else if (toState.type === 'carousel') {
+      if (toState.type === 'carousel') {
         tbShow();
       } else if (toState.type === 'contact') {
         // contact shows after animation
@@ -532,10 +523,7 @@
         imgR.src = IMG[toState.R];
       }
     } else {
-      if (toState.type === 'cover') {
-        document.body.classList.add('fullscreen-right');
-        imgR.src = IMG[0];
-      } else if (toState.type === 'carousel') {
+      if (toState.type === 'carousel') {
         tbShow();
       } else if (toState.type === 'contact') {
         // contact shows after animation
@@ -546,8 +534,7 @@
 
     const frontSrc  = forward ? pageImg(fromState, 'R') : pageImg(fromState, 'L');
     const backSrc   = forward ? pageImg(toState,   'L') : pageImg(toState,   'R');
-    const isFullscr = fromState.type === 'cover'
-                   || fromState.type === 'carousel'
+    const isFullscr = fromState.type === 'carousel'
                    || fromState.type === 'contact';
     const leaf = makeLeaf(frontSrc, backSrc, forward, isFullscr);
     spreadEl.appendChild(leaf);

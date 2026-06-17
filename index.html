@@ -5,47 +5,75 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nico Swenson — Miss Texas 1988</title>
   <link rel="icon" href="assets/images/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body {
-      height: 100%;
-    }
+    html, body { height: 100%; }
     body {
       background: #fff;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      gap: 0;
     }
-    a {
+
+    .landing {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 28px;
-      text-decoration: none;
-      color: #111;
+      gap: clamp(24px, 4vw, 40px);
+      padding: 40px 24px;
+      text-align: center;
     }
-    img {
-      width: min(320px, 80vw);
+
+    .landing__logo {
+      width: min(280px, 72vw);
       display: block;
     }
-    span {
-      font-family: Georgia, serif;
-      font-size: clamp(0.85rem, 2vw, 1rem);
+
+    .landing__rule {
+      width: clamp(40px, 8vw, 60px);
+      height: 2px;
+      background: #f7a800;
+    }
+
+    .landing__tagline {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      font-size: clamp(0.75rem, 1.8vw, 0.95rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.4);
+    }
+
+    .landing__cta {
+      display: inline-block;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.78rem, 1.4vw, 0.92rem);
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #888;
-      transition: color 0.2s;
+      color: #fff;
+      background: #e4028c;
+      padding: 16px 40px;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background 0.15s, transform 0.15s;
     }
-    a:hover span {
-      color: #e4028c;
+    .landing__cta:hover {
+      background: #1a1718;
+      transform: scale(1.03);
     }
   </style>
 </head>
 <body>
-  <a href="flipbook.html">
-    <img src="assets/images/logo.png" alt="Nico — Miss Texas 1988" />
-    <span>Click Here</span>
-  </a>
+  <div class="landing">
+    <img class="landing__logo" src="assets/images/logo.png" alt="Nico Swenson — Miss Texas 1988" />
+    <div class="landing__rule"></div>
+    <p class="landing__tagline">Drag Artist &nbsp;·&nbsp; Writer &nbsp;·&nbsp; Designer</p>
+    <a class="landing__cta" href="flipbook.html">See the Work &rarr;</a>
+  </div>
 </body>
 </html>
