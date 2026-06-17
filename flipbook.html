@@ -261,6 +261,17 @@
   <div class="page-slot" id="slotR"><img id="imgR" alt="" /></div>
 </div>
 
+<!-- Netlify form detection — parser finds this at deploy time even though it's hidden.
+     The real form submission still goes through #contactForm via JS fetch. -->
+<form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="hidden" name="form-name" value="contact" />
+  <input type="hidden" name="subject" value="New message from misstexas1988.com" />
+  <input name="bot-field" />
+  <input type="text" name="name" />
+  <input type="email" name="email" />
+  <textarea name="message"></textarea>
+</form>
+
 <!-- Glenn Burke video overlay (appended to slotL or slotR dynamically) -->
 <div id="glennOverlay">
   <video id="glennVideo" controls preload="none">
